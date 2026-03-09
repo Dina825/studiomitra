@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Albums | StudioMitra</title>
+    <meta name="description" content="Access and manage all your photography albums delivered by StudioMitra studios.">
+
+    <!-- Bootstrap CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* ===== PAGE BASE ===== */
+        body {
+            background: #f0f4f8;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar-menu {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px 16px;
+            box-shadow: 0 4px 24px rgba(30, 42, 59, 0.07);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 11px 16px;
+            color: #6c757d;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.93rem;
+            transition: all 0.25s ease;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(203, 111, 9, 0.09);
+            color: #cb6f09;
+        }
+
+        .sidebar-link i {
+            width: 26px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        /* ===== PAGE HEADER BANNER ===== */
+        .albums-page-banner {
+            background: linear-gradient(135deg, #1e2a3b 0%, #2d3f58 60%, #1a3a52 100%);
+            border-radius: 20px;
+            padding: 36px 36px 30px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+
+        .albums-page-banner::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(203, 111, 9, 0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .albums-page-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: 40%;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .banner-stat {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            padding: 14px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-stat-num {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            display: block;
+        }
+
+        .banner-stat-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.65);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* ===== TOOLBAR ===== */
+        .albums-toolbar {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px 20px;
+            box-shadow: 0 2px 12px rgba(30, 42, 59, 0.05);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-search {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .toolbar-search input {
+            border: 1.5px solid #e9ecef;
+            border-radius: 12px;
+            padding: 9px 16px 9px 40px;
+            font-size: 0.9rem;
+            font-family: 'Outfit', sans-serif;
+            width: 100%;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .toolbar-search input:focus {
+            border-color: #cb6f09;
+            box-shadow: 0 0 0 3px rgba(203, 111, 9, 0.1);
+        }
+
+        .toolbar-search i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+            font-size: 0.85rem;
+        }
+
+        .toolbar-filter select {
+            border: 1.5px solid #e9ecef;
+            border-radius: 12px;
+            padding: 9px 14px;
+            font-size: 0.88rem;
+            font-family: 'Outfit', sans-serif;
+            color: #495057;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+            background-color: #fff;
+        }
+
+        .toolbar-filter select:focus {
+            border-color: #cb6f09;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: #f0f4f8;
+            border-radius: 10px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .view-btn {
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            padding: 6px 11px;
+            color: #adb5bd;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-btn.active {
+            background: #fff;
+            color: #1e2a3b;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ===== ALBUM GRID CARD ===== */
+        .album-card {
+            background: #fff;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(30, 42, 59, 0.06);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .album-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 48px rgba(30, 42, 59, 0.13);
+            border-color: rgba(203, 111, 9, 0.2);
+        }
+
+        .album-thumb {
+            position: relative;
+            height: 210px;
+            overflow: hidden;
+        }
+
+        .album-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .album-card:hover .album-thumb img {
+            transform: scale(1.07);
+        }
+
+        .album-thumb-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(30, 42, 59, 0.65) 0%, transparent 55%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .album-card:hover .album-thumb-overlay {
+            opacity: 1;
+        }
+
+        .album-open-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 22px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #1e2a3b;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            transform: translateY(12px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .album-card:hover .album-open-btn {
+            transform: translateY(0);
+        }
+
+        .album-lock-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(30, 42, 59, 0.75);
+            backdrop-filter: blur(8px);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: 0.3px;
+        }
+
+        .album-photo-count {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #1e2a3b;
+        }
+
+        .album-actions-top {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .album-action-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .album-action-icon:hover {
+            background: #cb6f09;
+            color: #fff;
+        }
+
+        .album-body {
+            padding: 18px 20px 16px;
+        }
+
+        .album-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e2a3b;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .album-meta {
+            font-size: 0.8rem;
+            color: #8a94a6;
+            font-weight: 500;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .album-meta i {
+            color: #cb6f09;
+        }
+
+        .album-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f0f4f8;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .status-pill.delivered {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .status-pill.processing {
+            background: rgba(203, 111, 9, 0.1);
+            color: #cb6f09;
+        }
+
+        .status-pill.partial {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .album-cta {
+            border: 1.5px solid #cb6f09;
+            background: transparent;
+            color: #cb6f09;
+            border-radius: 8px;
+            padding: 5px 14px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .album-cta:hover {
+            background: #cb6f09;
+            color: #fff;
+        }
+
+        /* ===== LIST VIEW ===== */
+        .view-list .album-card {
+            display: flex;
+            flex-direction: row;
+            border-radius: 14px;
+            height: 110px;
+        }
+
+        .view-list .album-thumb {
+            width: 150px;
+            height: 110px;
+            flex-shrink: 0;
+            border-radius: 14px 0 0 14px;
+        }
+
+        .view-list .album-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .view-list .album-thumb-overlay {
+            border-radius: 14px 0 0 14px;
+        }
+
+        .view-list .album-body {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            padding: 12px 20px;
+        }
+
+        .view-list .album-body-inner {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .view-list .album-footer {
+            border-top: none;
+            padding-top: 0;
+            padding-left: 16px;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .view-list .album-photo-count {
+            display: none;
+        }
+
+        .view-list .album-actions-top {
+            display: none;
+        }
+
+        .view-list .album-lock-badge {
+            display: none;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 64px 32px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 42, 59, 0.05);
+        }
+
+        .empty-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(203, 111, 9, 0.1), rgba(203, 111, 9, 0.05));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #cb6f09;
+            margin: 0 auto 24px;
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lb-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 15, 25, 0.92);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            backdrop-filter: blur(8px);
+        }
+
+        .lb-backdrop.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .lb-panel {
+            background: #fff;
+            border-radius: 24px;
+            width: 92vw;
+            max-width: 960px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.92) translateY(24px);
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .lb-backdrop.open .lb-panel {
+            transform: scale(1) translateY(0);
+        }
+
+        .lb-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 28px 16px;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .lb-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1e2a3b;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .lb-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .lb-action-btn {
+            border: 1.5px solid #e9ecef;
+            background: #fff;
+            border-radius: 10px;
+            padding: 7px 14px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #495057;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lb-action-btn:hover {
+            background: #1e2a3b;
+            color: #fff;
+            border-color: #1e2a3b;
+        }
+
+        .lb-action-btn.primary {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .lb-action-btn.primary:hover {
+            background: #1e2a3b;
+        }
+
+        .lb-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1.5px solid #e9ecef;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lb-close:hover {
+            background: #f0f4f8;
+            color: #1e2a3b;
+        }
+
+        .lb-body {
+            overflow-y: auto;
+            padding: 24px 28px;
+            flex: 1;
+        }
+
+        .lb-info-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .lb-info-chip {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 7px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .lb-info-chip i {
+            color: #cb6f09;
+        }
+
+        .lb-photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 10px;
+        }
+
+        .lb-photo-item {
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: #f0f4f8;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .lb-photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .lb-photo-item:hover img {
+            transform: scale(1.06);
+        }
+
+        .lb-photo-item .photo-hover {
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 42, 59, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .lb-photo-item:hover .photo-hover {
+            opacity: 1;
+        }
+
+        /* ===== SECTION HEADING AREA ===== */
+        .page-section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-eyebrow {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #cb6f09;
+            background: rgba(203, 111, 9, 0.09);
+            padding: 3px 12px;
+            border-radius: 100px;
+            margin-bottom: 6px;
+        }
+
+        .sort-select {
+            border: 1.5px solid #e9ecef;
+            border-radius: 10px;
+            padding: 7px 12px;
+            font-size: 0.82rem;
+            font-family: 'Outfit', sans-serif;
+            color: #495057;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .sort-select:focus {
+            border-color: #cb6f09;
+        }
+
+        /* ===== TOAST ===== */
+        .sm-toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #1e2a3b;
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+        }
+
+        .sm-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .sm-toast i {
+            color: #22c55e;
+            font-size: 1rem;
+        }
+
+        /* ===== STORAGE BAR ===== */
+        .storage-bar-wrap {
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px 22px;
+            box-shadow: 0 2px 12px rgba(30, 42, 59, 0.05);
+            margin-bottom: 24px;
+        }
+
+        .storage-bar-track {
+            height: 8px;
+            background: #f0f4f8;
+            border-radius: 100px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .storage-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #cb6f09, #aa4502);
+            border-radius: 100px;
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .albums-page-banner {
+                padding: 24px 20px;
+            }
+
+            .albums-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar-search {
+                min-width: unset;
+            }
+
+            .lb-photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            }
+
+            .lb-header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .view-list .album-card {
+                height: auto;
+                flex-direction: column;
+            }
+
+            .view-list .album-thumb {
+                width: 100%;
+                height: 180px;
+                border-radius: 14px 14px 0 0;
+            }
+
+            .view-list .album-footer {
+                flex-direction: row;
+                padding-left: 0;
+                border-top: 1px solid #f0f4f8;
+                padding-top: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="assets/logo.png" style="width:200px" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <img src="images/ai_portrait.png" alt="Kavya"
+                        style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #cb6f09;">
+                    <span class="fw-600" style="color:#1e2a3b;font-size:0.9rem;font-weight:600;">Kavya Nair</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN ===== -->
+    <section class="pt-5 mt-5 pb-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar -->
+                <div class="col-lg-3">
+                    <div class="sidebar-menu position-sticky" style="top: 90px;">
+                        <div class="text-center mb-4 pt-2">
+                            <div class="position-relative d-inline-block">
+                                <img src="images/ai_portrait.png" alt="Kavya Nair" class="rounded-circle mb-3 shadow"
+                                    style="width:88px;height:88px;object-fit:cover;border:4px solid #fff;">
+                                <span
+                                    class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle"
+                                    style="width:18px;height:18px;transform:translate(-8px,-12px);"></span>
+                            </div>
+                            <h5 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">Kavya Nair</h5>
+                            <p class="text-muted small fw-medium mt-1 mb-0">Client · Member since 2025</p>
+                        </div>
+
+                        <!-- Storage bar in sidebar -->
+                        <div class="px-2 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span style="font-size:0.75rem;font-weight:600;color:#6c757d;">Storage Used</span>
+                                <span style="font-size:0.75rem;font-weight:700;color:#1e2a3b;">3.2 GB / 10 GB</span>
+                            </div>
+                            <div class="storage-bar-track">
+                                <div class="storage-bar-fill sidebar-storage-fill" style="width:32%"></div>
+                            </div>
+                        </div>
+
+                        <div class="nav flex-column">
+                            <a href="client-dashboard.html" class="sidebar-link"><i class="fa-solid fa-layer-group"></i>
+                                Overview</a>
+                            <a href="my-albums.html" class="sidebar-link active"><i class="fa-solid fa-images"></i> My
+                                Albums <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:0.7rem;">12</span></a>
+                            <a href="my-bookings.html" class="sidebar-link"><i class="fa-regular fa-calendar-check"></i>
+                                Bookings</a>
+                            <a href="saved-studios.html" class="sidebar-link"><i class="fa-regular fa-heart"></i> Saved
+                                Studios</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-sliders"></i> Settings</a>
+                            <a href="index.html" class="sidebar-link mt-4 text-danger"
+                                style="--hover-bg:rgba(220,38,38,0.08)">
+                                <i class="fa-solid fa-power-off"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Panel -->
+                <div class="col-lg-9">
+
+                    <!-- Page Banner -->
+                    <div class="albums-page-banner">
+                        <div class="row align-items-center g-3">
+                            <div class="col-md-6">
+                                <span class="d-inline-block px-3 py-1 rounded-pill mb-2"
+                                    style="background:rgba(203,111,9,0.25);color:#ffb347;font-size:0.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">
+                                    <i class="fa-solid fa-images me-1"></i> My Albums
+                                </span>
+                                <h2
+                                    style="font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:800;color:#fff;margin-bottom:6px;">
+                                    Your Photography Collection
+                                </h2>
+                                <p style="color:rgba(255,255,255,0.65);font-size:0.88rem;margin-bottom:0;">
+                                    All albums delivered by your studios, beautifully organized and ready to view or
+                                    download.
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <div class="banner-stat">
+                                            <span class="banner-stat-num">12</span>
+                                            <span class="banner-stat-label">Albums</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="banner-stat">
+                                            <span class="banner-stat-num">1.4k</span>
+                                            <span class="banner-stat-label">Photos</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="banner-stat">
+                                            <span class="banner-stat-num">3.2GB</span>
+                                            <span class="banner-stat-label">Stored</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toolbar -->
+                    <div class="albums-toolbar">
+                        <div class="toolbar-search">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="albumSearch" placeholder="Search albums by name or studio…"
+                                oninput="filterAlbums()">
+                        </div>
+                        <div class="toolbar-filter">
+                            <select id="albumFilter" onchange="filterAlbums()">
+                                <option value="all">All Albums</option>
+                                <option value="delivered">Delivered</option>
+                                <option value="processing">Processing</option>
+                                <option value="partial">Partial</option>
+                            </select>
+                        </div>
+                        <div class="toolbar-filter">
+                            <select id="albumYear" onchange="filterAlbums()">
+                                <option value="all">All Years</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                            </select>
+                        </div>
+                        <div class="view-toggle">
+                            <button class="view-btn active" id="btnGrid" onclick="setView('grid')" title="Grid view">
+                                <i class="fa-solid fa-grip"></i>
+                            </button>
+                            <button class="view-btn" id="btnList" onclick="setView('list')" title="List view">
+                                <i class="fa-solid fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Albums Grid -->
+                    <div class="page-section-head">
+                        <div>
+                            <span class="section-eyebrow">Gallery</span>
+                            <h4 class="fw-bold mb-0"
+                                style="font-family:'Playfair Display',serif;color:#1e2a3b;font-size:1.25rem;">All Albums
+                            </h4>
+                        </div>
+                        <select class="sort-select" id="albumSort" onchange="sortAlbums()">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name">Name A–Z</option>
+                            <option value="photos">Most Photos</option>
+                        </select>
+                    </div>
+
+                    <div class="row g-3" id="albumsGrid">
+                        <!-- Album cards rendered by JS -->
+                    </div>
+
+                    <div id="emptyState" class="d-none">
+                        <div class="empty-state">
+                            <div class="empty-icon"><i class="fa-regular fa-folder-open"></i></div>
+                            <h5 class="fw-bold mb-2" style="color:#1e2a3b;">No albums found</h5>
+                            <p class="text-muted mb-0" style="font-size:0.9rem;">Try adjusting your search or filters to
+                                find your albums.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== LIGHTBOX ===== -->
+    <div class="lb-backdrop" id="albumLightbox" onclick="closeLightboxOnBackdrop(event)">
+        <div class="lb-panel" id="lbPanel">
+            <div class="lb-header">
+                <div>
+                    <div class="lb-title" id="lbTitle">Album Title</div>
+                    <div style="font-size:0.8rem;color:#8a94a6;margin-top:2px;" id="lbSubtitle"></div>
+                </div>
+                <div class="lb-actions">
+                    <button class="lb-action-btn" onclick="showToast('Link copied!','fa-link')">
+                        <i class="fa-solid fa-share-nodes"></i> Share
+                    </button>
+                    <button class="lb-action-btn" onclick="showToast('Downloading…','fa-download')">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                    <button class="lb-action-btn primary" id="lbViewAlbumBtn"
+                        style="background:linear-gradient(135deg,#cb6f09,#aa4502);color:#fff;border-color:transparent;">
+                        <i class="fa-solid fa-book-open"></i> View Album
+                    </button>
+                    <button class="lb-close" onclick="closeLightbox()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="lb-body">
+                <div class="lb-info-row" id="lbInfoRow"></div>
+                <div class="lb-photo-grid" id="lbPhotoGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="sm-toast" id="smToast">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastMsg">Done!</span>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer pt-4 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <a class="footer-brand d-block mb-4" href="#">
+                        <img src="assets/logo1.png" alt="StudioMitra"
+                            style="height:120px;filter:brightness(0) invert(1);">
+                    </a>
+                    <div class="social-icons d-flex align-items-center mt-3">
+                        <a href="#" class="social-icon facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon x-twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Quick Links</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About StudioMitra</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Policy</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Acceptable Use Policy</a></li>
+                        <li><a href="#">Cookies Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Download Our Apps</h5>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width:68%;">
+                            <i class="fa-brands fa-apple fs-3 me-2"></i>
+                            <div class="lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size:9px;">Download on the</span>
+                                <span class="fw-bold d-block" style="font-size:14px;">App Store</span>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width:68%;">
+                            <img src="images/ai_app_logo.png" alt="Play" style="height:20px;" class="me-2">
+                            <div class="lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size:9px;">Get it on</span>
+                                <span class="fw-bold d-block" style="font-size:14px;">Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+            </div>
+        </div>
+        <a href="#" class="floating-btn fb-right"><i class="fa-solid fa-chevron-up"></i></a>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ===== DATA =====
+        const ALBUMS = [
+            {
+                id: 1,
+                title: "Baby Shower Celebration",
+                studio: "Candid Creators",
+                date: "Oct 12, 2025",
+                year: "2025",
+                photos: 145,
+                size: "680 MB",
+                status: "delivered",
+                cover: "images/portfolio1.png",
+                isPrivate: true,
+                tag: "Baby Shower",
+                description: "A warm and joyful baby shower covered by Candid Creators studio.",
+            },
+            {
+                id: 2,
+                title: "Maternity Shoot",
+                studio: "Lens & Light",
+                date: "Aug 24, 2025",
+                year: "2025",
+                photos: 82,
+                size: "420 MB",
+                status: "delivered",
+                cover: "images/album_maternity.png",
+                isPrivate: false,
+                tag: "Maternity",
+                description: "An ethereal maternity session captured in an outdoor garden by Lens & Light.",
+            },
+            {
+                id: 3,
+                title: "Arjun & Priya Wedding",
+                studio: "Golden Frame Studios",
+                date: "Feb 14, 2025",
+                year: "2025",
+                photos: 320,
+                size: "1.4 GB",
+                status: "delivered",
+                cover: "images/album_wedding.png",
+                isPrivate: true,
+                tag: "Wedding",
+                description: "A complete wedding day coverage from mehendi to reception.",
+            },
+            {
+                id: 4,
+                title: "1st Birthday Party",
+                studio: "Pixel Perfect Studio",
+                date: "Nov 15, 2025",
+                year: "2025",
+                photos: 98,
+                size: "512 MB",
+                status: "processing",
+                cover: "images/album_birthday.png",
+                isPrivate: false,
+                tag: "Birthday",
+                description: "A vibrant first birthday party session with fun decorations.",
+            },
+            {
+                id: 5,
+                title: "Family Portrait Session",
+                studio: "Lens & Light",
+                date: "Dec 3, 2025",
+                year: "2025",
+                photos: 54,
+                size: "290 MB",
+                status: "partial",
+                cover: "images/album_family.png",
+                isPrivate: false,
+                tag: "Family",
+                description: "A candid outdoor family shoot in an Autumn park setting.",
+            },
+            {
+                id: 6,
+                title: "Rohit & Sneha Engagement",
+                studio: "Candid Creators",
+                date: "Jan 8, 2025",
+                year: "2025",
+                photos: 176,
+                size: "820 MB",
+                status: "delivered",
+                cover: "images/album_engagement.png",
+                isPrivate: true,
+                tag: "Engagement",
+                description: "A romantic twilight engagement shoot with city lights bokeh.",
+            },
+            {
+                id: 7,
+                title: "Newborn Welcome",
+                studio: "Golden Frame Studios",
+                date: "Jul 19, 2024",
+                year: "2024",
+                photos: 67,
+                size: "310 MB",
+                status: "delivered",
+                cover: "images/album_newborn.png",
+                isPrivate: true,
+                tag: "Newborn",
+                description: "A gentle newborn studio session capturing precious first days.",
+            },
+            {
+                id: 8,
+                title: "Portfolio Shoot",
+                studio: "Pixel Perfect Studio",
+                date: "May 5, 2024",
+                year: "2024",
+                photos: 112,
+                size: "580 MB",
+                status: "delivered",
+                cover: "images/portfolio2.png",
+                isPrivate: false,
+                tag: "Portfolio",
+                description: "A professional modeling portfolio shoot for agency submission.",
+            },
+        ];
+
+        // ===== STATE =====
+        let currentView = 'grid';
+        let filteredData = [...ALBUMS];
+
+        // ===== STATUS HELPERS =====
+        function statusPill(status) {
+            const map = {
+                delivered: { cls: 'delivered', icon: 'fa-circle-check', label: 'Delivered' },
+                processing: { cls: 'processing', icon: 'fa-hourglass-half', label: 'Processing' },
+                partial: { cls: 'partial', icon: 'fa-layer-group', label: 'Partial' },
+            };
+            const s = map[status] || map.delivered;
+            return `<span class="status-pill ${s.cls}"><i class="fa-solid ${s.icon}"></i>${s.label}</span>`;
+        }
+
+        // ===== RENDER GRID =====
+        function renderAlbums(data) {
+            const grid = document.getElementById('albumsGrid');
+            const empty = document.getElementById('emptyState');
+
+            if (!data.length) {
+                grid.innerHTML = '';
+                empty.classList.remove('d-none');
+                return;
+            }
+            empty.classList.add('d-none');
+
+            const isList = currentView === 'list';
+
+            grid.innerHTML = data.map(a => `
+            <div class="col-${isList ? '12' : 'md-6 col-lg-4'} album-item"
+                data-status="${a.status}" data-year="${a.year}" data-title="${a.title.toLowerCase()}" data-studio="${a.studio.toLowerCase()}">
+                <div class="album-card" onclick="openAlbum(${a.id})">
+                    <div class="album-thumb">
+                        <img src="${a.cover}" alt="${a.title}" loading="lazy">
+                        <div class="album-thumb-overlay">
+                            <button class="album-open-btn" onclick="openGallery(${a.id});event.stopPropagation();">
+                                <i class="fa-solid fa-grid-2"></i> Open Gallery
+                            </button>
+                        </div>
+                        <span class="album-lock-badge">
+                            <i class="fa-solid ${a.isPrivate ? 'fa-lock' : 'fa-lock-open'}"></i>
+                            ${a.isPrivate ? 'Private' : 'Shared'}
+                        </span>
+                        <span class="album-photo-count"><i class="fa-regular fa-image me-1"></i>${a.photos} Photos</span>
+                        <div class="album-actions-top">
+                            <button class="album-action-icon" title="Download" onclick="event.stopPropagation();showToast('Downloading ${a.title}…','fa-download')">
+                                <i class="fa-solid fa-download"></i>
+                            </button>
+                            <button class="album-action-icon" title="Share" onclick="event.stopPropagation();showToast('Link copied to clipboard!','fa-link')">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="album-body">
+                        ${isList ? '<div class="album-body-inner">' : ''}
+                        <div class="album-title">${a.title}</div>
+                        <div class="album-meta">
+                            <i class="fa-solid fa-camera"></i>${a.studio}
+                            <span style="color:#dee2e6;">•</span>
+                            <i class="fa-regular fa-calendar" style="color:#8a94a6;"></i>
+                            <span>${a.date}</span>
+                        </div>
+                        ${isList ? `<span class="text-muted" style="font-size:0.78rem;font-weight:500;"><i class="fa-regular fa-image me-1"></i>${a.photos} photos · ${a.size}</span>` : ''}
+                        ${isList ? '</div>' : ''}
+                        <div class="album-footer">
+                            ${statusPill(a.status)}
+                            <button class="album-cta" onclick="openAlbum(${a.id});event.stopPropagation();">
+                                <i class="fa-solid fa-book-open"></i> View Album
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+            if (isList) {
+                grid.classList.add('view-list');
+            } else {
+                grid.classList.remove('view-list');
+            }
+        }
+
+        // ===== FILTER =====
+        function filterAlbums() {
+            const q = document.getElementById('albumSearch').value.toLowerCase().trim();
+            const status = document.getElementById('albumFilter').value;
+            const year = document.getElementById('albumYear').value;
+
+            filteredData = ALBUMS.filter(a => {
+                const matchQ = !q || a.title.toLowerCase().includes(q) || a.studio.toLowerCase().includes(q);
+                const matchS = status === 'all' || a.status === status;
+                const matchY = year === 'all' || a.year === year;
+                return matchQ && matchS && matchY;
+            });
+
+            applySorting();
+        }
+
+        // ===== SORT =====
+        function sortAlbums() { applySorting(); }
+
+        function applySorting() {
+            const sort = document.getElementById('albumSort').value;
+            let sorted = [...filteredData];
+
+            if (sort === 'newest') sorted.sort((a, b) => b.id - a.id);
+            else if (sort === 'oldest') sorted.sort((a, b) => a.id - b.id);
+            else if (sort === 'name') sorted.sort((a, b) => a.title.localeCompare(b.title));
+            else if (sort === 'photos') sorted.sort((a, b) => b.photos - a.photos);
+
+            renderAlbums(sorted);
+        }
+
+        // ===== VIEW TOGGLE =====
+        function setView(v) {
+            currentView = v;
+            document.getElementById('btnGrid').classList.toggle('active', v === 'grid');
+            document.getElementById('btnList').classList.toggle('active', v === 'list');
+            applySorting();
+        }
+
+        // ===== ALBUM VIEWER — navigates to page-turn viewer =====
+        function openAlbum(id) {
+            const a = ALBUMS.find(x => x.id === id);
+            if (!a) return;
+            if (a.status === 'processing') {
+                showToast('Album is still being processed. Check back soon!', 'fa-hourglass-half');
+                return;
+            }
+            window.location.href = 'album-viewer.html?id=' + a.id;
+        }
+
+        // ===== GALLERY MODAL — opens photo grid lightbox =====
+        const GALLERY_IMAGES = [
+            'images/portfolio1.png', 'images/portfolio2.png',
+            'images/portfolio3.png', 'images/portfolio4.png',
+            'images/album_wedding.png', 'images/album_maternity.png',
+            'images/album_family.png', 'images/album_birthday.png',
+            'images/album_newborn.png', 'images/album_engagement.png',
+        ];
+
+        function openGallery(id) {
+            const a = ALBUMS.find(x => x.id === id);
+            if (!a) return;
+
+            if (a.status === 'processing') {
+                showToast('Album is still being processed. Check back soon!', 'fa-hourglass-half');
+                return;
+            }
+
+            // Populate header
+            document.getElementById('lbTitle').textContent = a.title;
+            document.getElementById('lbSubtitle').textContent = a.description;
+
+            // Populate info chips + View Album button
+            document.getElementById('lbInfoRow').innerHTML = `
+                <div class="lb-info-chip"><i class="fa-solid fa-camera"></i>${a.studio}</div>
+                <div class="lb-info-chip"><i class="fa-regular fa-calendar"></i>${a.date}</div>
+                <div class="lb-info-chip"><i class="fa-regular fa-image"></i>${a.photos} Photos</div>
+                <div class="lb-info-chip"><i class="fa-solid fa-database"></i>${a.size}</div>
+                <div class="lb-info-chip"><i class="fa-solid fa-tag"></i>${a.tag}</div>
+                ${statusPill(a.status)}
+            `;
+
+            // Update the "View Album" button link in modal header
+            document.getElementById('lbViewAlbumBtn').onclick = () => {
+                closeLightbox();
+                openAlbum(a.id);
+            };
+
+            // Build photo grid (cycle sample images to fill count, max 16 shown)
+            const count = Math.min(a.photos, 16);
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                const src = GALLERY_IMAGES[i % GALLERY_IMAGES.length];
+                html += `
+                    <div class="lb-photo-item">
+                        <img src="${src}" alt="Photo ${i + 1}" loading="lazy">
+                        <div class="photo-hover"><i class="fa-solid fa-expand"></i></div>
+                    </div>`;
+            }
+            document.getElementById('lbPhotoGrid').innerHTML = html;
+
+            document.getElementById('albumLightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('albumLightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function closeLightboxOnBackdrop(e) {
+            if (e.target === document.getElementById('albumLightbox')) closeLightbox();
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+        // ===== TOAST =====
+        let toastTimer;
+        function showToast(msg, icon = 'fa-circle-check') {
+            const t = document.getElementById('smToast');
+            const i = document.getElementById('toastIcon');
+            document.getElementById('toastMsg').textContent = msg;
+            i.className = `fa-solid ${icon}`;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ===== INIT =====
+        renderAlbums(ALBUMS);
+
+        // Animate storage bar
+        setTimeout(() => {
+            document.querySelectorAll('.sidebar-storage-fill').forEach(el => {
+                el.style.width = el.style.width || '32%';
+            });
+        }, 400);
+    </script>
+</body>
+
+</html>

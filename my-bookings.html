@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings | StudioMitra</title>
+    <meta name="description" content="Manage your photography session bookings with StudioMitra studios.">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar-menu {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px 16px;
+            box-shadow: 0 4px 24px rgba(30, 42, 59, .07);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 11px 16px;
+            color: #6c757d;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: .93rem;
+            transition: all .25s;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(203, 111, 9, .09);
+            color: #cb6f09;
+        }
+
+        .sidebar-link i {
+            width: 26px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .storage-bar-track {
+            height: 8px;
+            background: #f0f4f8;
+            border-radius: 100px;
+            overflow: hidden;
+            margin: 6px 0;
+        }
+
+        .storage-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #cb6f09, #aa4502);
+            border-radius: 100px;
+            transition: width 1.2s ease;
+        }
+
+        /* ── BANNER ── */
+        .bookings-banner {
+            background: linear-gradient(135deg, #1e2a3b 0%, #2d3f58 60%, #1a3a52 100%);
+            border-radius: 20px;
+            padding: 32px 36px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .bookings-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(203, 111, 9, .2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .banner-stat {
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 14px;
+            padding: 14px 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-stat-num {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            display: block;
+        }
+
+        .banner-stat-label {
+            font-size: .75rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .6);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        .book-now-btn {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            border: none;
+            border-radius: 12px;
+            padding: 11px 22px;
+            font-size: .88rem;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all .2s;
+        }
+
+        .book-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(203, 111, 9, .35);
+        }
+
+        /* ── NEXT SESSION CARD ── */
+        .next-session-card {
+            background: linear-gradient(135deg, rgba(203, 111, 9, .08), rgba(203, 111, 9, .03));
+            border: 1.5px solid rgba(203, 111, 9, .2);
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .next-session-eyebrow {
+            font-size: .68rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #cb6f09;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .countdown-wrap {
+            display: flex;
+            gap: 8px;
+        }
+
+        .cd-unit {
+            background: #1e2a3b;
+            border-radius: 10px;
+            padding: 8px 12px;
+            text-align: center;
+            min-width: 52px;
+        }
+
+        .cd-val {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            display: block;
+        }
+
+        .cd-label {
+            font-size: .62rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .5);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+        }
+
+        /* ── FILTER TABS ── */
+        .booking-tabs {
+            display: flex;
+            gap: 6px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: 0 2px 12px rgba(30, 42, 59, .05);
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .bk-tab {
+            border: none;
+            background: transparent;
+            border-radius: 10px;
+            padding: 8px 18px;
+            font-size: .85rem;
+            font-weight: 600;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bk-tab .tab-count {
+            background: #f0f4f8;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+        .bk-tab.active {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+        }
+
+        .bk-tab.active .tab-count {
+            background: rgba(255, 255, 255, .25);
+        }
+
+        /* ── SEARCH BAR ── */
+        .booking-search-bar {
+            background: #fff;
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: 0 2px 12px rgba(30, 42, 59, .05);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .bk-search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .bk-search-wrap i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+            font-size: .85rem;
+        }
+
+        .bk-search-wrap input {
+            border: 1.5px solid #e9ecef;
+            border-radius: 10px;
+            padding: 8px 14px 8px 38px;
+            font-size: .88rem;
+            font-family: 'Outfit', sans-serif;
+            width: 100%;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .bk-search-wrap input:focus {
+            border-color: #cb6f09;
+            box-shadow: 0 0 0 3px rgba(203, 111, 9, .1);
+        }
+
+        .bk-filter-sel {
+            border: 1.5px solid #e9ecef;
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: .85rem;
+            font-family: 'Outfit', sans-serif;
+            color: #495057;
+            outline: none;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        /* ── BOOKING CARD ── */
+        .booking-card {
+            background: #fff;
+            border-radius: 18px;
+            border: 1px solid rgba(226, 232, 240, .8);
+            box-shadow: 0 4px 20px rgba(30, 42, 59, .05);
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+            display: flex;
+            border-left: 5px solid #e9ecef;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 40px rgba(30, 42, 59, .1);
+        }
+
+        .booking-card.status-confirmed {
+            border-left-color: #16a34a;
+        }
+
+        .booking-card.status-pending {
+            border-left-color: #cb6f09;
+        }
+
+        .booking-card.status-completed {
+            border-left-color: #6366f1;
+        }
+
+        .booking-card.status-cancelled {
+            border-left-color: #dc2626;
+        }
+
+        .booking-avatar-col {
+            padding: 20px 16px 20px 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .booking-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            flex-shrink: 0;
+        }
+
+        .booking-body {
+            flex: 1;
+            padding: 20px 20px 18px 4px;
+            min-width: 0;
+        }
+
+        .event-type-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: .7rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .et-wedding {
+            background: rgba(244, 63, 94, .1);
+            color: #be185d;
+        }
+
+        .et-birthday {
+            background: rgba(139, 92, 246, .1);
+            color: #7c3aed;
+        }
+
+        .et-family {
+            background: rgba(20, 184, 166, .1);
+            color: #0f766e;
+        }
+
+        .et-maternity {
+            background: rgba(236, 72, 153, .1);
+            color: #be185d;
+        }
+
+        .et-engagement {
+            background: rgba(245, 158, 11, .1);
+            color: #b45309;
+        }
+
+        .et-newborn {
+            background: rgba(99, 102, 241, .1);
+            color: #4338ca;
+        }
+
+        .et-portfolio {
+            background: rgba(59, 130, 246, .1);
+            color: #1d4ed8;
+        }
+
+        .et-babyshower {
+            background: rgba(6, 182, 212, .1);
+            color: #0e7490;
+        }
+
+        .booking-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e2a3b;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .booking-studio {
+            font-size: .82rem;
+            color: #8a94a6;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .booking-studio i {
+            color: #cb6f09;
+            font-size: .75rem;
+        }
+
+        .booking-meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .bk-meta-item {
+            font-size: .8rem;
+            color: #6c757d;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bk-meta-item i {
+            color: #cb6f09;
+            font-size: .75rem;
+        }
+
+        .booking-price-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .price-total {
+            font-size: .85rem;
+            font-weight: 700;
+            color: #1e2a3b;
+        }
+
+        .price-balance {
+            font-size: .78rem;
+            font-weight: 600;
+            color: #dc2626;
+            background: rgba(220, 38, 38, .08);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .price-paid {
+            font-size: .78rem;
+            font-weight: 600;
+            color: #16a34a;
+            background: rgba(22, 163, 74, .08);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .booking-actions-col {
+            padding: 20px 20px 18px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 10px;
+            flex-shrink: 0;
+            min-width: 140px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .sp-confirmed {
+            background: rgba(22, 163, 74, .1);
+            color: #16a34a;
+        }
+
+        .sp-pending {
+            background: rgba(203, 111, 9, .1);
+            color: #cb6f09;
+        }
+
+        .sp-completed {
+            background: rgba(99, 102, 241, .1);
+            color: #6366f1;
+        }
+
+        .sp-cancelled {
+            background: rgba(220, 38, 38, .1);
+            color: #dc2626;
+        }
+
+        .bk-view-btn {
+            border: 1.5px solid #cb6f09;
+            background: transparent;
+            color: #cb6f09;
+            border-radius: 9px;
+            padding: 6px 16px;
+            font-size: .8rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .bk-view-btn:hover {
+            background: #cb6f09;
+            color: #fff;
+        }
+
+        .bk-cancel-btn {
+            border: 1.5px solid #e9ecef;
+            background: transparent;
+            color: #8a94a6;
+            border-radius: 9px;
+            padding: 5px 12px;
+            font-size: .75rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .bk-cancel-btn:hover {
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 64px 32px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 42, 59, .05);
+        }
+
+        .empty-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(203, 111, 9, .1), rgba(203, 111, 9, .05));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #cb6f09;
+            margin: 0 auto 24px;
+        }
+
+        /* ── BOOKING DETAIL MODAL ── */
+        .bd-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 15, 25, .88);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+            backdrop-filter: blur(8px);
+        }
+
+        .bd-backdrop.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .bd-panel {
+            background: #fff;
+            border-radius: 24px;
+            width: 92vw;
+            max-width: 720px;
+            max-height: 92vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(.93) translateY(20px);
+            transition: transform .35s cubic-bezier(.175, .885, .32, 1.275);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, .35);
+        }
+
+        .bd-backdrop.open .bd-panel {
+            transform: scale(1) translateY(0);
+        }
+
+        .bd-header {
+            padding: 22px 28px 16px;
+            border-bottom: 1px solid #f0f4f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .bd-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1.5px solid #e9ecef;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all .2s;
+            font-size: 1rem;
+        }
+
+        .bd-close:hover {
+            background: #f0f4f8;
+            color: #1e2a3b;
+        }
+
+        .bd-body {
+            overflow-y: auto;
+            padding: 24px 28px;
+            flex: 1;
+        }
+
+        .bd-section-title {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #cb6f09;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 1.5px solid rgba(203, 111, 9, .12);
+        }
+
+        .bd-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .bd-info-item label {
+            font-size: .72rem;
+            font-weight: 600;
+            color: #adb5bd;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .bd-info-item span {
+            font-size: .9rem;
+            font-weight: 600;
+            color: #1e2a3b;
+        }
+
+        .bd-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 24px;
+        }
+
+        .bd-tl-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            padding-bottom: 16px;
+            position: relative;
+        }
+
+        .bd-tl-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 26px;
+            bottom: 0;
+            width: 2px;
+            background: #f0f4f8;
+        }
+
+        .bd-tl-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .65rem;
+        }
+
+        .bd-tl-dot.done {
+            background: rgba(22, 163, 74, .12);
+            color: #16a34a;
+        }
+
+        .bd-tl-dot.pending {
+            background: rgba(203, 111, 9, .12);
+            color: #cb6f09;
+        }
+
+        .bd-tl-text {
+            font-size: .85rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .bd-tl-text strong {
+            display: block;
+            color: #1e2a3b;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .bd-price-box {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 24px;
+        }
+
+        .bd-price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: .88rem;
+            padding: 5px 0;
+        }
+
+        .bd-price-row.total {
+            border-top: 1.5px solid #e9ecef;
+            margin-top: 8px;
+            padding-top: 12px;
+            font-weight: 800;
+            font-size: .95rem;
+            color: #1e2a3b;
+        }
+
+        .bd-price-balance {
+            color: #dc2626;
+            font-weight: 700;
+        }
+
+        .bd-price-paid {
+            color: #16a34a;
+            font-weight: 700;
+        }
+
+        .bd-action-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .bd-action-btn {
+            flex: 1;
+            min-width: 120px;
+            border-radius: 12px;
+            padding: 11px;
+            font-size: .85rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            transition: all .2s;
+        }
+
+        .bd-btn-primary {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            border: none;
+        }
+
+        .bd-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(203, 111, 9, .3);
+        }
+
+        .bd-btn-secondary {
+            background: #fff;
+            color: #495057;
+            border: 1.5px solid #e9ecef;
+        }
+
+        .bd-btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        .bd-btn-danger {
+            background: #fff;
+            color: #dc2626;
+            border: 1.5px solid rgba(220, 38, 38, .2);
+        }
+
+        .bd-btn-danger:hover {
+            background: rgba(220, 38, 38, .05);
+        }
+
+        /* ── TOAST ── */
+        .sm-toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #1e2a3b;
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-size: .88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+        }
+
+        .sm-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .sm-toast i {
+            color: #22c55e;
+        }
+
+        /* ── SECTION HEADING ── */
+        .section-eyebrow {
+            display: inline-block;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #cb6f09;
+            background: rgba(203, 111, 9, .09);
+            padding: 3px 12px;
+            border-radius: 100px;
+            margin-bottom: 6px;
+        }
+
+        @media(max-width:768px) {
+            .booking-card {
+                flex-direction: column;
+            }
+
+            .booking-actions-col {
+                flex-direction: row;
+                padding: 0 16px 16px;
+                min-width: unset;
+                justify-content: flex-start;
+            }
+
+            .bd-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .next-session-card {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img src="assets/logo.png" style="width:200px"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <img src="images/ai_portrait.png" alt="Kavya"
+                        style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #cb6f09;">
+                    <span style="color:#1e2a3b;font-size:.9rem;font-weight:600;">Kavya Nair</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN ===== -->
+    <section class="pt-5 mt-5 pb-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar -->
+                <div class="col-lg-3">
+                    <div class="sidebar-menu position-sticky" style="top:90px;">
+                        <div class="text-center mb-4 pt-2">
+                            <div class="position-relative d-inline-block">
+                                <img src="images/ai_portrait.png" alt="Kavya" class="rounded-circle mb-3 shadow"
+                                    style="width:88px;height:88px;object-fit:cover;border:4px solid #fff;">
+                                <span
+                                    class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle"
+                                    style="width:18px;height:18px;transform:translate(-8px,-12px);"></span>
+                            </div>
+                            <h5 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">Kavya Nair</h5>
+                            <p class="text-muted small fw-medium mt-1 mb-0">Client · Member since 2025</p>
+                        </div>
+                        <div class="px-2 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span style="font-size:.75rem;font-weight:600;color:#6c757d;">Storage Used</span>
+                                <span style="font-size:.75rem;font-weight:700;color:#1e2a3b;">3.2 GB / 10 GB</span>
+                            </div>
+                            <div class="storage-bar-track">
+                                <div class="storage-bar-fill" style="width:32%"></div>
+                            </div>
+                        </div>
+                        <div class="nav flex-column">
+                            <a href="client-dashboard.html" class="sidebar-link"><i class="fa-solid fa-layer-group"></i>
+                                Overview</a>
+                            <a href="my-albums.html" class="sidebar-link"><i class="fa-solid fa-images"></i> My Albums
+                                <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">8</span></a>
+                            <a href="my-bookings.html" class="sidebar-link active"><i
+                                    class="fa-regular fa-calendar-check"></i> Bookings <span
+                                    class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">3</span></a>
+                            <a href="saved-studios.html" class="sidebar-link"><i class="fa-regular fa-heart"></i> Saved
+                                Studios <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">6</span></a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-sliders"></i> Settings</a>
+                            <a href="index.html" class="sidebar-link mt-4" style="color:#dc2626;">
+                                <i class="fa-solid fa-power-off"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Panel -->
+                <div class="col-lg-9">
+
+                    <!-- Banner -->
+                    <div class="bookings-banner">
+                        <div class="row align-items-center g-3">
+                            <div class="col-md-5">
+                                <span class="d-inline-block px-3 py-1 rounded-pill mb-2"
+                                    style="background:rgba(203,111,9,.25);color:#ffb347;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">
+                                    <i class="fa-regular fa-calendar-check me-1"></i> My Bookings
+                                </span>
+                                <h2
+                                    style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:6px;">
+                                    Your Sessions & Schedules
+                                </h2>
+                                <p style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:16px;">
+                                    Track, manage and explore all your photography bookings in one place.
+                                </p>
+                                <button class="book-now-btn"
+                                    onclick="showToast('Redirecting to studios…','fa-arrow-right')">
+                                    <i class="fa-solid fa-plus"></i> Book a New Studio
+                                </button>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <div class="banner-stat"><span class="banner-stat-num"
+                                                id="statTotal">7</span><span class="banner-stat-label">Total</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="banner-stat"><span class="banner-stat-num"
+                                                id="statUpcoming">3</span><span
+                                                class="banner-stat-label">Upcoming</span></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="banner-stat"><span class="banner-stat-num"
+                                                id="statCompleted">3</span><span
+                                                class="banner-stat-label">Completed</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Session Card -->
+                    <div class="next-session-card" id="nextSessionCard">
+                        <div>
+                            <span class="next-session-eyebrow"><i class="fa-solid fa-bolt me-1"></i>Your Next
+                                Session</span>
+                            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#1e2a3b;"
+                                id="nextSessionName">Arjun &amp; Priya Wedding</div>
+                            <div style="font-size:.82rem;color:#8a94a6;font-weight:500;margin-top:3px;"
+                                id="nextSessionMeta">
+                                <i class="fa-solid fa-camera" style="color:#cb6f09;"></i> Golden Frame Studios
+                                &nbsp;·&nbsp;
+                                <i class="fa-regular fa-calendar" style="color:#cb6f09;"></i> <span
+                                    id="nextSessionDate">Mar 15, 2026</span>
+                            </div>
+                        </div>
+                        <div class="countdown-wrap" id="countdown">
+                            <div class="cd-unit"><span class="cd-val" id="cdDays">—</span><span
+                                    class="cd-label">Days</span></div>
+                            <div class="cd-unit"><span class="cd-val" id="cdHours">—</span><span
+                                    class="cd-label">Hrs</span></div>
+                            <div class="cd-unit"><span class="cd-val" id="cdMins">—</span><span
+                                    class="cd-label">Min</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="booking-tabs">
+                        <button class="bk-tab active" data-tab="all" onclick="switchTab('all')"> All <span
+                                class="tab-count" id="cnt-all">7</span></button>
+                        <button class="bk-tab" data-tab="upcoming" onclick="switchTab('upcoming')"> Upcoming <span
+                                class="tab-count" id="cnt-upcoming">3</span></button>
+                        <button class="bk-tab" data-tab="completed" onclick="switchTab('completed')">Completed <span
+                                class="tab-count" id="cnt-completed">3</span></button>
+                        <button class="bk-tab" data-tab="cancelled" onclick="switchTab('cancelled')">Cancelled <span
+                                class="tab-count" id="cnt-cancelled">1</span></button>
+                    </div>
+
+                    <!-- Search & Filter -->
+                    <div class="booking-search-bar">
+                        <div class="bk-search-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="bkSearch" placeholder="Search by studio or event…"
+                                oninput="filterBookings()">
+                        </div>
+                        <select class="bk-filter-sel" id="bkSort" onchange="filterBookings()">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name">Event Name A–Z</option>
+                        </select>
+                    </div>
+
+                    <!-- Section head -->
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <div>
+                            <span class="section-eyebrow">Schedule</span>
+                            <h4 class="fw-bold mb-0"
+                                style="font-family:'Playfair Display',serif;color:#1e2a3b;font-size:1.2rem;"
+                                id="sectionTitle">All Bookings</h4>
+                        </div>
+                        <span style="font-size:.82rem;color:#8a94a6;font-weight:500;" id="resultCount">Showing 7
+                            bookings</span>
+                    </div>
+
+                    <!-- Booking List -->
+                    <div id="bookingsList"></div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="d-none">
+                        <div class="empty-state">
+                            <div class="empty-icon"><i class="fa-regular fa-calendar-xmark"></i></div>
+                            <h5 class="fw-bold mb-2" style="color:#1e2a3b;">No bookings found</h5>
+                            <p class="text-muted mb-3" style="font-size:.9rem;">Try adjusting your search or selecting a
+                                different tab.</p>
+                            <button class="book-now-btn" onclick="showToast('Redirecting…','fa-arrow-right')"><i
+                                    class="fa-solid fa-plus"></i> Book a Studio</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== BOOKING DETAIL MODAL ===== -->
+    <div class="bd-backdrop" id="bookingModal" onclick="closeModalOnBackdrop(event)">
+        <div class="bd-panel">
+            <div class="bd-header">
+                <div>
+                    <div style="font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#cb6f09;margin-bottom:4px;"
+                        id="bdBookingId">SM-2026-001</div>
+                    <div class="fw-bold" style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#1e2a3b;"
+                        id="bdTitle">Event Name</div>
+                </div>
+                <button class="bd-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="bd-body">
+
+                <!-- Studio info row -->
+                <div class="d-flex align-items-center gap-3 mb-4 p-3" style="background:#f8f9fa;border-radius:14px;">
+                    <img id="bdStudioImg" src="" alt=""
+                        style="width:52px;height:52px;border-radius:12px;object-fit:cover;">
+                    <div>
+                        <div style="font-weight:700;color:#1e2a3b;" id="bdStudio">Studio Name</div>
+                        <div style="font-size:.8rem;color:#8a94a6;" id="bdPhotographer"><i class="fa-solid fa-user me-1"
+                                style="color:#cb6f09;"></i>Photographer</div>
+                    </div>
+                    <div class="ms-auto text-end">
+                        <div id="bdStatusPill"></div>
+                        <div style="font-size:.75rem;color:#adb5bd;margin-top:4px;" id="bdBookingDateLabel">Booked on
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Details -->
+                <div class="bd-section-title">Event Details</div>
+                <div class="bd-info-grid mb-4">
+                    <div class="bd-info-item"><label>Event Type</label><span id="bdEventType">—</span></div>
+                    <div class="bd-info-item"><label>Date</label><span id="bdDate">—</span></div>
+                    <div class="bd-info-item"><label>Time</label><span id="bdTime">—</span></div>
+                    <div class="bd-info-item"><label>Photographers</label><span id="bdPhotographers">—</span></div>
+                    <div class="bd-info-item" style="grid-column:1/-1;"><label>Location</label><span
+                            id="bdLocation">—</span></div>
+                </div>
+
+                <!-- Package & Pricing -->
+                <div class="bd-section-title">Package & Pricing</div>
+                <div class="bd-price-box mb-4">
+                    <div class="bd-price-row"><span style="color:#6c757d;" id="bdPackageName">Package</span><span
+                            id="bdPackagePrice" style="font-weight:700;color:#1e2a3b;">—</span></div>
+                    <div class="bd-price-row"><span style="color:#6c757d;">Advance Paid</span><span
+                            class="bd-price-paid" id="bdAdvance">—</span></div>
+                    <div class="bd-price-row total"><span>Balance Due</span><span class="bd-price-balance"
+                            id="bdBalance">—</span></div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="bd-section-title">Booking Timeline</div>
+                <div class="bd-timeline">
+                    <div class="bd-tl-item">
+                        <div class="bd-tl-dot done"><i class="fa-solid fa-check"></i></div>
+                        <div class="bd-tl-text"><strong>Booking Confirmed</strong><span id="bdBookingDate">—</span>
+                        </div>
+                    </div>
+                    <div class="bd-tl-item">
+                        <div class="bd-tl-dot done"><i class="fa-solid fa-check"></i></div>
+                        <div class="bd-tl-text"><strong>Advance Payment Received</strong><span
+                                id="bdAdvancePaidLabel">—</span></div>
+                    </div>
+                    <div class="bd-tl-item">
+                        <div class="bd-tl-dot pending" id="bdTlSessionDot"><i class="fa-regular fa-clock"></i></div>
+                        <div class="bd-tl-text"><strong>Session Day</strong><span id="bdTlSessionDate">—</span></div>
+                    </div>
+                    <div class="bd-tl-item">
+                        <div class="bd-tl-dot pending" id="bdTlAlbumDot"><i class="fa-regular fa-images"></i></div>
+                        <div class="bd-tl-text"><strong>Album Delivered</strong><span>After editing, within 3–5
+                                weeks</span></div>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="bd-section-title">Studio Notes</div>
+                <p style="font-size:.88rem;color:#6c757d;background:#f8f9fa;border-radius:12px;padding:14px 16px;"
+                    id="bdNotes">—</p>
+
+                <!-- Actions -->
+                <div class="bd-action-row mt-2">
+                    <button class="bd-action-btn bd-btn-primary"
+                        onclick="showToast('Invoice downloading…','fa-download')">
+                        <i class="fa-solid fa-file-invoice"></i> Download Invoice
+                    </button>
+                    <button class="bd-action-btn bd-btn-secondary"
+                        onclick="showToast('Reschedule request sent!','fa-calendar-check')">
+                        <i class="fa-solid fa-calendar-days"></i> Request Reschedule
+                    </button>
+                    <button class="bd-action-btn bd-btn-danger" id="bdCancelBtn"
+                        onclick="showToast('Cancellation request sent.','fa-triangle-exclamation')">
+                        <i class="fa-solid fa-xmark"></i> Cancel Booking
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="sm-toast" id="smToast">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastMsg">Done!</span>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer pt-4 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <a class="footer-brand d-block mb-4" href="#"><img src="assets/logo1.png" alt="StudioMitra"
+                            style="height:120px;filter:brightness(0) invert(1);"></a>
+                    <div class="social-icons d-flex align-items-center mt-3">
+                        <a href="#" class="social-icon facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon x-twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Quick Links</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About StudioMitra</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Policy</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Cookies Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Download Our Apps</h5>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width:68%;">
+                            <i class="fa-brands fa-apple fs-3 me-2"></i>
+                            <div class="lh-1"><span class="d-block text-muted mb-1" style="font-size:9px;">Download on
+                                    the</span><span class="fw-bold d-block" style="font-size:14px;">App Store</span>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width:68%;">
+                            <img src="images/ai_app_logo.png" alt="Play" style="height:20px;" class="me-2">
+                            <div class="lh-1"><span class="d-block text-muted mb-1" style="font-size:9px;">Get it
+                                    on</span><span class="fw-bold d-block" style="font-size:14px;">Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+            </div>
+        </div>
+        <a href="#" class="floating-btn fb-right"><i class="fa-solid fa-chevron-up"></i></a>
+    </footer>
+
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===== DATA =====
+        const BOOKINGS = [
+            { id: 1, bookingId: 'SM-2026-001', eventName: 'Arjun & Priya Wedding', eventType: 'Wedding', studio: 'Golden Frame Studios', studioImg: 'images/album_wedding.png', date: 'Mar 15, 2026', dateRaw: '2026-03-15', time: '10:00 AM – 8:00 PM', location: 'The Grand Palace, Marine Drive, Mumbai', package: 'Premium Full Day Coverage', totalPrice: 45000, advancePaid: 15000, status: 'confirmed', photographerName: 'Rahul Sharma', bookingDate: 'Jan 20, 2026', photographers: 2, notes: 'Please arrive 30 minutes early for bridal prep shots. We will set up by 9:30 AM.' },
+            { id: 2, bookingId: 'SM-2026-002', eventName: 'Kiran\'s Baby Shower', eventType: 'Baby Shower', studio: 'Candid Creators', studioImg: 'images/portfolio1.png', date: 'Apr 2, 2026', dateRaw: '2026-04-02', time: '3:00 PM – 6:00 PM', location: 'Taj Vivanta, Bengaluru', package: 'Half Day Studio', totalPrice: 12000, advancePaid: 4000, status: 'pending', photographerName: 'Priya Menon', bookingDate: 'Feb 28, 2026', photographers: 1, notes: 'Pastel colour theme requested. Please discuss specific props before the shoot.' },
+            { id: 3, bookingId: 'SM-2026-003', eventName: 'Family Portrait Session', eventType: 'Family', studio: 'Lens & Light', studioImg: 'images/album_family.png', date: 'Mar 25, 2026', dateRaw: '2026-03-25', time: '4:00 PM – 6:00 PM', location: 'Cubbon Park, Bengaluru', package: 'Standard 2 Hours', totalPrice: 8500, advancePaid: 3000, status: 'confirmed', photographerName: 'Anand Kumar', bookingDate: 'Feb 10, 2026', photographers: 1, notes: 'Outdoor session. Weather check will be done 24 hrs in advance. Backup indoor location available.' },
+            { id: 4, bookingId: 'SM-2025-021', eventName: 'Maternity Shoot', eventType: 'Maternity', studio: 'Lens & Light', studioImg: 'images/album_maternity.png', date: 'Aug 24, 2025', dateRaw: '2025-08-24', time: '6:00 AM – 8:00 AM', location: 'Saavira Kambada, Karnataka', package: 'Golden Hour Shoot', totalPrice: 9500, advancePaid: 9500, status: 'completed', photographerName: 'Anand Kumar', bookingDate: 'Jul 12, 2025', photographers: 1, notes: 'Sunrise shoot. Please be on location by 5:45 AM.' },
+            { id: 5, bookingId: 'SM-2025-018', eventName: 'Portfolio Shoot', eventType: 'Portfolio', studio: 'Pixel Perfect Studio', studioImg: 'images/portfolio2.png', date: 'May 5, 2025', dateRaw: '2025-05-05', time: '11:00 AM – 2:00 PM', location: 'Pixel Perfect Studio, Mumbai', package: 'Model Portfolio 3 Hours', totalPrice: 15000, advancePaid: 15000, status: 'completed', photographerName: 'Meera Patel', bookingDate: 'Apr 18, 2025', photographers: 2, notes: '3 outfit changes. Makeup artist coordination required.' },
+            { id: 6, bookingId: 'SM-2025-009', eventName: 'Rohit & Sneha Engagement', eventType: 'Engagement', studio: 'Candid Creators', studioImg: 'images/album_engagement.png', date: 'Jan 8, 2025', dateRaw: '2025-01-08', time: '5:30 PM – 8:00 PM', location: 'Lakeside Resort, Pune', package: 'Twilight Engagement', totalPrice: 18000, advancePaid: 18000, status: 'completed', photographerName: 'Rahul Sharma', bookingDate: 'Dec 1, 2024', photographers: 2, notes: 'City lights bokeh setup. Drone shots included.' },
+            { id: 7, bookingId: 'SM-2025-012', eventName: '1st Birthday Party', eventType: 'Birthday', studio: 'Pixel Perfect Studio', studioImg: 'images/album_birthday.png', date: 'Nov 15, 2025', dateRaw: '2025-11-15', time: '11:00 AM – 2:00 PM', location: 'The Little Party Hall, Chennai', package: 'Full Event Coverage', totalPrice: 11000, advancePaid: 4000, status: 'cancelled', photographerName: 'Meera Patel', bookingDate: 'Oct 3, 2025', photographers: 1, notes: 'Event was rescheduled by client. Booking cancelled as alternative date was not available.' },
+        ];
+
+        // ===== STATE =====
+        let activeTab = 'all';
+        let filtered = [...BOOKINGS];
+
+        // ===== EVENT TYPE CONFIG =====
+        function etConfig(type) {
+            const map = {
+                'Wedding': { cls: 'et-wedding', icon: 'fa-rings-wedding', label: 'Wedding' },
+                'Baby Shower': { cls: 'et-babyshower', icon: 'fa-baby', label: 'Baby Shower' },
+                'Family': { cls: 'et-family', icon: 'fa-people-roof', label: 'Family' },
+                'Maternity': { cls: 'et-maternity', icon: 'fa-baby-carriage', label: 'Maternity' },
+                'Engagement': { cls: 'et-engagement', icon: 'fa-heart', label: 'Engagement' },
+                'Birthday': { cls: 'et-birthday', icon: 'fa-cake-candles', label: 'Birthday' },
+                'Portfolio': { cls: 'et-portfolio', icon: 'fa-camera', label: 'Portfolio' },
+                'Newborn': { cls: 'et-newborn', icon: 'fa-child-reaching', label: 'Newborn' },
+            };
+            return map[type] || { cls: 'et-portfolio', icon: 'fa-camera', label: type };
+        }
+
+        function statusConfig(s) {
+            const map = {
+                confirmed: { cls: 'sp-confirmed', icon: 'fa-circle-check', label: 'Confirmed' },
+                pending: { cls: 'sp-pending', icon: 'fa-hourglass-half', label: 'Pending Confirm' },
+                completed: { cls: 'sp-completed', icon: 'fa-circle-check', label: 'Completed' },
+                cancelled: { cls: 'sp-cancelled', icon: 'fa-circle-xmark', label: 'Cancelled' },
+            };
+            return map[s] || map.confirmed;
+        }
+
+        function fmtCurrency(n) { return '₹' + n.toLocaleString('en-IN'); }
+
+        // ===== RENDER =====
+        function renderBookings(data) {
+            const list = document.getElementById('bookingsList');
+            const empty = document.getElementById('emptyState');
+
+            document.getElementById('resultCount').textContent = `Showing ${data.length} booking${data.length !== 1 ? 's' : ''}`;
+
+            if (!data.length) { list.innerHTML = ''; empty.classList.remove('d-none'); return; }
+            empty.classList.add('d-none');
+
+            list.innerHTML = data.map(b => {
+                const et = etConfig(b.eventType);
+                const st = statusConfig(b.status);
+                const balance = b.totalPrice - b.advancePaid;
+                const balHtml = balance > 0
+                    ? `<span class="price-balance">Balance: ${fmtCurrency(balance)}</span>`
+                    : `<span class="price-paid"><i class="fa-solid fa-check me-1"></i>Fully Paid</span>`;
+                const isUpcoming = b.status === 'confirmed' || b.status === 'pending';
+
+                return `
+        <div class="booking-card status-${b.status}">
+            <div class="booking-avatar-col">
+                <img src="${b.studioImg}" alt="${b.studio}" class="booking-avatar">
+            </div>
+            <div class="booking-body">
+                <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                    <span class="event-type-pill ${et.cls}"><i class="fa-solid ${et.icon}"></i>${et.label}</span>
+                    <span style="font-size:.7rem;color:#adb5bd;font-weight:600;">#${b.bookingId}</span>
+                </div>
+                <div class="booking-title">${b.eventName}</div>
+                <div class="booking-studio"><i class="fa-solid fa-camera"></i>${b.studio} · <i class="fa-solid fa-user" style="color:#adb5bd;"></i><span style="color:#adb5bd;">${b.photographerName}</span></div>
+                <div class="booking-meta-row">
+                    <span class="bk-meta-item"><i class="fa-regular fa-calendar"></i>${b.date}</span>
+                    <span class="bk-meta-item"><i class="fa-regular fa-clock"></i>${b.time}</span>
+                    <span class="bk-meta-item"><i class="fa-solid fa-location-dot"></i>${b.location.split(',')[0]}</span>
+                    <span class="bk-meta-item"><i class="fa-solid fa-camera"></i>${b.photographers} Photographer${b.photographers > 1 ? 's' : ''}</span>
+                </div>
+                <div class="booking-price-row">
+                    <span class="price-total">${fmtCurrency(b.totalPrice)}</span>
+                    ${balHtml}
+                </div>
+            </div>
+            <div class="booking-actions-col">
+                <span class="status-pill ${st.cls}"><i class="fa-solid ${st.icon}"></i>${st.label}</span>
+                <div class="d-flex flex-column gap-2">
+                    <button class="bk-view-btn" onclick="openModal(${b.id})"><i class="fa-solid fa-eye"></i> View Details</button>
+                    ${isUpcoming ? `<button class="bk-cancel-btn" onclick="showToast('Cancellation requested.','fa-triangle-exclamation')"><i class="fa-solid fa-xmark me-1"></i>Cancel</button>` : ''}
+                </div>
+            </div>
+        </div>`;
+            }).join('');
+        }
+
+        // ===== FILTER =====
+        function filterBookings() {
+            const q = document.getElementById('bkSearch').value.toLowerCase().trim();
+            const sort = document.getElementById('bkSort').value;
+
+            let data = BOOKINGS.filter(b => {
+                const matchTab = activeTab === 'all'
+                    || (activeTab === 'upcoming' && (b.status === 'confirmed' || b.status === 'pending'))
+                    || (activeTab === 'completed' && b.status === 'completed')
+                    || (activeTab === 'cancelled' && b.status === 'cancelled');
+                const matchQ = !q || b.eventName.toLowerCase().includes(q) || b.studio.toLowerCase().includes(q);
+                return matchTab && matchQ;
+            });
+
+            if (sort === 'oldest') data.sort((a, b) => a.dateRaw.localeCompare(b.dateRaw));
+            else if (sort === 'newest') data.sort((a, b) => b.dateRaw.localeCompare(a.dateRaw));
+            else if (sort === 'name') data.sort((a, b) => a.eventName.localeCompare(b.eventName));
+
+            filtered = data;
+            renderBookings(data);
+        }
+
+        // ===== TABS =====
+        function switchTab(tab) {
+            activeTab = tab;
+            document.querySelectorAll('.bk-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+            const titles = { all: 'All Bookings', upcoming: 'Upcoming Sessions', completed: 'Past Bookings', cancelled: 'Cancelled Bookings' };
+            document.getElementById('sectionTitle').textContent = titles[tab];
+            filterBookings();
+        }
+
+        // ===== MODAL =====
+        function openModal(id) {
+            const b = BOOKINGS.find(x => x.id === id);
+            if (!b) return;
+            const st = statusConfig(b.status);
+            const balance = b.totalPrice - b.advancePaid;
+
+            document.getElementById('bdBookingId').textContent = b.bookingId;
+            document.getElementById('bdTitle').textContent = b.eventName;
+            document.getElementById('bdStudioImg').src = b.studioImg;
+            document.getElementById('bdStudio').textContent = b.studio;
+            document.getElementById('bdPhotographer').innerHTML = `<i class="fa-solid fa-user me-1" style="color:#cb6f09;"></i>${b.photographerName}`;
+            document.getElementById('bdStatusPill').innerHTML = `<span class="status-pill ${st.cls}"><i class="fa-solid ${st.icon}"></i>${st.label}</span>`;
+            document.getElementById('bdBookingDateLabel').textContent = 'Booked on ' + b.bookingDate;
+            document.getElementById('bdEventType').textContent = b.eventType;
+            document.getElementById('bdDate').textContent = b.date;
+            document.getElementById('bdTime').textContent = b.time;
+            document.getElementById('bdPhotographers').textContent = b.photographers + ' photographer' + (b.photographers > 1 ? 's' : '');
+            document.getElementById('bdLocation').textContent = b.location;
+            document.getElementById('bdPackageName').textContent = b.package;
+            document.getElementById('bdPackagePrice').textContent = fmtCurrency(b.totalPrice);
+            document.getElementById('bdAdvance').textContent = fmtCurrency(b.advancePaid) + ' paid';
+            document.getElementById('bdBalance').textContent = balance > 0 ? fmtCurrency(balance) + ' due' : 'Fully Paid ✓';
+            document.getElementById('bdBookingDate').textContent = b.bookingDate;
+            document.getElementById('bdAdvancePaidLabel').textContent = b.bookingDate;
+            document.getElementById('bdTlSessionDate').textContent = b.date;
+            document.getElementById('bdNotes').textContent = b.notes;
+            document.getElementById('bdCancelBtn').style.display = (b.status === 'completed' || b.status === 'cancelled') ? 'none' : 'flex';
+
+            document.getElementById('bookingModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function closeModalOnBackdrop(e) {
+            if (e.target === document.getElementById('bookingModal')) closeModal();
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        // ===== COUNTDOWN =====
+        function startCountdown() {
+            const nextUpcoming = BOOKINGS.filter(b => b.status === 'confirmed' || b.status === 'pending')
+                .sort((a, b) => a.dateRaw.localeCompare(b.dateRaw))[0];
+            if (!nextUpcoming) { document.getElementById('nextSessionCard').style.display = 'none'; return; }
+
+            document.getElementById('nextSessionName').textContent = nextUpcoming.eventName;
+            document.getElementById('nextSessionDate').textContent = nextUpcoming.date;
+
+            function update() {
+                const now = new Date();
+                const then = new Date(nextUpcoming.dateRaw + 'T10:00:00');
+                const diff = then - now;
+                if (diff <= 0) { document.getElementById('cdDays').textContent = '0'; document.getElementById('cdHours').textContent = '0'; document.getElementById('cdMins').textContent = '0'; return; }
+                document.getElementById('cdDays').textContent = Math.floor(diff / 86400000);
+                document.getElementById('cdHours').textContent = Math.floor((diff % 86400000) / 3600000);
+                document.getElementById('cdMins').textContent = Math.floor((diff % 3600000) / 60000);
+            }
+            update();
+            setInterval(update, 30000);
+        }
+
+        // ===== TOAST =====
+        let toastTimer;
+        function showToast(msg, icon = 'fa-circle-check') {
+            const t = document.getElementById('smToast'), i = document.getElementById('toastIcon');
+            document.getElementById('toastMsg').textContent = msg;
+            i.className = `fa-solid ${icon}`;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ===== INIT =====
+        renderBookings(BOOKINGS);
+        startCountdown();
+
+        // Update tab counts
+        document.getElementById('cnt-all').textContent = BOOKINGS.length;
+        document.getElementById('cnt-upcoming').textContent = BOOKINGS.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
+        document.getElementById('cnt-completed').textContent = BOOKINGS.filter(b => b.status === 'completed').length;
+        document.getElementById('cnt-cancelled').textContent = BOOKINGS.filter(b => b.status === 'cancelled').length;
+        document.getElementById('statTotal').textContent = BOOKINGS.length;
+        document.getElementById('statUpcoming').textContent = BOOKINGS.filter(b => b.status === 'confirmed' || b.status === 'pending').length;
+        document.getElementById('statCompleted').textContent = BOOKINGS.filter(b => b.status === 'completed').length;
+    </script>
+</body>
+
+</html>

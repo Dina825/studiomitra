@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Studios | StudioMitra</title>
+    <meta name="description" content="Your handpicked list of favourite photography studios on StudioMitra.">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar-menu {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px 16px;
+            box-shadow: 0 4px 24px rgba(30, 42, 59, .07);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 11px 16px;
+            color: #6c757d;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: .93rem;
+            transition: all .25s;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(203, 111, 9, .09);
+            color: #cb6f09;
+        }
+
+        .sidebar-link i {
+            width: 26px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .storage-bar-track {
+            height: 8px;
+            background: #f0f4f8;
+            border-radius: 100px;
+            overflow: hidden;
+            margin: 6px 0;
+        }
+
+        .storage-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #cb6f09, #aa4502);
+            border-radius: 100px;
+            transition: width 1.2s ease;
+        }
+
+        /* ── BANNER ── */
+        .ss-banner {
+            background: linear-gradient(135deg, #1e2a3b 0%, #2d3f58 60%, #1a3a52 100%);
+            border-radius: 20px;
+            padding: 32px 36px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .ss-banner::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(203, 111, 9, .2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .ss-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: 35%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, .04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .banner-stat {
+            background: rgba(255, 255, 255, .1);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 14px;
+            padding: 14px 18px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-stat-num {
+            font-size: 1.7rem;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            display: block;
+        }
+
+        .banner-stat-label {
+            font-size: .75rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, .6);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* ── TOOLBAR ── */
+        .ss-toolbar {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 18px;
+            box-shadow: 0 2px 12px rgba(30, 42, 59, .05);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .ss-search-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .ss-search-wrap i {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+            font-size: .85rem;
+        }
+
+        .ss-search-wrap input {
+            border: 1.5px solid #e9ecef;
+            border-radius: 12px;
+            padding: 8px 14px 8px 38px;
+            font-size: .88rem;
+            font-family: 'Outfit', sans-serif;
+            width: 100%;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .ss-search-wrap input:focus {
+            border-color: #cb6f09;
+            box-shadow: 0 0 0 3px rgba(203, 111, 9, .1);
+        }
+
+        .ss-filter-sel {
+            border: 1.5px solid #e9ecef;
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: .85rem;
+            font-family: 'Outfit', sans-serif;
+            color: #495057;
+            outline: none;
+            cursor: pointer;
+            background: #fff;
+            transition: border-color .2s;
+        }
+
+        .ss-filter-sel:focus {
+            border-color: #cb6f09;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: #f0f4f8;
+            border-radius: 10px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .view-btn {
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            padding: 6px 11px;
+            color: #adb5bd;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .view-btn.active {
+            background: #fff;
+            color: #1e2a3b;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+        }
+
+        /* ── STUDIO CARD ── */
+        .studio-card {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(30, 42, 59, .06);
+            border: 1px solid rgba(226, 232, 240, .8);
+            transition: all .35s cubic-bezier(.175, .885, .32, 1.275);
+            position: relative;
+        }
+
+        .studio-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 52px rgba(30, 42, 59, .13);
+            border-color: rgba(203, 111, 9, .2);
+        }
+
+        .studio-cover {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .studio-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+
+        .studio-card:hover .studio-cover img {
+            transform: scale(1.06);
+        }
+
+        /* Category ribbon */
+        .studio-category-ribbon {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .cat-pill {
+            font-size: .68rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            letter-spacing: .3px;
+        }
+
+        .cat-wedding {
+            background: rgba(244, 63, 94, .85);
+            color: #fff;
+        }
+
+        .cat-portrait {
+            background: rgba(99, 102, 241, .85);
+            color: #fff;
+        }
+
+        .cat-family {
+            background: rgba(20, 184, 166, .85);
+            color: #fff;
+        }
+
+        .cat-maternity {
+            background: rgba(236, 72, 153, .85);
+            color: #fff;
+        }
+
+        .cat-newborn {
+            background: rgba(59, 130, 246, .85);
+            color: #fff;
+        }
+
+        .cat-events {
+            background: rgba(245, 158, 11, .85);
+            color: #fff;
+        }
+
+        .cat-fashion {
+            background: rgba(139, 92, 246, .85);
+            color: #fff;
+        }
+
+        .cat-engagement {
+            background: rgba(203, 111, 9, .85);
+            color: #fff;
+        }
+
+        /* Un-save heart */
+        .unsave-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(8px);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .95rem;
+            color: #dc2626;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+        }
+
+        .unsave-btn:hover {
+            background: #dc2626;
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .unsave-btn.unsaved {
+            color: #adb5bd;
+        }
+
+        .unsave-btn.unsaved:hover {
+            background: #adb5bd;
+            color: #fff;
+        }
+
+        /* Rating chip */
+        .rating-chip {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            background: rgba(30, 42, 59, .82);
+            backdrop-filter: blur(8px);
+            border-radius: 10px;
+            padding: 4px 10px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rating-chip i {
+            color: #fbbf24;
+            font-size: .7rem;
+        }
+
+        /* Studio avatar */
+        .studio-avatar-wrap {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            padding: 0 18px;
+            margin-top: -28px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .studio-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .12);
+            flex-shrink: 0;
+        }
+
+        .studio-verified {
+            width: 20px;
+            height: 20px;
+            background: #16a34a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .55rem;
+            color: #fff;
+            margin-bottom: 4px;
+            border: 2px solid #fff;
+        }
+
+        /* Card body */
+        .studio-body {
+            padding: 0 18px 18px;
+        }
+
+        .studio-name {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #1e2a3b;
+            margin-bottom: 3px;
+            font-family: 'Playfair Display', serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .studio-meta {
+            font-size: .78rem;
+            color: #8a94a6;
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .studio-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .studio-meta i {
+            color: #cb6f09;
+            font-size: .7rem;
+        }
+
+        .studio-tags {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .studio-tag {
+            font-size: .68rem;
+            font-weight: 600;
+            background: #f0f4f8;
+            color: #6c757d;
+            padding: 3px 9px;
+            border-radius: 20px;
+        }
+
+        .studio-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f0f4f8;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .studio-price {
+            font-size: .85rem;
+            font-weight: 700;
+            color: #1e2a3b;
+        }
+
+        .studio-price span {
+            font-size: .72rem;
+            font-weight: 500;
+            color: #8a94a6;
+        }
+
+        .studio-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-book {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            border: none;
+            border-radius: 9px;
+            padding: 6px 14px;
+            font-size: .78rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-book:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(203, 111, 9, .3);
+        }
+
+        .btn-portfolio {
+            border: 1.5px solid #e9ecef;
+            background: transparent;
+            color: #495057;
+            border-radius: 9px;
+            padding: 6px 12px;
+            font-size: .78rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-portfolio:hover {
+            border-color: #1e2a3b;
+            color: #1e2a3b;
+        }
+
+        /* ── LIST VIEW ── */
+        #studiosGrid.view-list .studio-card {
+            display: flex;
+            border-radius: 16px;
+            height: 120px;
+        }
+
+        #studiosGrid.view-list .studio-cover {
+            width: 160px;
+            height: 120px;
+            flex-shrink: 0;
+            border-radius: 16px 0 0 16px;
+        }
+
+        #studiosGrid.view-list .studio-avatar-wrap {
+            display: none;
+        }
+
+        #studiosGrid.view-list .studio-body {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            padding: 14px 18px;
+        }
+
+        #studiosGrid.view-list .studio-body-inner {
+            flex: 1;
+            min-width: 0;
+        }
+
+        #studiosGrid.view-list .studio-footer {
+            border-top: none;
+            padding-top: 0;
+            padding-left: 16px;
+            align-items: center;
+            flex-shrink: 0;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        #studiosGrid.view-list .studio-tags {
+            margin-bottom: 0;
+        }
+
+        #studiosGrid.view-list .studio-card:hover {
+            transform: translateY(-3px);
+        }
+
+        #studiosGrid.view-list .col-wrapper {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── SECTION HEADING ── */
+        .section-eyebrow {
+            display: inline-block;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #cb6f09;
+            background: rgba(203, 111, 9, .09);
+            padding: 3px 12px;
+            border-radius: 100px;
+            margin-bottom: 6px;
+        }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            text-align: center;
+            padding: 64px 32px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(30, 42, 59, .05);
+        }
+
+        .empty-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, rgba(203, 111, 9, .1), rgba(203, 111, 9, .05));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: #cb6f09;
+            margin: 0 auto 24px;
+        }
+
+        /* ── QUICK-BOOK MODAL ── */
+        .qb-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 15, 25, .88);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s;
+            backdrop-filter: blur(8px);
+        }
+
+        .qb-backdrop.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .qb-panel {
+            background: #fff;
+            border-radius: 24px;
+            width: 92vw;
+            max-width: 540px;
+            max-height: 92vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(.93) translateY(20px);
+            transition: transform .35s cubic-bezier(.175, .885, .32, 1.275);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, .35);
+        }
+
+        .qb-backdrop.open .qb-panel {
+            transform: scale(1) translateY(0);
+        }
+
+        .qb-header {
+            padding: 22px 28px 16px;
+            border-bottom: 1px solid #f0f4f8;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .qb-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1.5px solid #e9ecef;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .qb-close:hover {
+            background: #f0f4f8;
+            color: #1e2a3b;
+        }
+
+        .qb-body {
+            overflow-y: auto;
+            padding: 24px 28px;
+            flex: 1;
+        }
+
+        .qb-form-label {
+            font-size: .78rem;
+            font-weight: 700;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .qb-form-control {
+            border: 1.5px solid #e9ecef;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: .9rem;
+            font-family: 'Outfit', sans-serif;
+            width: 100%;
+            outline: none;
+            transition: border-color .2s;
+            margin-bottom: 16px;
+        }
+
+        .qb-form-control:focus {
+            border-color: #cb6f09;
+            box-shadow: 0 0 0 3px rgba(203, 111, 9, .1);
+        }
+
+        .qb-submit {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px;
+            font-size: .9rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all .2s;
+        }
+
+        .qb-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(203, 111, 9, .3);
+        }
+
+        /* ── TOAST ── */
+        .sm-toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #1e2a3b;
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-size: .88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+        }
+
+        .sm-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .sm-toast i {
+            color: #22c55e;
+        }
+
+        @media(max-width:768px) {
+            .ss-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #studiosGrid.view-list .studio-card {
+                flex-direction: column;
+                height: auto;
+            }
+
+            #studiosGrid.view-list .studio-cover {
+                width: 100%;
+                height: 180px;
+                border-radius: 16px 16px 0 0;
+            }
+
+            #studiosGrid.view-list .studio-footer {
+                flex-direction: row;
+                padding-left: 0;
+                border-top: 1px solid #f0f4f8;
+                padding-top: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img src="assets/logo.png" style="width:200px"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                    <img src="images/ai_portrait.png" alt="Kavya"
+                        style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #cb6f09;">
+                    <span style="color:#1e2a3b;font-size:.9rem;font-weight:600;">Kavya Nair</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== MAIN ===== -->
+    <section class="pt-5 mt-5 pb-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar -->
+                <div class="col-lg-3">
+                    <div class="sidebar-menu position-sticky" style="top:90px;">
+                        <div class="text-center mb-4 pt-2">
+                            <div class="position-relative d-inline-block">
+                                <img src="images/ai_portrait.png" alt="Kavya" class="rounded-circle mb-3 shadow"
+                                    style="width:88px;height:88px;object-fit:cover;border:4px solid #fff;">
+                                <span
+                                    class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle"
+                                    style="width:18px;height:18px;transform:translate(-8px,-12px);"></span>
+                            </div>
+                            <h5 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">Kavya Nair</h5>
+                            <p class="text-muted small fw-medium mt-1 mb-0">Client · Member since 2025</p>
+                        </div>
+                        <div class="px-2 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span style="font-size:.75rem;font-weight:600;color:#6c757d;">Storage Used</span>
+                                <span style="font-size:.75rem;font-weight:700;color:#1e2a3b;">3.2 GB / 10 GB</span>
+                            </div>
+                            <div class="storage-bar-track">
+                                <div class="storage-bar-fill" style="width:32%"></div>
+                            </div>
+                        </div>
+                        <div class="nav flex-column">
+                            <a href="client-dashboard.html" class="sidebar-link"><i class="fa-solid fa-layer-group"></i>
+                                Overview</a>
+                            <a href="my-albums.html" class="sidebar-link"><i class="fa-solid fa-images"></i> My Albums
+                                <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">8</span></a>
+                            <a href="my-bookings.html" class="sidebar-link"><i class="fa-regular fa-calendar-check"></i>
+                                Bookings <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">3</span></a>
+                            <a href="saved-studios.html" class="sidebar-link active"><i class="fa-regular fa-heart"></i>
+                                Saved Studios <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">6</span></a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-sliders"></i> Settings</a>
+                            <a href="index.html" class="sidebar-link mt-4" style="color:#dc2626;"><i
+                                    class="fa-solid fa-power-off"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Panel -->
+                <div class="col-lg-9">
+
+                    <!-- Banner -->
+                    <div class="ss-banner">
+                        <div class="row align-items-center g-3">
+                            <div class="col-md-6">
+                                <span class="d-inline-block px-3 py-1 rounded-pill mb-2"
+                                    style="background:rgba(203,111,9,.25);color:#ffb347;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">
+                                    <i class="fa-solid fa-heart me-1"></i> Saved Studios
+                                </span>
+                                <h2
+                                    style="font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:6px;">
+                                    Your Favourite Studios
+                                </h2>
+                                <p style="color:rgba(255,255,255,.6);font-size:.88rem;margin-bottom:0;">
+                                    Studios you love, always within reach. Book a session anytime.
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <div class="banner-stat"><span class="banner-stat-num"
+                                                id="statSaved">6</span><span class="banner-stat-label">Saved</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="banner-stat"><span class="banner-stat-num">4.8</span><span
+                                                class="banner-stat-label">Avg Rating</span></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="banner-stat"><span class="banner-stat-num">3</span><span
+                                                class="banner-stat-label">Cities</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toolbar -->
+                    <div class="ss-toolbar">
+                        <div class="ss-search-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="ssSearch" placeholder="Search saved studios…"
+                                oninput="filterStudios()">
+                        </div>
+                        <select class="ss-filter-sel" id="ssCat" onchange="filterStudios()">
+                            <option value="all">All Categories</option>
+                            <option value="Wedding">Wedding</option>
+                            <option value="Portrait">Portrait</option>
+                            <option value="Family">Family</option>
+                            <option value="Maternity">Maternity</option>
+                            <option value="Events">Events</option>
+                            <option value="Fashion">Fashion</option>
+                        </select>
+                        <select class="ss-filter-sel" id="ssSort" onchange="filterStudios()">
+                            <option value="saved">Recently Saved</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                            <option value="name">Name A–Z</option>
+                        </select>
+                        <div class="view-toggle">
+                            <button class="view-btn active" id="btnGrid" onclick="setView('grid')" title="Grid view"><i
+                                    class="fa-solid fa-grip"></i></button>
+                            <button class="view-btn" id="btnList" onclick="setView('list')" title="List view"><i
+                                    class="fa-solid fa-list"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Section Head -->
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <div>
+                            <span class="section-eyebrow">Favourites</span>
+                            <h4 class="fw-bold mb-0"
+                                style="font-family:'Playfair Display',serif;color:#1e2a3b;font-size:1.2rem;">Saved
+                                Studios</h4>
+                        </div>
+                        <span style="font-size:.82rem;color:#8a94a6;font-weight:500;" id="resultCount">Showing 6
+                            studios</span>
+                    </div>
+
+                    <!-- Studios Grid -->
+                    <div class="row g-3" id="studiosGrid"></div>
+
+                    <!-- Empty State -->
+                    <div id="emptyState" class="d-none">
+                        <div class="empty-state">
+                            <div class="empty-icon"><i class="fa-regular fa-heart"></i></div>
+                            <h5 class="fw-bold mb-2" style="color:#1e2a3b;">No saved studios found</h5>
+                            <p class="text-muted mb-3" style="font-size:.9rem;">Try adjusting your search or filters, or
+                                explore studios to save new ones.</p>
+                            <a href="index.html" class="btn"
+                                style="background:linear-gradient(135deg,#cb6f09,#aa4502);color:#fff;border-radius:12px;font-weight:700;padding:10px 24px;">
+                                <i class="fa-solid fa-compass me-2"></i> Explore Studios
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== QUICK-BOOK MODAL ===== -->
+    <div class="qb-backdrop" id="bookModal" onclick="closeModalOnBackdrop(event)">
+        <div class="qb-panel">
+            <div class="qb-header">
+                <div>
+                    <div
+                        style="font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#cb6f09;margin-bottom:4px;">
+                        Quick Book</div>
+                    <div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:#1e2a3b;"
+                        id="qbStudioName">Studio Name</div>
+                </div>
+                <button class="qb-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="qb-body">
+                <!-- Studio info strip -->
+                <div class="d-flex align-items-center gap-3 p-3 mb-4" style="background:#f8f9fa;border-radius:14px;">
+                    <img id="qbStudioImg" src="" alt=""
+                        style="width:48px;height:48px;border-radius:12px;object-fit:cover;">
+                    <div>
+                        <div style="font-weight:700;color:#1e2a3b;font-size:.9rem;" id="qbStudioMeta"></div>
+                        <div style="font-size:.78rem;color:#8a94a6;" id="qbStudioLoc"><i
+                                class="fa-solid fa-location-dot me-1" style="color:#cb6f09;"></i>Location</div>
+                    </div>
+                </div>
+
+                <label class="qb-form-label">Event Type</label>
+                <select class="qb-form-control">
+                    <option>Wedding</option>
+                    <option>Birthday</option>
+                    <option>Maternity</option>
+                    <option>Baby Shower</option>
+                    <option>Family Portrait</option>
+                    <option>Engagement</option>
+                    <option>Portfolio</option>
+                </select>
+
+                <label class="qb-form-label">Preferred Date</label>
+                <input type="date" class="qb-form-control" min="2026-03-10">
+
+                <label class="qb-form-label">Preferred Time Slot</label>
+                <select class="qb-form-control">
+                    <option>Morning (6 AM – 10 AM)</option>
+                    <option>Afternoon (11 AM – 2 PM)</option>
+                    <option>Evening (4 PM – 7 PM)</option>
+                    <option>Full Day</option>
+                </select>
+
+                <label class="qb-form-label">Additional Notes <span
+                        style="color:#adb5bd;font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+                <textarea class="qb-form-control" rows="3" placeholder="Venue, special requirements, theme ideas…"
+                    style="resize:none;"></textarea>
+
+                <button class="qb-submit" onclick="submitBooking()">
+                    <i class="fa-solid fa-calendar-check"></i> Request Booking
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="sm-toast" id="smToast"><i class="fa-solid fa-circle-check" id="toastIcon"></i><span
+            id="toastMsg">Done!</span></div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer pt-4 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <a class="footer-brand d-block mb-4" href="#"><img src="assets/logo1.png" alt="StudioMitra"
+                            style="height:120px;filter:brightness(0) invert(1);"></a>
+                    <div class="social-icons d-flex align-items-center mt-3">
+                        <a href="#" class="social-icon facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon x-twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Quick Links</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About StudioMitra</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Policy</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">Cookies Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Download Our Apps</h5>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width:68%;">
+                            <i class="fa-brands fa-apple fs-3 me-2"></i>
+                            <div class="lh-1"><span class="d-block text-muted mb-1" style="font-size:9px;">Download on
+                                    the</span><span class="fw-bold d-block" style="font-size:14px;">App Store</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+            </div>
+        </div>
+        <a href="#" class="floating-btn fb-right"><i class="fa-solid fa-chevron-up"></i></a>
+    </footer>
+
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ===== DATA =====
+        const STUDIOS = [
+            {
+                id: 1, name: 'Golden Frame Studios', city: 'Mumbai', state: 'Maharashtra',
+                categories: ['Wedding', 'Engagement'], rating: 4.9, reviews: 247,
+                priceFrom: 25000, savedOn: '2026-01-20',
+                cover: 'images/album_wedding.png', avatar: 'images/portfolio1.png',
+                specialties: ['Candid', 'Drone Shots', 'Pre-Wedding'],
+                verified: true, about: 'Award-winning wedding photography studio with 12 years of experience capturing timeless moments.',
+            },
+            {
+                id: 2, name: 'Lens & Light Studio', city: 'Bengaluru', state: 'Karnataka',
+                categories: ['Maternity', 'Newborn'], rating: 4.8, reviews: 183,
+                priceFrom: 8000, savedOn: '2026-02-05',
+                cover: 'images/album_maternity.png', avatar: 'images/album_newborn.png',
+                specialties: ['Natural Light', 'Fine Art', 'Lifestyle'],
+                verified: true, about: 'Specialising in emotional maternity and newborn sessions that celebrate new beginnings.',
+            },
+            {
+                id: 3, name: 'Candid Creators', city: 'Chennai', state: 'Tamil Nadu',
+                categories: ['Events', 'Family'], rating: 4.7, reviews: 312,
+                priceFrom: 12000, savedOn: '2025-12-15',
+                cover: 'images/portfolio1.png', avatar: 'images/album_family.png',
+                specialties: ['Baby Shower', 'Birthday', 'Portraits'],
+                verified: true, about: 'Fun, energetic studio known for breathing life into every event through vibrant candid photography.',
+            },
+            {
+                id: 4, name: 'Pixel Perfect Studio', city: 'Mumbai', state: 'Maharashtra',
+                categories: ['Portrait', 'Fashion'], rating: 4.9, reviews: 198,
+                priceFrom: 15000, savedOn: '2025-11-30',
+                cover: 'images/portfolio2.png', avatar: 'images/portfolio3.png',
+                specialties: ['Portfolio', 'Modelling', 'Commercial'],
+                verified: true, about: 'Premium studio space with state-of-the-art lighting for fashion and portfolio shoots.',
+            },
+            {
+                id: 5, name: 'Moment Masters', city: 'Delhi', state: 'Delhi',
+                categories: ['Wedding', 'Portrait'], rating: 4.6, reviews: 156,
+                priceFrom: 30000, savedOn: '2025-10-18',
+                cover: 'images/album_engagement.png', avatar: 'images/album_wedding.png',
+                specialties: ['Destination Wedding', 'Editorial', 'Fine Art'],
+                verified: false, about: 'Luxury wedding studio offering editorial-style photography for the most discerning couples.',
+            },
+            {
+                id: 6, name: 'Capture & Care', city: 'Pune', state: 'Maharashtra',
+                categories: ['Family', 'Maternity'], rating: 4.8, reviews: 89,
+                priceFrom: 6500, savedOn: '2025-09-22',
+                cover: 'images/album_family.png', avatar: 'images/album_birthday.png',
+                specialties: ['Outdoor', 'Kids', 'Lifestyle'],
+                verified: true, about: 'Warm, family-friendly studio creating authentic portraits full of joy and genuine connection.',
+            },
+        ];
+
+        // ===== STATE =====
+        let savedIds = new Set(STUDIOS.map(s => s.id));
+        let currentView = 'grid';
+        let filtered = [...STUDIOS];
+
+        // ===== HELPERS =====
+        function starHtml(rating) {
+            return Array.from({ length: 5 }, (_, i) => `<i class="fa-${i < Math.floor(rating) ? 'solid' : 'regular'} fa-star" style="color:#fbbf24;font-size:.7rem;"></i>`).join('');
+        }
+
+        function catPillHtml(cats) {
+            const cls = { Wedding: 'cat-wedding', Portrait: 'cat-portrait', Family: 'cat-family', Maternity: 'cat-maternity', Newborn: 'cat-newborn', Events: 'cat-events', Fashion: 'cat-fashion', Engagement: 'cat-engagement' };
+            return cats.map(c => `<span class="cat-pill ${cls[c] || 'cat-events'}">${c}</span>`).join('');
+        }
+
+        function fmtPrice(n) { return '₹' + n.toLocaleString('en-IN'); }
+
+        // ===== RENDER =====
+        function renderStudios(data) {
+            const grid = document.getElementById('studiosGrid');
+            const empty = document.getElementById('emptyState');
+            document.getElementById('resultCount').textContent = `Showing ${data.length} studio${data.length !== 1 ? 's' : ''}`;
+            document.getElementById('statSaved').textContent = data.length;
+
+            if (!data.length) { grid.innerHTML = ''; empty.classList.remove('d-none'); return; }
+            empty.classList.add('d-none');
+
+            const isList = currentView === 'list';
+
+            grid.innerHTML = data.map(s => {
+                const saved = savedIds.has(s.id);
+                return `
+        <div class="${isList ? 'col-12' : 'col-md-6 col-lg-4'}" id="card-wrap-${s.id}">
+          <div class="studio-card h-100">
+            <div class="studio-cover">
+                <img src="${s.cover}" alt="${s.name}" loading="lazy">
+                <div class="studio-category-ribbon">${catPillHtml(s.categories)}</div>
+                <button class="unsave-btn ${saved ? '' : 'unsaved'}" id="heart-${s.id}" onclick="toggleSave(${s.id})" title="${saved ? 'Remove from saved' : 'Save studio'}">
+                    <i class="fa-${saved ? 'solid' : 'regular'} fa-heart"></i>
+                </button>
+                <div class="rating-chip"><i class="fa-solid fa-star"></i>${s.rating} <span style="opacity:.6;font-weight:500;">(${s.reviews})</span></div>
+            </div>
+            <div class="studio-avatar-wrap">
+                <img src="${s.avatar}" alt="${s.name}" class="studio-avatar">
+                ${s.verified ? '<div class="studio-verified"><i class="fa-solid fa-check"></i></div>' : ''}
+            </div>
+            <div class="studio-body">
+                <div class="${isList ? 'col-wrapper' : ''}">
+                    <div class="studio-name">${s.name}</div>
+                    <div class="studio-meta">
+                        <span><i class="fa-solid fa-location-dot"></i>${s.city}, ${s.state}</span>
+                        <span><i class="fa-regular fa-star"></i>${starHtml(s.rating)} ${s.reviews} reviews</span>
+                    </div>
+                    <div class="studio-tags">${s.specialties.map(t => `<span class="studio-tag">${t}</span>`).join('')}</div>
+                </div>
+                <div class="studio-footer">
+                    <div class="studio-price">${fmtPrice(s.priceFrom)}+ <span>/ session</span></div>
+                    <div class="studio-actions">
+                        <button class="btn-portfolio" onclick="showToast('Opening ${s.name} portfolio…','fa-images')"><i class="fa-regular fa-images"></i> Portfolio</button>
+                        <button class="btn-book" onclick="openBookModal(${s.id})"><i class="fa-solid fa-calendar-plus"></i> Book</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>`;
+            }).join('');
+
+            if (isList) { grid.classList.add('view-list'); } else { grid.classList.remove('view-list'); }
+        }
+
+        // ===== TOGGLE SAVE =====
+        function toggleSave(id) {
+            if (savedIds.has(id)) {
+                savedIds.delete(id);
+                showToast('Studio removed from saved', 'fa-heart-crack');
+            } else {
+                savedIds.add(id);
+                showToast('Studio saved!', 'fa-heart');
+            }
+            // Re-render current filter
+            filterStudios();
+        }
+
+        // ===== FILTER =====
+        function filterStudios() {
+            const q = document.getElementById('ssSearch').value.toLowerCase().trim();
+            const cat = document.getElementById('ssCat').value;
+            const sort = document.getElementById('ssSort').value;
+
+            let data = STUDIOS.filter(s => {
+                const matchQ = !q || s.name.toLowerCase().includes(q) || s.city.toLowerCase().includes(q);
+                const matchC = cat === 'all' || s.categories.includes(cat);
+                const matchSv = savedIds.has(s.id);
+                return matchQ && matchC && matchSv;
+            });
+
+            if (sort === 'rating') data.sort((a, b) => b.rating - a.rating);
+            else if (sort === 'price_asc') data.sort((a, b) => a.priceFrom - b.priceFrom);
+            else if (sort === 'price_desc') data.sort((a, b) => b.priceFrom - a.priceFrom);
+            else if (sort === 'name') data.sort((a, b) => a.name.localeCompare(b.name));
+            else data.sort((a, b) => new Date(b.savedOn) - new Date(a.savedOn));
+
+            filtered = data;
+            renderStudios(data);
+        }
+
+        // ===== VIEW TOGGLE =====
+        function setView(v) {
+            currentView = v;
+            document.getElementById('btnGrid').classList.toggle('active', v === 'grid');
+            document.getElementById('btnList').classList.toggle('active', v === 'list');
+            filterStudios();
+        }
+
+        // ===== BOOK MODAL =====
+        let activeBookStudioId = null;
+        function openBookModal(id) {
+            const s = STUDIOS.find(x => x.id === id);
+            if (!s) return;
+            activeBookStudioId = id;
+            document.getElementById('qbStudioName').textContent = s.name;
+            document.getElementById('qbStudioImg').src = s.avatar;
+            document.getElementById('qbStudioMeta').textContent = s.categories.join(' · ');
+            document.getElementById('qbStudioLoc').innerHTML = `<i class="fa-solid fa-location-dot me-1" style="color:#cb6f09;"></i>${s.city}, ${s.state}`;
+            document.getElementById('bookModal').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal() {
+            document.getElementById('bookModal').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        function closeModalOnBackdrop(e) {
+            if (e.target === document.getElementById('bookModal')) closeModal();
+        }
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+        function submitBooking() {
+            closeModal();
+            const s = STUDIOS.find(x => x.id === activeBookStudioId);
+            showToast(`Booking request sent to ${s ? s.name : 'studio'}!`, 'fa-calendar-check');
+        }
+
+        // ===== TOAST =====
+        let toastTimer;
+        function showToast(msg, icon = 'fa-circle-check') {
+            const t = document.getElementById('smToast'), i = document.getElementById('toastIcon');
+            document.getElementById('toastMsg').textContent = msg;
+            i.className = `fa-solid ${icon}`;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ===== INIT =====
+        renderStudios(STUDIOS);
+    </script>
+</body>
+
+</html>

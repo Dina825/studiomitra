@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baby Shower Celebration — Album Viewer | StudioMitra</title>
+    <meta name="description" content="View your beautifully curated photo album from StudioMitra.">
+
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&family=Dancing+Script:wght@600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #08091a;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVBAR ===== */
+        .av-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9000;
+            background: rgba(8, 9, 26, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+            padding: 12px 0;
+        }
+
+        .av-nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .av-back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 7px 16px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .av-back-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .av-nav-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.3px;
+        }
+
+        .av-nav-title span {
+            color: #d4af37;
+        }
+
+        .av-nav-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .av-icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .av-icon-btn:hover {
+            background: #d4af37;
+            color: #1a0e00;
+            border-color: #d4af37;
+        }
+
+        /* ===== VIEWER SECTION ===== */
+        .viewer-section {
+            min-height: 100vh;
+            padding: 90px 20px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background:
+                radial-gradient(ellipse 70% 50% at 50% 40%, rgba(44, 28, 12, 0.55) 0%, transparent 70%),
+                #08091a;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Atmospheric particles */
+        .viewer-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(1px 1px at 20% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 100%),
+                radial-gradient(1px 1px at 80% 70%, rgba(212, 175, 55, 0.1) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 50% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* ===== ALBUM INFO PILL ===== */
+        .album-info-pill {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 100px;
+            padding: 8px 24px;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .aip-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.55);
+            font-weight: 500;
+        }
+
+        .aip-item i {
+            color: #d4af37;
+            font-size: 0.75rem;
+        }
+
+        .aip-divider {
+            width: 1px;
+            height: 16px;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* ===== SCALE WRAPPER ===== */
+        .book-scale-wrapper {
+            transform-origin: center center;
+            transition: transform 0.3s ease;
+        }
+
+        /* ===== BOOK SCENE ===== */
+        .book-scene {
+            perspective: 4000px;
+            perspective-origin: 50% 45%;
+        }
+
+        /* ===== BOOK ===== */
+        .book {
+            position: relative;
+            width: 900px;
+            height: 570px;
+            display: flex;
+            filter: drop-shadow(0 50px 80px rgba(0, 0, 0, 0.85)) drop-shadow(0 20px 30px rgba(0, 0, 0, 0.6));
+            transform-style: preserve-3d;
+        }
+
+        /* Opening animation */
+        .book.book-opening {
+            animation: book-open-anim 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes book-open-anim {
+            from {
+                transform: scale(0.88) rotateX(8deg);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) rotateX(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* ===== LEFT HALF (closed cover / paper base) ===== */
+        .book-left-base {
+            width: 440px;
+            height: 100%;
+            background: linear-gradient(160deg, #2c1810 0%, #4a2819 40%, #3b2015 60%, #281208 100%);
+            border-radius: 10px 0 0 10px;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        /* Leather grain texture */
+        .book-left-base::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 2px,
+                    rgba(255, 255, 255, 0.015) 2px, rgba(255, 255, 255, 0.015) 4px);
+        }
+
+        /* Gold border inset */
+        .book-left-base::after {
+            content: '';
+            position: absolute;
+            inset: 10px;
+            border: 1.5px solid rgba(212, 175, 55, 0.25);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        /* Left corner ornament */
+        .book-left-base .corner-ornament {
+            position: absolute;
+            color: rgba(212, 175, 55, 0.3);
+            font-size: 1.4rem;
+        }
+
+        .corner-ornament.tl {
+            top: 14px;
+            left: 14px;
+        }
+
+        .corner-ornament.tr {
+            top: 14px;
+            right: 14px;
+            transform: scaleX(-1);
+        }
+
+        .corner-ornament.bl {
+            bottom: 14px;
+            left: 14px;
+            transform: scaleY(-1);
+        }
+
+        .corner-ornament.br {
+            bottom: 14px;
+            right: 14px;
+            transform: scale(-1);
+        }
+
+        /* StudioMitra watermark on left base */
+        .book-left-watermark {
+            position: absolute;
+            bottom: 24px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(212, 175, 55, 0.2);
+            font-family: 'Playfair Display', serif;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ===== SPINE ===== */
+        .book-spine {
+            width: 22px;
+            height: 100%;
+            flex-shrink: 0;
+            z-index: 20;
+            background: linear-gradient(90deg,
+                    #0f0603 0%, #2a1008 15%, #4e2210 35%,
+                    #6b3018 50%, #4e2210 65%, #2a1008 85%, #0f0603 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 18px 0;
+            box-shadow:
+                -2px 0 8px rgba(0, 0, 0, 0.5),
+                2px 0 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .spine-ring {
+            width: 16px;
+            height: 7px;
+            background: linear-gradient(180deg, #f0d060 0%, #c8991a 50%, #a07815 100%);
+            border-radius: 4px;
+            box-shadow:
+                0 2px 4px rgba(0, 0, 0, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 0.35),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== RIGHT HALF (page stack) ===== */
+        .book-right-stack {
+            width: 438px;
+            height: 100%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* End paper (shows when all pages are flipped) */
+        .book-endpaper {
+            position: absolute;
+            inset: 0;
+            background: url('images/album_endpaper.png') center/cover no-repeat;
+            border-radius: 0 10px 10px 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .book-endpaper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(253, 248, 240, 0.1), rgba(253, 248, 240, 0.3));
+        }
+
+        /* ===== PAGES ===== */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 1.25s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+            cursor: pointer;
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Flip shadow overlay (adds realistic page shadow during turn) */
+        .page::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.18) 0%, transparent 100%);
+            opacity: 0;
+            z-index: 100;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+
+        .page.active-flip::after {
+            opacity: 1;
+        }
+
+        /* ===== PAGE FACES ===== */
+        .face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        .face.back {
+            transform: rotateY(180deg);
+        }
+
+        /* Paper base for inner pages */
+        .page-paper {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #fdf8f0 0%, #faf4e8 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        /* Subtle paper texture */
+        .page-paper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(transparent, transparent 27px, rgba(0, 0, 0, 0.025) 28px);
+            pointer-events: none;
+        }
+
+        /* Left-side page paper (slightly shaded at right edge — page shadow) */
+        .face.back .page-paper {
+            background: linear-gradient(160deg, #faf4e8 0%, #f5efe0 100%);
+            border-radius: 0;
+        }
+
+        /* Right-side paper (right edge rounded) */
+        .face.front .page-paper {
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* Page edge shadow */
+        .face.front .page-paper::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.05) 0%, transparent 15%, transparent 85%, rgba(0, 0, 0, 0.04) 100%);
+            pointer-events: none;
+        }
+
+        /* ===== PHOTO FRAME on page ===== */
+        .page-photo-wrap {
+            width: 100%;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-photo-frame {
+            width: 88%;
+            max-height: 75%;
+            background: #fff;
+            border-radius: 6px;
+            padding: 8px 8px 32px;
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.14),
+                0 2px 8px rgba(0, 0, 0, 0.08),
+                0 0 0 1px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .page-photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+            display: block;
+            aspect-ratio: 4/3;
+        }
+
+        /* Polaroid caption line on photo frame */
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-caption-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #555;
+            letter-spacing: 0.3px;
+        }
+
+        /* Page number */
+        .page-num {
+            position: absolute;
+            bottom: 14px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+            z-index: 1;
+        }
+
+        /* ===== COVER (right side when book is closed) ===== */
+        .cover-face {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #2c1810 0%, #4a2819 40%, #3b2015 60%, #281208 100%);
+            border-radius: 0 10px 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover-face::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(45deg, transparent, transparent 2px,
+                    rgba(255, 255, 255, 0.015) 2px, rgba(255, 255, 255, 0.015) 4px);
+        }
+
+        .cover-face::after {
+            content: '';
+            position: absolute;
+            inset: 14px;
+            border: 1.5px solid rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+        }
+
+        .cover-img-wrap {
+            position: relative;
+            z-index: 2;
+            width: 72%;
+            padding: 0;
+            text-align: center;
+        }
+
+        .cover-img-wrap img {
+            width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+            opacity: 0.88;
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #f0d890;
+            letter-spacing: 1px;
+            text-align: center;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+            margin-top: 16px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .cover-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 0.88rem;
+            color: rgba(212, 175, 55, 0.7);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            margin-top: 6px;
+        }
+
+        .cover-logo-mark {
+            position: absolute;
+            bottom: 28px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+            font-size: 0.62rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(212, 175, 55, 0.3);
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Corner ornaments on cover */
+        .cover-corner {
+            position: absolute;
+            color: rgba(212, 175, 55, 0.28);
+            font-size: 1.5rem;
+            z-index: 2;
+        }
+
+        .cover-corner.tl {
+            top: 18px;
+            left: 18px;
+        }
+
+        .cover-corner.tr {
+            top: 18px;
+            right: 18px;
+            transform: scaleX(-1);
+        }
+
+        .cover-corner.bl {
+            bottom: 18px;
+            left: 18px;
+            transform: scaleY(-1);
+        }
+
+        .cover-corner.br {
+            bottom: 18px;
+            right: 18px;
+            transform: scale(-1);
+        }
+
+        /* ===== BACK COVER (left side when book is fully read) ===== */
+        .back-cover-face {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(200deg, #281208 0%, #3b2015 40%, #4a2819 70%, #2c1810 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .back-cover-face::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(-45deg, transparent, transparent 2px,
+                    rgba(255, 255, 255, 0.012) 2px, rgba(255, 255, 255, 0.012) 4px);
+        }
+
+        .back-cover-face::after {
+            content: '';
+            position: absolute;
+            inset: 14px;
+            border: 1.5px solid rgba(212, 175, 55, 0.25);
+            border-radius: 4px;
+        }
+
+        .back-cover-logo {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .back-cover-logo i {
+            font-size: 2.5rem;
+            color: rgba(212, 175, 55, 0.5);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .back-cover-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: rgba(212, 175, 55, 0.6);
+            letter-spacing: 2px;
+        }
+
+        .back-cover-tagline {
+            font-family: 'Dancing Script', cursive;
+            font-size: 0.9rem;
+            color: rgba(212, 175, 55, 0.35);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ===== PAGE LIFT HINT (corner curl) ===== */
+        .page-lift-hint {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(225deg, rgba(0, 0, 0, 0.08) 0%, transparent 70%);
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            animation: hint-pulse 2.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes hint-pulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+            }
+
+            50% {
+                opacity: 0.9;
+            }
+        }
+
+        /* ===== NAVIGATION ===== */
+        .book-nav-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-top: 32px;
+            position: relative;
+        }
+
+        .nav-arrow {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(212, 175, 55, 0.25);
+            background: rgba(212, 175, 55, 0.06);
+            color: rgba(212, 175, 55, 0.7);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            position: relative;
+        }
+
+        .nav-arrow:hover:not(:disabled) {
+            background: #d4af37;
+            color: #1a0e00;
+            border-color: #d4af37;
+            box-shadow: 0 0 24px rgba(212, 175, 55, 0.3);
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.25;
+            cursor: not-allowed;
+        }
+
+        .nav-info {
+            min-width: 200px;
+            text-align: center;
+            padding: 0 24px;
+        }
+
+        .nav-spread-label {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.6);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .nav-progress-track {
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .nav-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #f0d060);
+            border-radius: 100px;
+            width: 0%;
+            transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* ===== KEYBOARD HINT ===== */
+        .kb-hint {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.25);
+            font-weight: 500;
+        }
+
+        .kb-key {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            padding: 2px 8px;
+            font-size: 0.68rem;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ===== THUMBNAIL STRIP ===== */
+        .thumb-strip {
+            margin-top: 28px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 920px;
+        }
+
+        .thumb-item {
+            width: 52px;
+            height: 36px;
+            border-radius: 5px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .thumb-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumb-item:hover {
+            opacity: 0.8;
+        }
+
+        .thumb-item.active {
+            opacity: 1;
+            border-color: #d4af37;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+        }
+
+        /* ===== SIDE CLICK ZONES ===== */
+        .click-zone {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 45%;
+            z-index: 500;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .click-zone-left {
+            left: 0;
+        }
+
+        .click-zone-right {
+            right: 0;
+        }
+
+        /* ===== TOAST ===== */
+        .av-toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(60px);
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            backdrop-filter: blur(16px);
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            z-index: 99999;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .av-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .av-toast i {
+            color: #d4af37;
+        }
+
+        /* ===== MOBILE SCALE ===== */
+        @media (max-width: 960px) {
+            .book-scale-wrapper {
+                transform: scale(0.66);
+            }
+
+            .book-nav-wrap {
+                margin-top: -40px;
+            }
+
+            .thumb-strip {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .book-scale-wrapper {
+                transform: scale(0.42);
+            }
+
+            .book-nav-wrap {
+                margin-top: -130px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="av-nav">
+        <div class="av-nav-inner">
+            <a href="my-albums.html" class="av-back-btn">
+                <i class="fa-solid fa-arrow-left"></i> Back to Albums
+            </a>
+            <div class="av-nav-title">
+                <span>Baby Shower Celebration</span> &nbsp;·&nbsp; Candid Creators
+            </div>
+            <div class="av-nav-actions">
+                <button class="av-icon-btn" title="Download Album" onclick="showToast('Preparing download…')">
+                    <i class="fa-solid fa-download"></i>
+                </button>
+                <button class="av-icon-btn" title="Share Album" onclick="showToast('Share link copied!')">
+                    <i class="fa-solid fa-share-nodes"></i>
+                </button>
+                <button class="av-icon-btn" title="Toggle Fullscreen" onclick="toggleFullscreen()">
+                    <i class="fa-solid fa-expand" id="fsIcon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== VIEWER ===== -->
+    <section class="viewer-section">
+
+        <!-- Info pill -->
+        <div class="album-info-pill">
+            <div class="aip-item"><i class="fa-solid fa-camera"></i> Candid Creators</div>
+            <div class="aip-divider"></div>
+            <div class="aip-item"><i class="fa-regular fa-calendar"></i> Oct 12, 2025</div>
+            <div class="aip-divider"></div>
+            <div class="aip-item"><i class="fa-regular fa-image"></i> 145 Photos</div>
+            <div class="aip-divider"></div>
+            <div class="aip-item"><i class="fa-solid fa-lock"></i> Private Album</div>
+        </div>
+
+        <!-- Book wrapper for scaling -->
+        <div class="book-scale-wrapper">
+            <div class="book-scene">
+
+                <!-- Click zones on the book itself -->
+                <div style="position:relative;">
+                    <div class="click-zone click-zone-left" onclick="goPrev()" title="Previous page"></div>
+                    <div class="click-zone click-zone-right" onclick="goNext()" title="Next page"></div>
+
+                    <div class="book book-opening" id="theBook">
+
+                        <!-- LEFT BASE (leather left cover) -->
+                        <div class="book-left-base" id="bookLeftBase">
+                            <span class="corner-ornament tl"><i class="fa-solid fa-clover"></i></span>
+                            <span class="corner-ornament tr"><i class="fa-solid fa-clover"></i></span>
+                            <span class="corner-ornament bl"><i class="fa-solid fa-clover"></i></span>
+                            <span class="corner-ornament br"><i class="fa-solid fa-clover"></i></span>
+                            <div class="book-left-watermark">StudioMitra</div>
+                        </div>
+
+                        <!-- SPINE with rings -->
+                        <div class="book-spine" id="bookSpine">
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                            <div class="spine-ring"></div>
+                        </div>
+
+                        <!-- RIGHT STACK (page stack area) -->
+                        <div class="book-right-stack" id="bookRightStack">
+
+                            <!-- End paper (visible when all pages flipped) -->
+                            <div class="book-endpaper"></div>
+
+                            <!-- ═══════════════════════════════════ -->
+                            <!-- PAGE 5 (bottom of stack) -->
+                            <div class="page" id="p5" data-page="5" style="z-index:1;">
+                                <div class="face front">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/portfolio4.png" alt="Photo">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">Joy in Every Frame</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">10</div>
+                                    </div>
+                                </div>
+                                <div class="face back">
+                                    <div class="back-cover-face">
+                                        <div class="back-cover-logo">
+                                            <i class="fa-solid fa-camera-retro"></i>
+                                            <div class="back-cover-brand">StudioMitra</div>
+                                        </div>
+                                        <div class="back-cover-tagline">Capturing Life's Finest Moments</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PAGE 4 -->
+                            <div class="page" id="p4" data-page="4" style="z-index:2;">
+                                <div class="face front">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/album_newborn.png" alt="Newborn">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">Sweet Hello</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">8</div>
+                                    </div>
+                                </div>
+                                <div class="face back">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/portfolio3.png" alt="Portfolio">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">Pure & Precious</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">9</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PAGE 3 -->
+                            <div class="page" id="p3" data-page="3" style="z-index:3;">
+                                <div class="face front">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/album_family.png" alt="Family">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">Together is Our Favourite
+                                                        Place</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">6</div>
+                                    </div>
+                                </div>
+                                <div class="face back">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/album_engagement.png" alt="Engagement">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">He Said Yes ♡</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">7</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PAGE 2 -->
+                            <div class="page" id="p2" data-page="2" style="z-index:4;">
+                                <div class="face front">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/portfolio2.png" alt="Portfolio">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">Candid & Cherished</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">4</div>
+                                    </div>
+                                </div>
+                                <div class="face back">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/album_birthday.png" alt="Birthday">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">One Whole Year!</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">5</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PAGE 1 -->
+                            <div class="page" id="p1" data-page="1" style="z-index:5;">
+                                <div class="face front">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/album_wedding.png" alt="Wedding">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">Moments of Forever</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">2</div>
+                                    </div>
+                                </div>
+                                <div class="face back">
+                                    <div class="page-paper">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/album_maternity.png" alt="Maternity">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">The Glow of New Life</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">3</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- PAGE 0 (TOP — cover) -->
+                            <div class="page" id="p0" data-page="0" style="z-index:6;">
+                                <div class="face front">
+                                    <div class="cover-face">
+                                        <span class="cover-corner tl"><i class="fa-solid fa-leaf"></i></span>
+                                        <span class="cover-corner tr"><i class="fa-solid fa-leaf"></i></span>
+                                        <span class="cover-corner bl"><i class="fa-solid fa-leaf"></i></span>
+                                        <span class="cover-corner br"><i class="fa-solid fa-leaf"></i></span>
+                                        <div class="cover-img-wrap">
+                                            <img src="images/album_cover_babyshower.png" alt="Cover">
+                                        </div>
+                                        <div class="cover-title">Baby Shower<br>Celebration</div>
+                                        <div class="cover-subtitle">~ Oct 12, 2025 ~</div>
+                                        <div class="cover-logo-mark">StudioMitra</div>
+                                        <!-- Page lift hint -->
+                                        <div class="page-lift-hint"></div>
+                                    </div>
+                                </div>
+                                <div class="face back">
+                                    <div class="page-paper" style="border-radius:0;">
+                                        <div class="page-photo-wrap">
+                                            <div class="page-photo-frame">
+                                                <img src="images/portfolio1.png" alt="First Photo">
+                                                <div class="photo-caption">
+                                                    <span class="photo-caption-text">A Beautiful Beginning</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="page-num">1</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ═══════════════════════════════════ -->
+
+                        </div><!-- /right-stack -->
+                    </div><!-- /book -->
+                </div><!-- /relative wrapper -->
+            </div><!-- /book-scene -->
+        </div><!-- /scale-wrapper -->
+
+        <!-- Navigation -->
+        <div class="book-nav-wrap">
+            <button class="nav-arrow" id="prevBtn" onclick="goPrev()" disabled title="Previous page (←)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="nav-info">
+                <span class="nav-spread-label" id="spreadLabel">Cover</span>
+                <div class="nav-progress-track">
+                    <div class="nav-progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <button class="nav-arrow" id="nextBtn" onclick="goNext()" title="Next page (→)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <!-- Keyboard hint -->
+        <div class="kb-hint">
+            <span class="kb-key">←</span> <span class="kb-key">→</span>
+            Use arrow keys to turn pages
+        </div>
+
+        <!-- Thumbnail strip -->
+        <div class="thumb-strip" id="thumbStrip"></div>
+
+    </section>
+
+    <!-- Toast -->
+    <div class="av-toast" id="avToast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg">Done!</span>
+    </div>
+
+    <script>
+        // ===== DATA =====
+        const TOTAL_PAGES = 6;  // p0..p5
+
+        const SPREADS = [
+            'Cover',
+            'Page 1 — 2',
+            'Page 3 — 4',
+            'Page 5 — 6',
+            'Page 7 — 8',
+            'Page 9 — 10',
+            'Back Cover',
+        ];
+
+        const THUMB_IMGS = [
+            'images/album_cover_babyshower.png',
+            'images/portfolio1.png',
+            'images/album_wedding.png',
+            'images/album_maternity.png',
+            'images/portfolio2.png',
+            'images/album_birthday.png',
+            'images/album_family.png',
+            'images/album_engagement.png',
+            'images/album_newborn.png',
+            'images/portfolio3.png',
+            'images/portfolio4.png',
+        ];
+
+        // ===== STATE =====
+        let flipped = 0;   // 0 = cover, 6 = back cover
+        let isAnimating = false;
+
+        // ===== Z-INDEX UPDATE =====
+        function updateZIndices() {
+            for (let i = 0; i < TOTAL_PAGES; i++) {
+                const p = document.getElementById(`p${i}`);
+                if (i < flipped) {
+                    // Flipped (on left): most recently flipped has highest z
+                    p.style.zIndex = i + 1;
+                } else {
+                    // Unflipped (on right): lowest index = on top
+                    p.style.zIndex = TOTAL_PAGES - i;
+                }
+            }
+        }
+
+        // ===== GO NEXT =====
+        function goNext() {
+            if (flipped >= TOTAL_PAGES || isAnimating) return;
+            isAnimating = true;
+
+            const page = document.getElementById(`p${flipped}`);
+            page.classList.add('active-flip');
+            page.style.zIndex = 999;  // above everything during flip
+
+            // Small delay before starting flip (feels more natural)
+            requestAnimationFrame(() => {
+                page.classList.add('flipped');
+            });
+
+            flipped++;
+            updateUI();
+
+            setTimeout(() => {
+                page.classList.remove('active-flip');
+                updateZIndices();
+                isAnimating = false;
+            }, 1300);
+        }
+
+        // ===== GO PREV =====
+        function goPrev() {
+            if (flipped <= 0 || isAnimating) return;
+            isAnimating = true;
+
+            flipped--;
+            const page = document.getElementById(`p${flipped}`);
+            page.classList.add('active-flip');
+            page.style.zIndex = 999;
+
+            page.classList.remove('flipped');
+
+            updateUI();
+
+            setTimeout(() => {
+                page.classList.remove('active-flip');
+                updateZIndices();
+                isAnimating = false;
+            }, 1300);
+        }
+
+        // ===== UPDATE UI =====
+        function updateUI() {
+            // Label
+            document.getElementById('spreadLabel').textContent = SPREADS[flipped] || 'Back Cover';
+
+            // Progress
+            const pct = (flipped / TOTAL_PAGES) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+
+            // Buttons
+            document.getElementById('prevBtn').disabled = flipped === 0;
+            document.getElementById('nextBtn').disabled = flipped === TOTAL_PAGES;
+
+            // Thumbnails
+            document.querySelectorAll('.thumb-item').forEach((t, i) => {
+                const spreadIndex = Math.floor(i / 2);
+                t.classList.toggle('active', spreadIndex === flipped || (i === flipped * 2 || i === flipped * 2 - 1));
+            });
+        }
+
+        // ===== BUILD THUMBNAILS =====
+        function buildThumbStrip() {
+            const strip = document.getElementById('thumbStrip');
+            THUMB_IMGS.forEach((src, i) => {
+                const item = document.createElement('div');
+                item.className = 'thumb-item' + (i === 0 ? ' active' : '');
+                item.innerHTML = `<img src="${src}" alt="Thumb ${i + 1}" loading="lazy">`;
+                item.onclick = () => jumpToSpread(Math.floor(i / 2));
+                strip.appendChild(item);
+            });
+        }
+
+        // ===== JUMP TO SPREAD =====
+        function jumpToSpread(target) {
+            if (isAnimating) return;
+            if (target === flipped) return;
+
+            if (target > flipped) {
+                // Flip forward
+                const doFlip = () => {
+                    if (flipped < target && !isAnimating) {
+                        goNext();
+                        setTimeout(doFlip, 1350);
+                    }
+                };
+                doFlip();
+            } else {
+                // Flip back
+                const doUnflip = () => {
+                    if (flipped > target && !isAnimating) {
+                        goPrev();
+                        setTimeout(doUnflip, 1350);
+                    }
+                };
+                doUnflip();
+            }
+        }
+
+        // ===== KEYBOARD NAVIGATION =====
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === 'PageDown') goNext();
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') goPrev();
+        });
+
+        // ===== FULLSCREEN =====
+        function toggleFullscreen() {
+            const icon = document.getElementById('fsIcon');
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                icon.className = 'fa-solid fa-compress';
+            } else {
+                document.exitFullscreen();
+                icon.className = 'fa-solid fa-expand';
+            }
+        }
+
+        // ===== TOAST =====
+        let toastTimer;
+        function showToast(msg) {
+            const t = document.getElementById('avToast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // ===== SWIPE SUPPORT ===== */
+        let touchStartX = 0;
+        document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+        document.addEventListener('touchend', e => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 60) dx < 0 ? goNext() : goPrev();
+        });
+
+        // ===== INIT =====
+        buildThumbStrip();
+        updateZIndices();
+        updateUI();
+
+        // Hint toast on first load
+        setTimeout(() => showToast('Click the book or use ← → keys to turn pages'), 1200);
+    </script>
+
+</body>
+
+</html>

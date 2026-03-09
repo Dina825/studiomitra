@@ -191,11 +191,17 @@
                         </div>
 
                         <div class="nav flex-column mt-4">
-                            <a href="#" class="sidebar-link active"><i class="fa-solid fa-layer-group"></i> Overview</a>
-                            <a href="#" class="sidebar-link"><i class="fa-solid fa-images"></i> My Albums <span
-                                    class="badge bg-primary ms-auto rounded-pill">12</span></a>
-                            <a href="#" class="sidebar-link"><i class="fa-regular fa-calendar-check"></i> Bookings</a>
-                            <a href="#" class="sidebar-link"><i class="fa-regular fa-heart"></i> Saved Studios</a>
+                            <a href="client-dashboard.html" class="sidebar-link active"><i
+                                    class="fa-solid fa-layer-group"></i> Overview</a>
+                            <a href="my-albums.html" class="sidebar-link"><i class="fa-solid fa-images"></i> My Albums
+                                <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">12</span></a>
+                            <a href="my-bookings.html" class="sidebar-link"><i class="fa-regular fa-calendar-check"></i>
+                                Bookings <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">3</span></a>
+                            <a href="saved-studios.html" class="sidebar-link"><i class="fa-regular fa-heart"></i> Saved
+                                Studios <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">6</span></a>
                             <a href="#" class="sidebar-link"><i class="fa-solid fa-sliders"></i> Settings</a>
                             <a href="index.html" class="sidebar-link mt-4 text-danger hover-bg-light"><i
                                     class="fa-solid fa-power-off"></i> Logout</a>
@@ -884,23 +890,23 @@
                     </script>
 
 
-    <script>
-        // Tab switching logic for styling correctly on the tabs
-        document.querySelectorAll('#bookingTabs button').forEach(button => {
-            button.addEventListener('show.bs.tab', event => {
-                document.querySelectorAll('#bookingTabs button').forEach(btn => {
-                    btn.style.borderBottom = 'none';
-                    btn.style.color = '';
-                    btn.classList.remove('text-dark', 'active-tab-style');
-                    btn.classList.add('text-muted');
-                });
-                event.target.style.borderBottom = '2px solid #cb6f09';
-                event.target.style.color = '#cb6f09';
-                event.target.classList.remove('text-muted');
-                event.target.classList.add('text-dark', 'active-tab-style');
-            });
-        });
-    </script>
+                    <script>
+                        // Tab switching logic for styling correctly on the tabs
+                        document.querySelectorAll('#bookingTabs button').forEach(button => {
+                            button.addEventListener('show.bs.tab', event => {
+                                document.querySelectorAll('#bookingTabs button').forEach(btn => {
+                                    btn.style.borderBottom = 'none';
+                                    btn.style.color = '';
+                                    btn.classList.remove('text-dark', 'active-tab-style');
+                                    btn.classList.add('text-muted');
+                                });
+                                event.target.style.borderBottom = '2px solid #cb6f09';
+                                event.target.style.color = '#cb6f09';
+                                event.target.classList.remove('text-muted');
+                                event.target.classList.add('text-dark', 'active-tab-style');
+                            });
+                        });
+                    </script>
 </body>
 
 </html>
