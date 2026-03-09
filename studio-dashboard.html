@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Dashboard | StudioMitra</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Dashboard Specific Styles */
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .dashboard-nav {
+            background: linear-gradient(135deg, #1e2a3b 0%, #2d3f58 100%);
+            padding: 15px 0;
+        }
+
+        .sidebar-menu {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            height: 100%;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #6c757d;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(203, 111, 9, 0.08);
+            color: #cb6f09;
+        }
+
+        .sidebar-link i {
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        .dash-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .dash-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .dash-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 18px;
+        }
+
+        .album-card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        .album-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(-5px);
+        }
+
+        .album-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .album-body {
+            padding: 24px;
+        }
+
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .status-upcoming {
+            background: #fff3e0;
+            color: #cb6f09;
+        }
+
+        .user-profile-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #cb6f09;
+        }
+
+        .hover-bg-light:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="assets/logo.png" style="width:200px" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-signin-outline me-2" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="login">Sign In</a>
+                    <a href="#" class="btn btn-register" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="register">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <section class="pt-5 mt-5 pb-5 flex-grow-1">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar Navigation -->
+                <div class="col-lg-3">
+                    <div class="sidebar-menu position-sticky" style="top: 100px;">
+                        <div class="text-center mb-4 pt-4">
+                            <div class="position-relative d-inline-block">
+                                <img src="images/portfolio1.png" alt="Kavya Nair" class="rounded-circle mb-3 shadow"
+                                    style="width: 100px; height: 100px; object-fit: cover; border: 4px solid #fff;">
+                                <span
+                                    class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle"
+                                    style="width: 20px; height: 20px; transform: translate(-10px, -15px);"></span>
+                            </div>
+                            <h5 class="fw-bold mb-1" style="font-family: 'Playfair Display', serif;">Rohan Sharma</h5>
+                            <p class="text-muted small fw-medium">Studio Partner since 2025</p>
+                        </div>
+
+                        <div class="nav flex-column mt-4">
+                            <a href="#" class="sidebar-link active"><i class="fa-solid fa-layer-group"></i> Dashboard</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-calendar-alt"></i> Appointments <span
+                                    class="badge bg-warning text-dark ms-auto rounded-pill">3</span></a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-camera"></i> Photoshoots</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-images"></i> Manage Albums</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-users"></i> Clients</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-money-bill-wave"></i> Billing & Earnings</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-store"></i> Studio Profile</a>
+                            <a href="index.html" class="sidebar-link mt-4 text-danger hover-bg-light"><i
+                                    class="fa-solid fa-power-off"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Panel -->
+                <div class="col-lg-9">
+
+                    <!-- Welcome Header Area -->
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 pb-2">
+                        <div class="mb-3 mb-md-0">
+                            <h2 class="fw-bold mb-2" style="font-family: 'Playfair Display', serif; color: #1e2a3b;">
+                                Welcome to StudioMitra, Rohan Sharma! 🎬</h2>
+                            <p class="text-muted mb-0 fs-6">Here's an overview of your studio bookings and earnings
+                                today.</p>
+                        </div>
+                        <a href="index.html"
+                            class="btn btn-register rounded-pill px-4 py-2 shadow-sm d-inline-flex align-items-center"
+                            style="background: linear-gradient(135deg, #cb6f09, #aa4502); color:white; border:none;">
+                            <i class="fa-solid fa-plus me-2"></i> Create New Album
+                        </a>
+                    </div>
+
+                    <!-- Statistics Cards Grid -->
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-4">
+                            <div class="dash-card border-0 d-flex flex-column">
+                                <div class="dash-icon" style="background:#e0f2fe; color:#0ea5e9;">
+                                    <i class="fa-solid fa-indian-rupee-sign"></i>
+                                </div>
+                                <h2 class="fw-bold mb-1 display-6">₹42.5K</h2>
+                                <p class="text-muted fw-medium mb-0">Monthly Earnings <span class="text-success small"><i class="fa-solid fa-arrow-trend-up ms-1"></i> 12%</span></p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dash-card border-0 d-flex flex-column">
+                                <div class="dash-icon bg-success bg-opacity-10 text-success">
+                                    <i class="fa-regular fa-circle-check"></i>
+                                </div>
+                                <h2 class="fw-bold mb-1 display-6">34</h2>
+                                <p class="text-muted fw-medium mb-0">Completed Sessions</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dash-card border-0 d-flex flex-column">
+                                <div class="dash-icon" style="background:#fff3e0; color:#cb6f09;">
+                                    <i class="fa-regular fa-calendar"></i>
+                                </div>
+                                <h2 class="fw-bold mb-1 display-6">6</h2>
+                                <p class="text-muted fw-medium mb-0">Upcoming Bookings</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recently Delivered Albums Section -->
+                    <div class="d-flex justify-content-between align-items-end mb-4">
+                        <h4 class="fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: #1e2a3b;">Recent
+                            Albums</h4>
+                        <a href="#" class="text-decoration-none fw-bold small" style="color: #cb6f09;">View All Gallery
+                            <i class="fa-solid fa-arrow-right ms-1"></i></a>
+                    </div>
+
+                    <div class="row g-4 mb-5">
+                        <!-- Album Card 1 -->
+                        <div class="col-md-6">
+                            <div class="album-card border-0">
+                                <div class="position-relative">
+                                    <img src="images/portfolio1.png" alt="Baby Shower" class="album-img">
+                                    <span
+                                        class="position-absolute top-0 end-0 m-3 badge bg-white text-dark shadow-sm px-2 py-1 fs-6"><i
+                                            class="fa-solid fa-lock text-muted fs-7"></i></span>
+                                </div>
+                                <div class="album-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="fw-bold mb-0" style="color: #1e2a3b;">Baby Shower Celebration</h5>
+                                        <div class="dropdown">
+                                            <button
+                                                class="btn btn-sm btn-light bg-light rounded-circle border-0 d-flex align-items-center justify-content-center"
+                                                style="width:32px; height:32px;" type="button"
+                                                data-bs-toggle="dropdown"><i
+                                                    class="fa-solid fa-ellipsis-vertical"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+                                                <li><a class="dropdown-item py-2 fw-medium" href="#"><i
+                                                            class="fa-regular fa-eye me-2 text-muted"></i> View
+                                                        Album</a></li>
+                                                <li><a class="dropdown-item py-2 fw-medium" href="#"><i
+                                                            class="fa-solid fa-download me-2 text-muted"></i> Download
+                                                        All</a></li>
+                                                <li><a class="dropdown-item py-2 fw-medium" href="#"><i
+                                                            class="fa-solid fa-share-nodes me-2 text-muted"></i> Share
+                                                        Link</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted small mb-3 fw-medium"><i
+                                            class="fa-solid fa-camera me-1 text-primary"></i> Rohan Sharma
+                                        &nbsp;•&nbsp; Oct 12, 2025</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                        <span class="text-muted fw-bold small"><i class="fa-regular fa-image me-1"></i>
+                                            145 Photos</span>
+                                        <a href="#" class="btn btn-sm px-4 fw-bold rounded-pill"
+                                            style="border:1px solid #cb6f09; color:#cb6f09; background:transparent;">Open
+                                            Gallery</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Album Card 2 -->
+                        <div class="col-md-6">
+                            <div class="album-card border-0">
+                                <div class="position-relative">
+                                    <img src="images/portfolio2.png" alt="Maternity Shoot" class="album-img">
+                                    <span
+                                        class="position-absolute top-0 end-0 m-3 badge bg-white text-dark shadow-sm px-2 py-1 fs-6"><i
+                                            class="fa-solid fa-lock-open text-muted fs-7"></i></span>
+                                </div>
+                                <div class="album-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="fw-bold mb-0" style="color: #1e2a3b;">Maternity Shoot</h5>
+                                        <div class="dropdown">
+                                            <button
+                                                class="btn btn-sm btn-light bg-light rounded-circle border-0 d-flex align-items-center justify-content-center"
+                                                style="width:32px; height:32px;" type="button"
+                                                data-bs-toggle="dropdown"><i
+                                                    class="fa-solid fa-ellipsis-vertical"></i></button>
+                                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+                                                <li><a class="dropdown-item py-2 fw-medium" href="#"><i
+                                                            class="fa-regular fa-eye me-2 text-muted"></i> View
+                                                        Album</a></li>
+                                                <li><a class="dropdown-item py-2 fw-medium" href="#"><i
+                                                            class="fa-solid fa-download me-2 text-muted"></i> Download
+                                                        All</a></li>
+                                                <li><a class="dropdown-item py-2 fw-medium" href="#"><i
+                                                            class="fa-solid fa-share-nodes me-2 text-muted"></i> Share
+                                                        Link</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted small mb-3 fw-medium"><i
+                                            class="fa-solid fa-camera me-1 text-primary"></i> Ankit Verma &nbsp;•&nbsp;
+                                        Aug 24, 2025</p>
+                                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                        <span class="text-muted fw-bold small"><i class="fa-regular fa-image me-1"></i>
+                                            82 Photos</span>
+                                        <a href="#" class="btn btn-sm px-4 fw-bold rounded-pill"
+                                            style="border:1px solid #cb6f09; color:#cb6f09; background:transparent;">Open
+                                            Gallery</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bookings Section -->
+                    <div class="card border-0 shadow-sm rounded-4 mb-4" style="background:#fff;">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0 px-4">
+                            <h4 class="fw-bold mb-0" style="font-family: 'Playfair Display', serif; color: #1e2a3b;">My
+                                Bookings & Sessions</h4>
+                        </div>
+                        <div class="card-body p-4 pt-3">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs mb-4 border-bottom" id="bookingTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button
+                                        class="nav-link active fw-bold pb-3 border-0 bg-transparent text-dark px-1 me-4"
+                                        id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming" type="button"
+                                        role="tab"
+                                        style="border-bottom: 2px solid #cb6f09 !important; color: #cb6f09 !important;">Upcoming</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link fw-bold pb-3 border-0 bg-transparent text-muted px-1"
+                                        id="past-tab" data-bs-toggle="tab" data-bs-target="#past" type="button"
+                                        role="tab" onmouseover="this.style.color='#cb6f09'"
+                                        onmouseout="if(!this.classList.contains('active')) this.style.color=''">Past</button>
+                                </li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content" id="bookingTabsContent">
+
+                                <!-- Upcoming Tab -->
+                                <div class="tab-pane fade show active" id="upcoming" role="tabpanel">
+                                    <!-- Booking Item -->
+                                    <div
+                                        class="d-flex flex-column flex-sm-row align-items-sm-center p-3 border border-light rounded-4 hover-bg-light transition-all shadow-sm mb-3">
+                                        <div class="d-flex align-items-center mb-3 mb-sm-0">
+                                            <div class="rounded-3 text-center p-2 me-3"
+                                                style="min-width: 65px; background: #fff3e0; color: #cb6f09;">
+                                                <span class="d-block fw-bold fs-4 lh-1 mb-1">15</span>
+                                                <span class="d-block small fw-bold text-uppercase"
+                                                    style="letter-spacing:1px;">Nov</span>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="fw-bold mb-1 fs-5" style="color:#1e2a3b;">1st Birthday Party
+                                                    Coverage</h6>
+                                                <p class="text-muted small mb-0 fw-medium d-flex align-items-center">
+                                                    <i class="fa-solid fa-camera text-primary me-2"></i> Pixel Perfect
+                                                    Studio
+                                                    <span class="mx-2 px-1 text-light">|</span>
+                                                    <i class="fa-regular fa-clock text-primary me-2"></i> 4:00 PM
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="ms-sm-auto text-sm-end d-flex flex-row flex-sm-column justify-content-between align-items-center align-items-sm-end">
+                                            <span class="status-badge status-upcoming mb-sm-2">Need Approval</span>
+                                            <a href="#" class="btn btn-sm btn-light fw-bold px-3 text-dark border"><i
+                                                    class="fa-solid fa-circle-info me-1"></i> Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Past Tab -->
+                                <div class="tab-pane fade" id="past" role="tabpanel">
+                                    <!-- Past Item 1 -->
+                                    <div
+                                        class="d-flex flex-column flex-sm-row align-items-sm-center p-3 border border-light rounded-4 mb-3">
+                                        <div class="d-flex align-items-center mb-3 mb-sm-0">
+                                            <div class="bg-light text-secondary border rounded-3 text-center p-2 me-3"
+                                                style="min-width: 65px;">
+                                                <span class="d-block fw-bold fs-4 lh-1 mb-1">12</span>
+                                                <span class="d-block small fw-bold text-uppercase"
+                                                    style="letter-spacing:1px;">Oct</span>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="fw-bold mb-1 fs-5 text-dark">Baby Shower Celebration</h6>
+                                                <p class="text-muted small mb-0 fw-medium d-flex align-items-center">
+                                                    <i class="fa-solid fa-camera text-secondary me-2"></i> Candid
+                                                    Creators
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="ms-sm-auto text-sm-end d-flex flex-row flex-sm-column justify-content-between align-items-center align-items-sm-end">
+                                            <span class="status-badge status-completed mb-sm-2">Completed</span>
+                                            <a href="#" class="btn btn-sm btn-outline-primary fw-bold px-3"><i
+                                                    class="fa-regular fa-folder-open me-1"></i> View Album</a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Past Item 2 -->
+                                    <div
+                                        class="d-flex flex-column flex-sm-row align-items-sm-center p-3 border border-light rounded-4 mb-3">
+                                        <div class="d-flex align-items-center mb-3 mb-sm-0">
+                                            <div class="bg-light text-secondary border rounded-3 text-center p-2 me-3"
+                                                style="min-width: 65px;">
+                                                <span class="d-block fw-bold fs-4 lh-1 mb-1">24</span>
+                                                <span class="d-block small fw-bold text-uppercase"
+                                                    style="letter-spacing:1px;">Aug</span>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="fw-bold mb-1 fs-5 text-dark">Maternity Shoot</h6>
+                                                <p class="text-muted small mb-0 fw-medium d-flex align-items-center">
+                                                    <i class="fa-solid fa-camera text-secondary me-2"></i> Ankit Verma
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="ms-sm-auto text-sm-end d-flex flex-row flex-sm-column justify-content-between align-items-center align-items-sm-end">
+                                            <span class="status-badge status-completed mb-sm-2">Completed</span>
+                                            <a href="#" class="btn btn-sm btn-outline-primary fw-bold px-3"><i
+                                                    class="fa-regular fa-folder-open me-1"></i> View Album</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer pt-4 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <!-- Column 1: Logo & Social -->
+                <div class="col-lg-3 col-md-6">
+                    <a class="footer-brand d-block mb-4" href="#">
+                        <img src="assets/logo1.png" alt="StudioApp"
+                            style="height: 135px; filter: brightness(0) invert(1);">
+                    </a>
+                    <div class="social-icons d-flex align-items-center mt-3">
+                        <a href="#" class="social-icon facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon x-twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: About -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Quick Links</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About StudioApp</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Policy -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Policy</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">AI Services Agreement</a></li>
+                        <li><a href="#">Acceptable Use Policy</a></li>
+                        <li><a href="#">Cookies Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Download Our Apps -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Download Our Apps</h5>
+                    <div class="d-flex flex-column gap-3 app-buttons pe-lg-4">
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width: 68%;">
+                            <i class="fa-brands fa-apple fs-3 me-2"></i>
+                            <div class="app-btn-text lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size: 9px;">Download on the</span>
+                                <span class="fw-bold d-block" style="font-size: 14px;">App Store</span>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width: 68%;">
+                            <img src="images/ai_app_logo.png" alt="Play" style="height: 20px;" class="me-2">
+                            <div class="app-btn-text lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size: 9px;">Get it on</span>
+                                <span class="fw-bold d-block" style="font-size: 14px;">Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright / Developed By -->
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex align-items-center mb-2 mb-md-0">
+                    <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                </div>
+                <div class="text-md-end">
+                    <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll To Top (Right) -->
+        <a href="#" class="floating-btn fb-right">
+            <i class="fa-solid fa-chevron-up"></i>
+        </a>
+    </footer>
+
+    <!-- ===== AUTH MODAL ===== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered auth-modal-dialog">
+            <div class="modal-content auth-modal-content">
+
+                <!-- Left decorative panel -->
+                <div class="auth-panel-left">
+                    <div class="auth-accent-bar"></div>
+                    <div class="auth-panel-content">
+                        <a href="index.html" class="auth-logo">
+                            <img src="assets/logo.png" alt="StudioMitra" class="auth-logo-img">
+                        </a>
+                        <div class="auth-panel-body">
+                            <h2 class="auth-panel-title">Capture Every Moment, <em>Perfectly.</em></h2>
+                            <p class="auth-panel-subtitle">Join 500+ studios and 12K+ clients finding their perfect
+                                creative match on StudioMitra.</p>
+                            <div class="auth-panel-stats">
+                                <div class="auth-stat">
+                                    <span class="auth-stat-num">500+</span>
+                                    <span class="auth-stat-label">Studios</span>
+                                </div>
+                                <div class="auth-stat-divider"></div>
+                                <div class="auth-stat">
+                                    <span class="auth-stat-num">12K+</span>
+                                    <span class="auth-stat-label">Clients</span>
+                                </div>
+                                <div class="auth-stat-divider"></div>
+                                <div class="auth-stat">
+                                    <span class="auth-stat-num">4.9★</span>
+                                    <span class="auth-stat-label">Rating</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="auth-panel-quote">"StudioMitra transformed the way I deliver albums to my
+                            clients."<br><span>— Arjun Mehra, Wedding Photographer</span></p>
+                    </div>
+                </div>
+
+                <!-- Right form panel -->
+                <div class="auth-panel-right">
+                    <button type="button" class="auth-close-btn" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+
+                    <!-- Tab switcher -->
+                    <div class="auth-tabs" id="authTabs">
+                        <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+                        <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Create
+                            Account</button>
+                        <div class="auth-tab-indicator" id="authTabIndicator"></div>
+                    </div>
+
+                    <!-- ── LOGIN FORM ── -->
+                    <div class="auth-form-pane" id="paneLogin">
+                        <div class="auth-form-header">
+                            <h3 class="auth-form-title">Welcome back</h3>
+                            <p class="auth-form-subtitle">Sign in to your StudioMitra account</p>
+                        </div>
+
+                        <div class="auth-social-row">
+                            <button class="auth-social-btn" id="googleLoginBtn">
+                                <img src="images/ai_app_logo.png" alt="Google" width="16">
+                                Google
+                            </button>
+                            <button class="auth-social-btn" id="facebookLoginBtn">
+                                <i class="fa-brands fa-facebook" style="color:#1877f2;font-size:16px;"></i> Facebook
+                            </button>
+                        </div>
+
+                        <div class="auth-divider"><span>or email</span></div>
+
+                        <form id="loginForm" novalidate>
+                            <div class="auth-field-group">
+                                <label class="auth-label" for="loginEmail">Email</label>
+                                <div class="auth-input-wrap">
+                                    <i class="fa-regular fa-envelope auth-input-icon"></i>
+                                    <input type="email" id="loginEmail" class="auth-input" placeholder="you@example.com"
+                                        required>
+                                </div>
+                            </div>
+                            <div class="auth-field-group">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label class="auth-label" for="loginPassword">Password</label>
+                                    <a href="#" class="auth-forgot">Forgot password?</a>
+                                </div>
+                                <div class="auth-input-wrap">
+                                    <i class="fa-solid fa-lock auth-input-icon"></i>
+                                    <input type="password" id="loginPassword" class="auth-input" placeholder="••••••••"
+                                        required>
+                                    <button type="button" class="auth-eye-btn"
+                                        onclick="togglePassword('loginPassword',this)">
+                                        <i class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="auth-remember">
+                                <label class="auth-check-label">
+                                    <input type="checkbox" id="rememberMe" class="auth-checkbox">
+                                    <span class="auth-checkmark"></span>
+                                    Remember me for 30 days
+                                </label>
+                            </div>
+                            <button type="submit" class="auth-submit-btn" id="loginSubmitBtn">
+                                <span>Sign In</span>
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                            </button>
+                        </form>
+                        <p class="auth-switch-text">No account? <a href="#" onclick="switchAuthTab('register')"
+                                class="auth-switch-link">Create one free →</a></p>
+                    </div>
+
+                    <!-- ── REGISTER FORM ── -->
+                    <div class="auth-form-pane d-none" id="paneRegister">
+                        <div class="auth-form-header">
+                            <h3 class="auth-form-title" id="regTitle">Join StudioMitra</h3>
+                            <p class="auth-form-subtitle" id="regSubtitle">Choose how you'd like to continue</p>
+                        </div>
+
+                        <!-- Role selector -->
+                        <div class="auth-role-selector">
+                            <button type="button" class="auth-role-btn active" id="roleClient"
+                                onclick="selectRole('client', this)">
+                                <i class="fa-solid fa-user"></i> I'm a Client
+                            </button>
+                            <button type="button" class="auth-role-btn" id="roleStudio"
+                                onclick="selectRole('studio', this)">
+                                <i class="fa-solid fa-camera"></i> Studio Owner
+                            </button>
+                        </div>
+
+                        <!-- ── CLIENT INFO PANEL ── shown when Client is selected -->
+                        <div id="clientInfoPanel">
+                            <div class="auth-client-steps">
+                                <div class="auth-client-step">
+                                    <div class="auth-step-num">1</div>
+                                    <div class="auth-step-text">
+                                        <strong>Search for studios</strong> available in your location.
+                                    </div>
+                                </div>
+                                <div class="auth-client-step">
+                                    <div class="auth-step-num">2</div>
+                                    <div class="auth-step-text">
+                                        Click <strong>Get Quote</strong> or <strong>Show Interest</strong> on the studio
+                                        you prefer.
+                                    </div>
+                                </div>
+                                <div class="auth-client-step">
+                                    <div class="auth-step-num">3</div>
+                                    <div class="auth-step-text">
+                                        Fill in your details and submit the request.
+                                    </div>
+                                </div>
+                                <div class="auth-client-step">
+                                    <div class="auth-step-num">4</div>
+                                    <div class="auth-step-text">
+                                        The Studio Admin will verify your details and <strong>create your login
+                                            credentials</strong>.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="auth-client-cta">
+                                <i class="fa-solid fa-circle-info"></i>
+                                No self-registration needed — your studio sets up your account for you!
+                            </div>
+                            <a href="index.html#studios" class="auth-submit-btn" style="text-decoration:none;">
+                                <span>Explore Studios</span>
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                            </a>
+                        </div>
+
+                        <!-- ── STUDIO OWNER REGISTRATION FORM ── shown when Studio Owner is selected -->
+                        <div id="studioRegPanel" class="d-none">
+                            <form id="registerForm" novalidate>
+                                <div class="row g-2 mb-0">
+                                    <div class="col-6">
+                                        <div class="auth-field-group">
+                                            <label class="auth-label" for="regFirstName">First Name</label>
+                                            <div class="auth-input-wrap">
+                                                <i class="fa-regular fa-user auth-input-icon"></i>
+                                                <input type="text" id="regFirstName" class="auth-input"
+                                                    placeholder="John" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="auth-field-group">
+                                            <label class="auth-label" for="regLastName">Last Name</label>
+                                            <div class="auth-input-wrap">
+                                                <i class="fa-regular fa-user auth-input-icon"></i>
+                                                <input type="text" id="regLastName" class="auth-input" placeholder="Doe"
+                                                    required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="auth-field-group">
+                                    <label class="auth-label" for="regEmail">Email Address</label>
+                                    <div class="auth-input-wrap">
+                                        <i class="fa-regular fa-envelope auth-input-icon"></i>
+                                        <input type="email" id="regEmail" class="auth-input"
+                                            placeholder="studio@example.com" required>
+                                    </div>
+                                </div>
+                                <div class="auth-field-group">
+                                    <label class="auth-label" for="regPassword">Password</label>
+                                    <div class="auth-input-wrap">
+                                        <i class="fa-solid fa-lock auth-input-icon"></i>
+                                        <input type="password" id="regPassword" class="auth-input"
+                                            placeholder="Min. 8 characters" required
+                                            oninput="updateStrength(this.value)">
+                                        <button type="button" class="auth-eye-btn"
+                                            onclick="togglePassword('regPassword',this)">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="strength-meter" id="strengthMeter">
+                                        <div class="strength-bar" id="strengthBar"></div>
+                                    </div>
+                                    <span class="strength-label" id="strengthLabel"></span>
+                                </div>
+                                <div class="auth-terms">
+                                    <label class="auth-check-label">
+                                        <input type="checkbox" id="agreeTerms" class="auth-checkbox" required>
+                                        <span class="auth-checkmark"></span>
+                                        I agree to the <a href="#" class="auth-switch-link">Terms</a> &amp; <a href="#"
+                                            class="auth-switch-link">Privacy Policy</a>
+                                    </label>
+                                </div>
+                                <button type="submit" class="auth-submit-btn" id="registerSubmitBtn">
+                                    <span>Create Studio Account</span>
+                                    <i class="fa-solid fa-arrow-right-long"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <p class="auth-switch-text">Already have an account? <a href="#"
+                                onclick="switchAuthTab('login')" class="auth-switch-link">Sign in</a></p>
+                    </div>
+
+                    <!-- Scripts -->
+                    <script src="assets/js/jquery-3.7.1.min.js"></script>
+                    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    <script src="assets/js/script.js"></script>
+                    <script>
+                        /* ── Auth Modal Logic ── */
+                        function switchAuthTab(tab) {
+                            const isLogin = tab === 'login';
+                            document.getElementById('paneLogin').classList.toggle('d-none', !isLogin);
+                            document.getElementById('paneRegister').classList.toggle('d-none', isLogin);
+                            document.getElementById('tabLogin').classList.toggle('active', isLogin);
+                            document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+                            const indicator = document.getElementById('authTabIndicator');
+                            indicator.style.transform = isLogin ? 'translateX(0%)' : 'translateX(100%)';
+                        }
+
+                        /* Open correct tab when triggered from navbar buttons */
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const authModalEl = document.getElementById('authModal');
+                            authModalEl.addEventListener('show.bs.modal', function (e) {
+                                const trigger = e.relatedTarget;
+                                if (trigger) {
+                                    const tab = trigger.getAttribute('data-auth-tab') || 'login';
+                                    switchAuthTab(tab);
+                                }
+                            });
+                        });
+
+                        /* Toggle password visibility */
+                        function togglePassword(inputId, btn) {
+                            const inp = document.getElementById(inputId);
+                            const icon = btn.querySelector('i');
+                            if (inp.type === 'password') {
+                                inp.type = 'text';
+                                icon.classList.replace('fa-eye', 'fa-eye-slash');
+                            } else {
+                                inp.type = 'password';
+                                icon.classList.replace('fa-eye-slash', 'fa-eye');
+                            }
+                        }
+
+                        /* Role selector — toggles between Client info panel and Studio Owner form */
+                        function selectRole(role, el) {
+                            document.querySelectorAll('.auth-role-btn').forEach(b => b.classList.remove('active'));
+                            el.classList.add('active');
+                            const clientPanel = document.getElementById('clientInfoPanel');
+                            const studioPanel = document.getElementById('studioRegPanel');
+                            const title = document.getElementById('regTitle');
+                            const subtitle = document.getElementById('regSubtitle');
+                            if (role === 'client') {
+                                clientPanel.classList.remove('d-none');
+                                studioPanel.classList.add('d-none');
+                                title.textContent = 'How Clients Join';
+                                subtitle.textContent = 'Studios create your account — here\'s how it works';
+                            } else {
+                                clientPanel.classList.add('d-none');
+                                studioPanel.classList.remove('d-none');
+                                title.textContent = 'Create Studio Account';
+                                subtitle.textContent = 'List your studio and start accepting bookings';
+                            }
+                        }
+
+                        /* Password strength */
+                        function updateStrength(val) {
+                            const bar = document.getElementById('strengthBar');
+                            const label = document.getElementById('strengthLabel');
+                            if (!val) { bar.style.width = '0'; label.textContent = ''; return; }
+                            let score = 0;
+                            if (val.length >= 8) score++;
+                            if (/[A-Z]/.test(val)) score++;
+                            if (/[0-9]/.test(val)) score++;
+                            if (/[^A-Za-z0-9]/.test(val)) score++;
+                            const levels = [
+                                { w: '25%', c: '#ef4444', t: 'Weak' },
+                                { w: '50%', c: '#f97316', t: 'Fair' },
+                                { w: '75%', c: '#eab308', t: 'Good' },
+                                { w: '100%', c: '#22c55e', t: 'Strong' }
+                            ];
+                            const lv = levels[score - 1] || levels[0];
+                            bar.style.width = lv.w;
+                            bar.style.background = lv.c;
+                            label.textContent = lv.t;
+                            label.style.color = lv.c;
+                        }
+                    </script>
+
+
+    <script>
+        // Tab switching logic for styling correctly on the tabs
+        document.querySelectorAll('#bookingTabs button').forEach(button => {
+            button.addEventListener('show.bs.tab', event => {
+                document.querySelectorAll('#bookingTabs button').forEach(btn => {
+                    btn.style.borderBottom = 'none';
+                    btn.style.color = '';
+                    btn.classList.remove('text-dark', 'active-tab-style');
+                    btn.classList.add('text-muted');
+                });
+                event.target.style.borderBottom = '2px solid #cb6f09';
+                event.target.style.color = '#cb6f09';
+                event.target.classList.remove('text-muted');
+                event.target.classList.add('text-dark', 'active-tab-style');
+            });
+        });
+    </script>
+</body>
+
+</html>

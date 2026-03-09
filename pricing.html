@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | StudioMitra — Simple, Transparent Plans</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Explore StudioMitra's flexible pricing plans for photographers and studios. Start free, or upgrade to Pro or Business for unlimited albums and advanced AI features.">
+
+    <!-- Bootstrap CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="assets/logo.png" style="width:200px" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link active px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-signin-outline me-2" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="login">Sign In</a>
+                    <a href="#" class="btn btn-register" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="register">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header pricing-header position-relative d-flex align-items-center">
+        <div class="header-overlay"></div>
+        <div class="container position-relative z-1 text-center">
+            <span
+                class="studios-eyebrow text-white bg-white bg-opacity-10 border border-white border-opacity-25 backdrop-blur">Simple
+                Pricing</span>
+            <h1 class="page-title text-white mt-3 mb-3" style="font-size: 3.5rem; font-weight: 700;">Plans for Every
+                Studio</h1>
+            <p class="page-subtitle text-white-50 mx-auto" style="max-width: 620px; font-size: 1.1rem;">
+                Whether you're just starting out or running a full-scale studio, we have a plan that fits perfectly.
+                No hidden fees. Cancel anytime.
+            </p>
+
+            <!-- Billing Toggle -->
+            <div class="pricing-toggle d-inline-flex align-items-center mt-4 p-1" id="billingToggle">
+                <button class="toggle-btn active" id="btnMonthly" onclick="switchBilling('monthly')">Monthly</button>
+                <button class="toggle-btn" id="btnAnnual" onclick="switchBilling('annual')">Annual
+                    <span class="save-badge">Save 20%</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Cards Section -->
+    <section class="pricing-section py-5">
+        <div class="container">
+            <div class="row g-4 justify-content-center align-items-stretch">
+
+                <!-- Free Plan -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card h-100">
+                        <div class="pricing-card-header">
+                            <div class="plan-icon-wrapper plan-icon-free">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <h3 class="plan-name">Starter</h3>
+                            <p class="plan-tagline">Perfect to get a feel for the platform</p>
+                            <div class="plan-price-wrapper">
+                                <span class="plan-currency">₹</span>
+                                <span class="plan-price" data-monthly="0" data-annual="0">0</span>
+                                <span class="plan-period">/month</span>
+                            </div>
+                            <p class="plan-billed-note">Free forever, no credit card needed</p>
+                        </div>
+                        <div class="pricing-card-body">
+                            <a href="#" class="btn btn-plan-outline w-100 mb-4" id="btn-starter">Get Started Free</a>
+                            <ul class="plan-features-list">
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Up to <strong>3
+                                        albums</strong> per month</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i>
+                                    <strong>500MB</strong> cloud storage
+                                </li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Basic page-flip
+                                    viewer</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Client download
+                                    links</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> StudioMitra
+                                    marketplace listing</li>
+                                <li class="feature-excluded"><i class="fa-solid fa-circle-xmark"></i> AI Album
+                                    Creation</li>
+                                <li class="feature-excluded"><i class="fa-solid fa-circle-xmark"></i> Custom
+                                    branding</li>
+                                <li class="feature-excluded"><i class="fa-solid fa-circle-xmark"></i> Priority
+                                    support</li>
+                                <li class="feature-excluded"><i class="fa-solid fa-circle-xmark"></i> Analytics
+                                    dashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pro Plan (Popular) -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card pricing-card-featured h-100">
+                        <div class="popular-ribbon">Most Popular</div>
+                        <div class="pricing-card-header">
+                            <div class="plan-icon-wrapper plan-icon-pro">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <h3 class="plan-name">Pro</h3>
+                            <p class="plan-tagline">For growing studios delivering more</p>
+                            <div class="plan-price-wrapper">
+                                <span class="plan-currency">₹</span>
+                                <span class="plan-price" data-monthly="1999" data-annual="1599">1,999</span>
+                                <span class="plan-period">/month</span>
+                            </div>
+                            <p class="plan-billed-note monthly-note">Billed monthly · Cancel anytime</p>
+                            <p class="plan-billed-note annual-note d-none">₹19,188/yr · Save ₹4,800</p>
+                        </div>
+                        <div class="pricing-card-body">
+                            <a href="#" class="btn btn-plan-primary w-100 mb-4" id="btn-pro">Start 14-Day Free
+                                Trial</a>
+                            <ul class="plan-features-list">
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i>
+                                    <strong>Unlimited</strong> albums
+                                </li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i>
+                                    <strong>50GB</strong> cloud storage
+                                </li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> AI-Powered Album
+                                    Creation</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Custom branding
+                                    & white-label</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Password
+                                    protected albums</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Analytics
+                                    dashboard</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i>
+                                    SMS/WhatsApp alerts</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Priority email
+                                    support</li>
+                                <li class="feature-excluded"><i class="fa-solid fa-circle-xmark"></i> Multi-team
+                                    access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Plan -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="pricing-card h-100">
+                        <div class="pricing-card-header">
+                            <div class="plan-icon-wrapper plan-icon-business">
+                                <i class="fa-solid fa-building"></i>
+                            </div>
+                            <h3 class="plan-name">Business</h3>
+                            <p class="plan-tagline">Full power for high-volume studios</p>
+                            <div class="plan-price-wrapper">
+                                <span class="plan-currency">₹</span>
+                                <span class="plan-price" data-monthly="4999" data-annual="3999">4,999</span>
+                                <span class="plan-period">/month</span>
+                            </div>
+                            <p class="plan-billed-note monthly-note">Billed monthly · Cancel anytime</p>
+                            <p class="plan-billed-note annual-note d-none">₹47,988/yr · Save ₹11,988</p>
+                        </div>
+                        <div class="pricing-card-body">
+                            <a href="contact.html" class="btn btn-plan-outline w-100 mb-4" id="btn-business">Contact
+                                Sales</a>
+                            <ul class="plan-features-list">
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i>
+                                    <strong>Unlimited</strong> albums
+                                </li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i>
+                                    <strong>500GB</strong> cloud storage
+                                </li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Everything in
+                                    Pro</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Multi-team
+                                    access (up to 10)</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Custom domain
+                                    hosting</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> RAW file
+                                    support</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> Dedicated
+                                    account manager</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> 24/7 phone &
+                                    chat support</li>
+                                <li class="feature-included"><i class="fa-solid fa-circle-check"></i> API access &
+                                    integrations</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Enterprise Banner -->
+            <div class="enterprise-banner mt-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 mb-3 mb-lg-0">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="enterprise-icon">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1 fw-bold text-white">Looking for Enterprise?</h5>
+                                <p class="mb-0 text-white-50 small">Custom storage, SSO, SLA guarantees, on-premise
+                                    options & dedicated infrastructure for large studio chains.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-lg-end">
+                        <a href="contact.html" class="btn btn-enterprise me-2">Talk to Sales</a>
+                        <a href="#pricing-compare" class="btn btn-enterprise-outline">Compare All Plans</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trusted By Section -->
+    <section class="trusted-section py-4">
+        <div class="container">
+            <p class="trusted-label text-center">Trusted by studios across India</p>
+            <div class="trusted-logos d-flex flex-wrap justify-content-center align-items-center gap-4 gap-md-5 mt-3">
+                <span class="trusted-logo-item"><i class="fa-solid fa-camera me-2"></i>Candid Creators</span>
+                <span class="trusted-logo-item"><i class="fa-solid fa-camera-retro me-2"></i>Lens & Light</span>
+                <span class="trusted-logo-item"><i class="fa-solid fa-aperture me-2"></i>Pixel Perfect</span>
+                <span class="trusted-logo-item"><i class="fa-solid fa-images me-2"></i>Aperture Arts</span>
+                <span class="trusted-logo-item"><i class="fa-solid fa-star me-2"></i>Frame & Focus</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Comparison Table -->
+    <section class="pricing-compare-section py-5" id="pricing-compare">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="studios-eyebrow">Compare</span>
+                <h2 class="section-heading mb-2">Full Feature Comparison</h2>
+                <p class="text-muted">See exactly what you get with each plan</p>
+            </div>
+
+            <div class="compare-table-wrapper">
+                <table class="compare-table w-100">
+                    <thead>
+                        <tr>
+                            <th class="feature-col">Feature</th>
+                            <th class="text-center">
+                                <span class="plan-col-name">Starter</span>
+                                <span class="plan-col-price d-block">Free</span>
+                            </th>
+                            <th class="text-center plan-col-highlighted">
+                                <span class="plan-col-name">Pro</span>
+                                <span class="plan-col-price d-block">₹1,999/mo</span>
+                            </th>
+                            <th class="text-center">
+                                <span class="plan-col-name">Business</span>
+                                <span class="plan-col-price d-block">₹4,999/mo</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="compare-section-header">
+                            <td colspan="4"><i class="fa-solid fa-image me-2"></i>Albums & Storage</td>
+                        </tr>
+                        <tr>
+                            <td>Albums per month</td>
+                            <td class="text-center">3</td>
+                            <td class="text-center plan-col-highlighted">Unlimited</td>
+                            <td class="text-center">Unlimited</td>
+                        </tr>
+                        <tr>
+                            <td>Cloud storage</td>
+                            <td class="text-center">500 MB</td>
+                            <td class="text-center plan-col-highlighted">50 GB</td>
+                            <td class="text-center">500 GB</td>
+                        </tr>
+                        <tr>
+                            <td>RAW file support</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-xmark text-muted"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr class="compare-section-header">
+                            <td colspan="4"><i class="fa-solid fa-wand-magic-sparkles me-2"></i>AI & Automation</td>
+                        </tr>
+                        <tr>
+                            <td>AI album creation</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-check compare-check"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Smart photo sorting</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-check compare-check"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Dynamic watermarks</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-check compare-check"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr class="compare-section-header">
+                            <td colspan="4"><i class="fa-solid fa-palette me-2"></i>Branding & Delivery</td>
+                        </tr>
+                        <tr>
+                            <td>Custom branding</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-check compare-check"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Password-protected albums</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-check compare-check"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>Custom domain</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-xmark text-muted"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr class="compare-section-header">
+                            <td colspan="4"><i class="fa-solid fa-headset me-2"></i>Support</td>
+                        </tr>
+                        <tr>
+                            <td>Support channel</td>
+                            <td class="text-center">Email</td>
+                            <td class="text-center plan-col-highlighted">Priority Email</td>
+                            <td class="text-center">24/7 Phone & Chat</td>
+                        </tr>
+                        <tr>
+                            <td>Dedicated account manager</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-xmark text-muted"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr>
+                            <td>API access</td>
+                            <td class="text-center"><i class="fa-solid fa-xmark text-muted"></i></td>
+                            <td class="text-center plan-col-highlighted"><i class="fa-solid fa-xmark text-muted"></i>
+                            </td>
+                            <td class="text-center"><i class="fa-solid fa-check compare-check"></i></td>
+                        </tr>
+                        <tr class="compare-cta-row">
+                            <td></td>
+                            <td class="text-center"><a href="#" class="btn btn-plan-outline-sm">Get Started</a></td>
+                            <td class="text-center plan-col-highlighted"><a href="#"
+                                    class="btn btn-plan-primary-sm">Start Trial</a></td>
+                            <td class="text-center"><a href="contact.html" class="btn btn-plan-outline-sm">Contact
+                                    Sales</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Money-back Guarantee + Trust Signals -->
+    <section class="guarantee-section py-5">
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4 col-md-6">
+                    <div class="guarantee-card text-center">
+                        <div class="guarantee-icon">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">14-Day Money-Back</h5>
+                        <p class="text-muted small mb-0">Not happy? Get a full refund within 14 days of your first
+                            paid invoice. No questions asked.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="guarantee-card text-center">
+                        <div class="guarantee-icon">
+                            <i class="fa-solid fa-lock"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Bank-Grade Security</h5>
+                        <p class="text-muted small mb-0">All data is stored with AES-256 encryption on ISO-certified
+                            cloud infrastructure.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="guarantee-card text-center">
+                        <div class="guarantee-icon">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </div>
+                        <h5 class="fw-bold mb-2">Cancel Anytime</h5>
+                        <p class="text-muted small mb-0">No contracts, no lock-in. Downgrade or cancel your
+                            subscription at any time from your Dashboard.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing FAQ -->
+    <section class="pricing-faq-section py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5">
+                        <span class="studios-eyebrow">FAQ</span>
+                        <h2 class="section-heading mb-2">Pricing Questions Answered</h2>
+                        <p class="text-muted">Still unsure? Here are answers to our most common billing questions.</p>
+                    </div>
+
+                    <div class="accordion faq-accordion" id="pricingFaqAccordion">
+
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-btn" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#pfaq1" aria-expanded="true">
+                                    <span class="faq-icon"><i class="fa-solid fa-circle-question"></i></span>
+                                    Can I switch plans at any time?
+                                </button>
+                            </h2>
+                            <div id="pfaq1" class="accordion-collapse collapse show"
+                                data-bs-parent="#pricingFaqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Yes! You can upgrade or downgrade your plan at any time from your dashboard. When
+                                    upgrading, the change is effective immediately and you'll only be billed the
+                                    prorated difference. When downgrading, it takes effect at the start of your next
+                                    billing cycle.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-btn collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#pfaq2" aria-expanded="false">
+                                    <span class="faq-icon"><i class="fa-solid fa-circle-question"></i></span>
+                                    What payment methods are accepted?
+                                </button>
+                            </h2>
+                            <div id="pfaq2" class="accordion-collapse collapse" data-bs-parent="#pricingFaqAccordion">
+                                <div class="accordion-body faq-body">
+                                    We accept all major credit & debit cards (Visa, Mastercard, RuPay), UPI payments
+                                    (GPay, PhonePe, Paytm), and Net Banking. For annual Business plans, we also support
+                                    bank transfers and GST invoicing.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-btn collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#pfaq3" aria-expanded="false">
+                                    <span class="faq-icon"><i class="fa-solid fa-circle-question"></i></span>
+                                    What happens to my data if I cancel?
+                                </button>
+                            </h2>
+                            <div id="pfaq3" class="accordion-collapse collapse" data-bs-parent="#pricingFaqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Your albums and data remain accessible in read-only mode for 30 days after
+                                    cancellation. During this grace period you can export everything. After 30 days,
+                                    data is permanently deleted from our servers in accordance with our privacy policy.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-btn collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#pfaq4" aria-expanded="false">
+                                    <span class="faq-icon"><i class="fa-solid fa-circle-question"></i></span>
+                                    Does the free plan require a credit card?
+                                </button>
+                            </h2>
+                            <div id="pfaq4" class="accordion-collapse collapse" data-bs-parent="#pricingFaqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Absolutely not. You can sign up for the Starter plan with just your email address
+                                    — no credit card required. You'll only be asked for payment details when you
+                                    choose to upgrade to a paid plan.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item faq-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button faq-btn collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#pfaq5" aria-expanded="false">
+                                    <span class="faq-icon"><i class="fa-solid fa-circle-question"></i></span>
+                                    Do you offer discounts for NGOs or educational institutions?
+                                </button>
+                            </h2>
+                            <div id="pfaq5" class="accordion-collapse collapse" data-bs-parent="#pricingFaqAccordion">
+                                <div class="accordion-body faq-body">
+                                    Yes! We offer up to 40% off on Pro and Business plans for registered NGOs,
+                                    photography schools, and educational institutes. Please reach out via our
+                                    <a href="contact.html" class="text-decoration-none fw-medium"
+                                        style="color:#cb6f09">contact page</a>
+                                    with your credentials to apply.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-4 my-3">
+        <div class="container">
+            <div class="bg-primary rounded-4 p-5 text-center text-white position-relative overflow-hidden shadow-lg"
+                style="background: linear-gradient(135deg, #1e2a3b 0%, #2d3f58 100%);">
+                <!-- Abstract decorations -->
+                <div class="position-absolute top-0 end-0 opacity-10"
+                    style="width: 300px; height: 300px; background: radial-gradient(circle, #fff 0%, transparent 70%); transform: translate(30%, -30%);">
+                </div>
+                <div class="position-absolute bottom-0 start-0 opacity-10"
+                    style="width: 200px; height: 200px; background: radial-gradient(circle, #fff 0%, transparent 70%); transform: translate(-30%, 30%);">
+                </div>
+                <div class="position-relative z-1">
+                    <h2 class="mb-3" style="font-family: 'Outfit', sans-serif;">Ready to Grow Your Studio?</h2>
+                    <p class="mb-4 lead text-white-50 mx-auto" style="max-width: 600px;">Start with our free plan
+                        today — no credit card required. Upgrade when you're ready for more.</p>
+                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                        <a href="#" class="btn btn-light px-4 py-2 fw-bold text-dark rounded-pill">Get Started Free</a>
+                        <a href="contact.html" class="btn btn-outline-light px-4 py-2 fw-bold rounded-pill">Talk to
+                            Sales</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer pt-4 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <!-- Column 1: Logo & Social -->
+                <div class="col-lg-3 col-md-6">
+                    <a class="footer-brand d-block mb-4" href="index.html">
+                        <img src="assets/logo1.png" alt="StudioApp"
+                            style="height: 135px; filter: brightness(0) invert(1);">
+                    </a>
+                    <div class="social-icons d-flex align-items-center mt-3">
+                        <a href="#" class="social-icon facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon x-twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Quick Links</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About StudioApp</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Policy -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Policy</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">AI Services Agreement</a></li>
+                        <li><a href="#">Acceptable Use Policy</a></li>
+                        <li><a href="#">Cookies Policy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Download Our Apps -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Download Our Apps</h5>
+                    <div class="d-flex flex-column gap-3 app-buttons pe-lg-4">
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width: 68%;">
+                            <i class="fa-brands fa-apple fs-3 me-2"></i>
+                            <div class="app-btn-text lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size: 9px;">Download on the</span>
+                                <span class="fw-bold d-block" style="font-size: 14px;">App Store</span>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width: 68%;">
+                            <img src="images/ai_app_logo.png" alt="Play" style="height: 20px;" class="me-2">
+                            <div class="app-btn-text lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size: 9px;">Get it on</span>
+                                <span class="fw-bold d-block" style="font-size: 14px;">Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Copyright / Developed By -->
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <div class="d-flex align-items-center mb-2 mb-md-0">
+                    <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                </div>
+                <div class="text-md-end">
+                    <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll To Top (Right) -->
+        <a href="#" class="floating-btn fb-right">
+            <i class="fa-solid fa-chevron-up"></i>
+        </a>
+    </footer>
+
+    <!-- ===== AUTH MODAL ===== -->
+    <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered auth-modal-dialog">
+            <div class="modal-content auth-modal-content">
+                <div class="auth-panel-left">
+                    <div class="auth-panel-overlay"></div>
+                    <div class="auth-panel-content"><a href="index.html" class="auth-logo"><img src="assets/logo.png"
+                                alt="StudioMitra" class="auth-logo-img"></a>
+                        <div class="auth-panel-body">
+                            <h2 class="auth-panel-title">Capture Every Moment, <em>Perfectly.</em></h2>
+                            <p class="auth-panel-subtitle">Join thousands of photographers and clients already using
+                                StudioMitra.</p>
+                            <div class="auth-panel-stats">
+                                <div class="auth-stat"><span class="auth-stat-num">500+</span><span
+                                        class="auth-stat-label">Studios</span></div>
+                                <div class="auth-stat-divider"></div>
+                                <div class="auth-stat"><span class="auth-stat-num">12K+</span><span
+                                        class="auth-stat-label">Clients</span></div>
+                                <div class="auth-stat-divider"></div>
+                                <div class="auth-stat"><span class="auth-stat-num">4.9★</span><span
+                                        class="auth-stat-label">Rating</span></div>
+                            </div>
+                        </div>
+                        <p class="auth-panel-quote">"StudioMitra transformed the way I deliver albums to my
+                            clients."<br><span>— Arjun Mehra, Wedding Photographer</span></p>
+                    </div>
+                </div>
+                <div class="auth-panel-right">
+                    <button type="button" class="auth-close-btn" data-bs-dismiss="modal"><i
+                            class="fa-solid fa-xmark"></i></button>
+                    <div class="auth-tabs"><button class="auth-tab active" id="tabLogin"
+                            onclick="switchAuthTab('login')">Sign In</button><button class="auth-tab" id="tabRegister"
+                            onclick="switchAuthTab('register')">Create Account</button>
+                        <div class="auth-tab-indicator" id="authTabIndicator"></div>
+                    </div>
+                    <div class="auth-form-pane" id="paneLogin">
+                        <div class="auth-form-header">
+                            <h3 class="auth-form-title">Welcome back</h3>
+                            <p class="auth-form-subtitle">Sign in to your StudioMitra account</p>
+                        </div>
+                        <div class="auth-social-row"><button class="auth-social-btn"><img src="images/ai_app_logo.png"
+                                    alt="Google" width="18">
+                                Google</button><button class="auth-social-btn"><i class="fa-brands fa-facebook"
+                                    style="color:#1877f2;font-size:18px;"></i> Facebook</button></div>
+                        <div class="auth-divider"><span>or continue with email</span></div>
+                        <form novalidate>
+                            <div class="auth-field-group"><label class="auth-label">Email Address</label>
+                                <div class="auth-input-wrap"><i
+                                        class="fa-regular fa-envelope auth-input-icon"></i><input type="email"
+                                        class="auth-input" placeholder="you@example.com"></div>
+                            </div>
+                            <div class="auth-field-group">
+                                <div class="d-flex justify-content-between"><label class="auth-label">Password</label><a
+                                        href="#" class="auth-forgot">Forgot password?</a></div>
+                                <div class="auth-input-wrap"><i class="fa-solid fa-lock auth-input-icon"></i><input
+                                        type="password" id="pLPwd" class="auth-input" placeholder="••••••••"><button
+                                        type="button" class="auth-eye-btn" onclick="togglePassword('pLPwd',this)"><i
+                                            class="fa-regular fa-eye"></i></button></div>
+                            </div>
+                            <div class="auth-remember"><label class="auth-check-label"><input type="checkbox"
+                                        class="auth-checkbox"><span class="auth-checkmark"></span>Remember me for 30
+                                    days</label></div>
+                            <button type="submit" class="auth-submit-btn"><span>Sign In</span><i
+                                    class="fa-solid fa-arrow-right-long"></i></button>
+                        </form>
+                        <p class="auth-switch-text">Don't have an account? <a href="#"
+                                onclick="switchAuthTab('register')" class="auth-switch-link">Create one free</a></p>
+                    </div>
+                    <div class="auth-form-pane d-none" id="paneRegister">
+                        <div class="auth-form-header">
+                            <h3 class="auth-form-title">Get started free</h3>
+                            <p class="auth-form-subtitle">Create your StudioMitra account today</p>
+                        </div>
+                        <div class="auth-social-row"><button class="auth-social-btn"><img src="images/ai_app_logo.png"
+                                    alt="Google" width="18">
+                                Google</button><button class="auth-social-btn"><i class="fa-brands fa-facebook"
+                                    style="color:#1877f2;font-size:18px;"></i> Facebook</button></div>
+                        <div class="auth-divider"><span>or sign up with email</span></div>
+                        <form novalidate>
+                            <div class="auth-role-selector"><button type="button" class="auth-role-btn active"
+                                    onclick="selectRole(this)"><i class="fa-solid fa-user"></i> Client</button><button
+                                    type="button" class="auth-role-btn" onclick="selectRole(this)"><i
+                                        class="fa-solid fa-camera"></i> Studio Owner</button></div>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="auth-field-group mb-0"><label class="auth-label">First Name</label>
+                                        <div class="auth-input-wrap"><i
+                                                class="fa-regular fa-user auth-input-icon"></i><input type="text"
+                                                class="auth-input" placeholder="John"></div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="auth-field-group mb-0"><label class="auth-label">Last Name</label>
+                                        <div class="auth-input-wrap"><i
+                                                class="fa-regular fa-user auth-input-icon"></i><input type="text"
+                                                class="auth-input" placeholder="Doe"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="auth-field-group"><label class="auth-label">Email Address</label>
+                                <div class="auth-input-wrap"><i
+                                        class="fa-regular fa-envelope auth-input-icon"></i><input type="email"
+                                        class="auth-input" placeholder="you@example.com"></div>
+                            </div>
+                            <div class="auth-field-group"><label class="auth-label">Password</label>
+                                <div class="auth-input-wrap"><i class="fa-solid fa-lock auth-input-icon"></i><input
+                                        type="password" id="pRPwd" class="auth-input" placeholder="Min. 8 characters"
+                                        oninput="updStr(this.value)"><button type="button" class="auth-eye-btn"
+                                        onclick="togglePassword('pRPwd',this)"><i
+                                            class="fa-regular fa-eye"></i></button></div>
+                                <div class="strength-meter mt-2">
+                                    <div class="strength-bar" id="sBar"></div>
+                                </div><span class="strength-label" id="sLbl"></span>
+                            </div>
+                            <div class="auth-terms"><label class="auth-check-label"><input type="checkbox"
+                                        class="auth-checkbox"><span class="auth-checkmark"></span>I agree to the <a
+                                        href="#" class="auth-switch-link">Terms</a> &amp; <a href="#"
+                                        class="auth-switch-link">Privacy Policy</a></label></div>
+                            <button type="submit" class="auth-submit-btn"><span>Create Account</span><i
+                                    class="fa-solid fa-arrow-right-long"></i></button>
+                        </form>
+                        <p class="auth-switch-text">Already have an account? <a href="#"
+                                onclick="switchAuthTab('login')" class="auth-switch-link">Sign in</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ===== END AUTH MODAL ===== -->
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script>
+        function switchAuthTab(t) { const l = t === 'login'; document.getElementById('paneLogin').classList.toggle('d-none', !l); document.getElementById('paneRegister').classList.toggle('d-none', l); document.getElementById('tabLogin').classList.toggle('active', l); document.getElementById('tabRegister').classList.toggle('active', !l); document.getElementById('authTabIndicator').style.transform = l ? 'translateX(0%)' : 'translateX(100%)'; }
+        document.getElementById('authModal').addEventListener('show.bs.modal', function (e) { const t = e.relatedTarget; if (t) switchAuthTab(t.getAttribute('data-auth-tab') || 'login'); });
+        function togglePassword(id, btn) { const i = document.getElementById(id), ic = btn.querySelector('i'); i.type = i.type === 'password' ? 'text' : 'password'; ic.classList.toggle('fa-eye'); ic.classList.toggle('fa-eye-slash'); }
+        function selectRole(el) { document.querySelectorAll('.auth-role-btn').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
+        function updStr(v) { const b = document.getElementById('sBar'), l = document.getElementById('sLbl'); if (!v) { b.style.width = '0'; l.textContent = ''; return; } let s = 0; if (v.length >= 8) s++; if (/[A-Z]/.test(v)) s++; if (/[0-9]/.test(v)) s++; if (/[^A-Za-z0-9]/.test(v)) s++; const lv = [{ w: '25%', c: '#ef4444', t: 'Weak' }, { w: '50%', c: '#f97316', t: 'Fair' }, { w: '75%', c: '#eab308', t: 'Good' }, { w: '100%', c: '#22c55e', t: 'Strong' }][s - 1] || { w: '25%', c: '#ef4444', t: 'Weak' }; b.style.width = lv.w; b.style.background = lv.c; l.textContent = lv.t; l.style.color = lv.c; }
+    </script>
+
+    <script>
+        /* Billing Toggle */
+        function switchBilling(mode) {
+            const isAnnual = mode === 'annual';
+            document.getElementById('btnMonthly').classList.toggle('active', !isAnnual);
+            document.getElementById('btnAnnual').classList.toggle('active', isAnnual);
+
+            document.querySelectorAll('.plan-price').forEach(el => {
+                const val = isAnnual ? parseInt(el.dataset.annual) : parseInt(el.dataset.monthly);
+                el.textContent = val.toLocaleString('en-IN');
+            });
+
+            document.querySelectorAll('.monthly-note').forEach(el => el.classList.toggle('d-none', isAnnual));
+            document.querySelectorAll('.annual-note').forEach(el => el.classList.toggle('d-none', !isAnnual));
+        }
+    </script>
+
+</body>
+
+</html>
