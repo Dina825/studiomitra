@@ -35,14 +35,14 @@
             border-radius: 12px;
             text-decoration: none;
             font-weight: 500;
-            font-size: .93rem;
-            transition: all .25s;
+            font-size: 0.93rem;
+            transition: all 0.25s ease;
             margin-bottom: 4px;
         }
 
         .sidebar-link:hover,
         .sidebar-link.active {
-            background: rgba(203, 111, 9, .09);
+            background: rgba(203, 111, 9, 0.09);
             color: #cb6f09;
         }
 
@@ -52,20 +52,28 @@
             margin-right: 10px;
         }
 
+        .sidebar-link.text-danger:hover {
+            background: rgba(220, 38, 38, 0.08);
+            color: #dc2626 !important;
+        }
+
         .storage-bar-track {
             height: 8px;
             background: #f0f4f8;
             border-radius: 100px;
             overflow: hidden;
-            margin: 6px 0;
+            margin: 8px 0;
         }
 
         .storage-bar-fill {
             height: 100%;
             background: linear-gradient(90deg, #cb6f09, #aa4502);
             border-radius: 100px;
-            transition: width 1.2s ease;
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
+
+
 
         /* ── BANNER ── */
         .ss-banner {
@@ -854,15 +862,16 @@
                                 Overview</a>
                             <a href="my-albums.html" class="sidebar-link"><i class="fa-solid fa-images"></i> My Albums
                                 <span class="badge ms-auto rounded-pill"
-                                    style="background:#cb6f09;font-size:.7rem;">8</span></a>
+                                    style="background:#cb6f09;font-size:.7rem;">12</span></a>
                             <a href="my-bookings.html" class="sidebar-link"><i class="fa-regular fa-calendar-check"></i>
                                 Bookings <span class="badge ms-auto rounded-pill"
                                     style="background:#cb6f09;font-size:.7rem;">3</span></a>
                             <a href="saved-studios.html" class="sidebar-link active"><i class="fa-regular fa-heart"></i>
                                 Saved Studios <span class="badge ms-auto rounded-pill"
                                     style="background:#cb6f09;font-size:.7rem;">6</span></a>
-                            <a href="#" class="sidebar-link"><i class="fa-solid fa-sliders"></i> Settings</a>
-                            <a href="index.html" class="sidebar-link mt-4" style="color:#dc2626;"><i
+                            <a href="settings.html" class="sidebar-link"><i class="fa-solid fa-sliders"></i>
+                                Settings</a>
+                            <a href="index.html" class="sidebar-link mt-4 text-danger"><i
                                     class="fa-solid fa-power-off"></i> Logout</a>
                         </div>
                     </div>

@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | StudioMitra</title>
+    <meta name="description" content="Manage your StudioMitra account settings, preferences and security.">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* ── Sidebar ── */
+        .sidebar-menu {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px 16px;
+            box-shadow: 0 4px 24px rgba(30, 42, 59, .07);
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 11px 16px;
+            color: #6c757d;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: .93rem;
+            transition: all .25s ease;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(203, 111, 9, .09);
+            color: #cb6f09;
+        }
+
+        .sidebar-link i {
+            width: 26px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .sidebar-link.text-danger:hover {
+            background: rgba(220, 38, 38, 0.08);
+            color: #dc2626 !important;
+        }
+
+        .storage-bar-track {
+            height: 8px;
+            background: #f0f4f8;
+            border-radius: 100px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+        .storage-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #cb6f09, #aa4502);
+            border-radius: 100px;
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* ── Settings Tab Nav ── */
+        .settings-nav {
+            display: flex;
+            gap: 6px;
+            background: #fff;
+            border-radius: 14px;
+            padding: 8px;
+            box-shadow: 0 2px 12px rgba(30, 42, 59, .05);
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .s-tab {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 18px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            color: #6c757d;
+            font-family: 'Outfit', sans-serif;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .22s ease;
+        }
+
+        .s-tab:hover {
+            background: #f0f4f8;
+            color: #1e2a3b;
+        }
+
+        .s-tab.active {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(203, 111, 9, .25);
+        }
+
+        .s-tab i {
+            font-size: .85rem;
+        }
+
+        /* ── Card ── */
+        .settings-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px 30px;
+            box-shadow: 0 4px 24px rgba(30, 42, 59, .06);
+            margin-bottom: 20px;
+            border: 1px solid rgba(226, 232, 240, .8);
+        }
+
+        .settings-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1e2a3b;
+            margin-bottom: 4px;
+        }
+
+        .settings-card-subtitle {
+            font-size: .83rem;
+            color: #8a94a6;
+            margin-bottom: 22px;
+        }
+
+        .settings-divider {
+            border: none;
+            border-top: 1px solid #f0f4f8;
+            margin: 20px 0;
+        }
+
+        /* ── Avatar upload ── */
+        .avatar-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .avatar-wrap img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 18px rgba(30, 42, 59, .12);
+        }
+
+        .avatar-edit {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            border-radius: 50%;
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: .75rem;
+            cursor: pointer;
+            transition: transform .2s;
+        }
+
+        .avatar-edit:hover {
+            transform: scale(1.1);
+        }
+
+        /* ── Form controls ── */
+        .settings-label {
+            font-size: .82rem;
+            font-weight: 700;
+            color: #495057;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .settings-input {
+            width: 100%;
+            border: 1.5px solid #e9ecef;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: .9rem;
+            font-family: 'Outfit', sans-serif;
+            color: #1e2a3b;
+            transition: border-color .2s, box-shadow .2s;
+            outline: none;
+            background: #fff;
+        }
+
+        .settings-input:focus {
+            border-color: #cb6f09;
+            box-shadow: 0 0 0 3px rgba(203, 111, 9, .1);
+        }
+
+        .settings-input:disabled {
+            background: #f8f9fa;
+            color: #adb5bd;
+        }
+
+        .settings-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%236c757d' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+
+        /* ── Toggle Switch ── */
+        .toggle-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .toggle-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .toggle-row:first-child {
+            padding-top: 0;
+        }
+
+        .toggle-info h6 {
+            font-size: .9rem;
+            font-weight: 700;
+            color: #1e2a3b;
+            margin-bottom: 2px;
+        }
+
+        .toggle-info p {
+            font-size: .8rem;
+            color: #8a94a6;
+            margin: 0;
+        }
+
+        .sm-toggle {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .sm-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .sm-slider {
+            position: absolute;
+            inset: 0;
+            background: #e9ecef;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .sm-slider::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            left: 3px;
+            top: 3px;
+            transition: .3s;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+        }
+
+        .sm-toggle input:checked+.sm-slider {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+        }
+
+        .sm-toggle input:checked+.sm-slider::before {
+            transform: translateX(20px);
+        }
+
+        /* ── Danger zone ── */
+        .danger-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px 30px;
+            border: 1.5px solid rgba(220, 38, 38, .15);
+            box-shadow: 0 4px 24px rgba(220, 38, 38, .04);
+        }
+
+        /* ── Buttons ── */
+        .btn-save {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 11px 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .25s;
+            box-shadow: 0 4px 14px rgba(203, 111, 9, .22);
+        }
+
+        .btn-save:hover {
+            background: #1e2a3b;
+            box-shadow: 0 6px 18px rgba(30, 42, 59, .22);
+        }
+
+        .btn-outline-sm {
+            background: transparent;
+            border: 1.5px solid #e9ecef;
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-family: 'Outfit', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            color: #495057;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .btn-outline-sm:hover {
+            border-color: #1e2a3b;
+            color: #1e2a3b;
+            background: #f8f9fa;
+        }
+
+        .btn-danger-outline {
+            background: transparent;
+            border: 1.5px solid rgba(220, 38, 38, .4);
+            border-radius: 10px;
+            padding: 9px 20px;
+            font-family: 'Outfit', sans-serif;
+            font-size: .85rem;
+            font-weight: 700;
+            color: #dc2626;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .btn-danger-outline:hover {
+            background: #dc2626;
+            color: #fff;
+            border-color: #dc2626;
+        }
+
+        /* ── Page banner ── */
+        .settings-banner {
+            background: linear-gradient(135deg, #1e2a3b 0%, #2d3f58 60%, #1a3a52 100%);
+            border-radius: 20px;
+            padding: 28px 30px;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 22px;
+        }
+
+        .settings-banner::before {
+            content: '';
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(203, 111, 9, .18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ── Password strength ── */
+        .pwd-strength-bar {
+            height: 5px;
+            background: #f0f4f8;
+            border-radius: 100px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .pwd-strength-fill {
+            height: 100%;
+            border-radius: 100px;
+            transition: width .4s, background .4s;
+        }
+
+        /* ── Toast ── */
+        .sm-toast {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            background: #1e2a3b;
+            color: #fff;
+            border-radius: 14px;
+            padding: 14px 20px;
+            font-size: .88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 99999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+        }
+
+        .sm-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .sm-toast i {
+            color: #22c55e;
+            font-size: 1rem;
+        }
+
+        /* ── Pane visibility ── */
+        .settings-pane {
+            display: none;
+        }
+
+        .settings-pane.active {
+            display: block;
+        }
+
+        /* ── Connected account row ── */
+        .connected-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .connected-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .connected-row:first-child {
+            padding-top: 0;
+        }
+
+        .connected-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+
+        /* ── Session item ── */
+        .session-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .session-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .session-item:first-child {
+            padding-top: 0;
+        }
+
+        .session-device-icon {
+            width: 42px;
+            height: 42px;
+            background: #f0f4f8;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: #1e2a3b;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .settings-card {
+                padding: 20px 18px;
+            }
+
+            .settings-banner {
+                padding: 22px 18px;
+            }
+
+            .s-tab {
+                padding: 8px 12px;
+                font-size: .8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <img src="assets/logo.png" style="width:200px" alt="StudioMitra">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-signin-outline me-2">Sign In</a>
+                    <a href="#" class="btn btn-register">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="pt-5 mt-5 pb-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar -->
+                <div class="col-lg-3">
+                    <div class="sidebar-menu position-sticky" style="top:90px;">
+                        <div class="text-center mb-4 pt-2">
+                            <div class="position-relative d-inline-block">
+                                <img src="images/ai_portrait.png" alt="Kavya Nair" class="rounded-circle mb-3 shadow"
+                                    style="width:88px;height:88px;object-fit:cover;border:4px solid #fff;">
+                                <span
+                                    class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle"
+                                    style="width:18px;height:18px;transform:translate(-8px,-12px);"></span>
+                            </div>
+                            <h5 class="fw-bold mb-0" style="font-family:'Playfair Display',serif;">Kavya Nair</h5>
+                            <p class="text-muted small fw-medium mt-1 mb-0">Client · Member since 2025</p>
+                        </div>
+
+                        <!-- Storage bar in sidebar -->
+                        <div class="px-2 mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span style="font-size:.75rem;font-weight:600;color:#6c757d;">Storage Used</span>
+                                <span style="font-size:.75rem;font-weight:700;color:#1e2a3b;">3.2 GB / 10 GB</span>
+                            </div>
+                            <div class="storage-bar-track">
+                                <div class="storage-bar-fill" style="width:32%"></div>
+                            </div>
+                        </div>
+
+                        <div class="nav flex-column">
+                            <a href="client-dashboard.html" class="sidebar-link"><i class="fa-solid fa-layer-group"></i>
+                                Overview</a>
+                            <a href="my-albums.html" class="sidebar-link"><i class="fa-solid fa-images"></i> My Albums
+                                <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">12</span></a>
+                            <a href="my-bookings.html" class="sidebar-link"><i class="fa-regular fa-calendar-check"></i>
+                                Bookings
+                                <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">3</span></a>
+                            <a href="saved-studios.html" class="sidebar-link"><i class="fa-regular fa-heart"></i> Saved
+                                Studios
+                                <span class="badge ms-auto rounded-pill"
+                                    style="background:#cb6f09;font-size:.7rem;">6</span></a>
+                            <a href="settings.html" class="sidebar-link active"><i class="fa-solid fa-sliders"></i>
+                                Settings</a>
+                            <a href="index.html" class="sidebar-link mt-4 text-danger">
+                                <i class="fa-solid fa-power-off"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="col-lg-9">
+
+                    <!-- Banner -->
+                    <div class="settings-banner">
+                        <div class="d-flex align-items-center gap-3">
+                            <div
+                                style="width:48px;height:48px;background:rgba(255,255,255,.12);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;">
+                                <i class="fa-solid fa-sliders"></i>
+                            </div>
+                            <div>
+                                <h2 class="fw-bold mb-1" style="font-family:'Playfair Display',serif;font-size:1.5rem;">
+                                    Account Settings</h2>
+                                <p class="mb-0 small" style="opacity:.7;">Manage your profile, preferences & security
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Nav -->
+                    <div class="settings-nav" id="settingsTabs">
+                        <button class="s-tab active" onclick="switchTab('profile', this)" id="tab-profile">
+                            <i class="fa-regular fa-user"></i> Profile
+                        </button>
+                        <button class="s-tab" onclick="switchTab('notifications', this)" id="tab-notifications">
+                            <i class="fa-regular fa-bell"></i> Notifications
+                        </button>
+                        <button class="s-tab" onclick="switchTab('security', this)" id="tab-security">
+                            <i class="fa-solid fa-shield-halved"></i> Security
+                        </button>
+                        <button class="s-tab" onclick="switchTab('privacy', this)" id="tab-privacy">
+                            <i class="fa-solid fa-lock"></i> Privacy
+                        </button>
+                        <button class="s-tab" onclick="switchTab('connected', this)" id="tab-connected">
+                            <i class="fa-solid fa-plug"></i> Connected
+                        </button>
+                    </div>
+
+                    <!-- ─── PANE: Profile ─── -->
+                    <div class="settings-pane active" id="pane-profile">
+
+                        <!-- Avatar & Name Card -->
+                        <div class="settings-card">
+                            <div class="settings-card-title">Personal Information</div>
+                            <div class="settings-card-subtitle">Update your photo and personal details.</div>
+
+                            <div class="d-flex align-items-center gap-4 mb-4">
+                                <div class="avatar-wrap">
+                                    <img src="images/ai_portrait.png" alt="Avatar" id="avatarPreview">
+                                    <label class="avatar-edit" for="avatarInput" title="Change photo">
+                                        <i class="fa-solid fa-camera"></i>
+                                    </label>
+                                    <input type="file" id="avatarInput" accept="image/*" class="d-none"
+                                        onchange="previewAvatar(this)">
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1" style="color:#1e2a3b;">Kavya Nair</h5>
+                                    <p class="text-muted small mb-2">Client · Member since Jan 2025</p>
+                                    <label for="avatarInput" class="btn-outline-sm"
+                                        style="cursor:pointer;display:inline-block;">
+                                        <i class="fa-solid fa-arrow-up-from-bracket me-1"></i> Upload Photo
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr class="settings-divider">
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="settings-label" for="firstName">First Name</label>
+                                    <input type="text" id="firstName" class="settings-input" value="Kavya">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label" for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" class="settings-input" value="Nair">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label" for="emailAddr">Email Address</label>
+                                    <div class="position-relative">
+                                        <input type="email" id="emailAddr" class="settings-input"
+                                            value="kavya.nair@gmail.com" style="padding-right:110px;">
+                                        <span class="position-absolute"
+                                            style="right:12px;top:50%;transform:translateY(-50%);font-size:.72rem;font-weight:700;color:#16a34a;background:rgba(34,197,94,.1);padding:3px 10px;border-radius:20px;">
+                                            <i class="fa-solid fa-circle-check me-1"></i>Verified
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label" for="phoneNum">Phone Number</label>
+                                    <input type="tel" id="phoneNum" class="settings-input" value="+91 98765 43210">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label" for="cityField">City</label>
+                                    <input type="text" id="cityField" class="settings-input" placeholder="e.g. Mumbai">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label" for="stateField">State</label>
+                                    <select id="stateField" class="settings-input settings-select">
+                                        <option>Maharashtra</option>
+                                        <option>Karnataka</option>
+                                        <option>Tamil Nadu</option>
+                                        <option>Delhi</option>
+                                        <option>Kerala</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label class="settings-label" for="bioField">Bio</label>
+                                    <textarea id="bioField" class="settings-input" rows="3"
+                                        placeholder="Tell studios a bit about yourself and what occasions you love capturing…"
+                                        style="resize:vertical;"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-2 mt-4">
+                                <button class="btn-outline-sm">Discard</button>
+                                <button class="btn-save" onclick="showToast('Profile updated successfully!')">
+                                    <i class="fa-solid fa-check me-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Preferences Card -->
+                        <div class="settings-card">
+                            <div class="settings-card-title">Preferences</div>
+                            <div class="settings-card-subtitle">Customise how StudioMitra works for you.</div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="settings-label">Language</label>
+                                    <select class="settings-input settings-select">
+                                        <option>English</option>
+                                        <option>हिन्दी (Hindi)</option>
+                                        <option>मराठी (Marathi)</option>
+                                        <option>தமிழ் (Tamil)</option>
+                                        <option>മലയാളം (Malayalam)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label">Time Zone</label>
+                                    <select class="settings-input settings-select">
+                                        <option>IST – UTC+5:30</option>
+                                        <option>GMT – UTC+0</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label">Date Format</label>
+                                    <select class="settings-input settings-select">
+                                        <option>DD/MM/YYYY</option>
+                                        <option>MM/DD/YYYY</option>
+                                        <option>YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label">Default Album View</label>
+                                    <select class="settings-input settings-select">
+                                        <option>Grid View</option>
+                                        <option>List View</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button class="btn-save" onclick="showToast('Preferences saved!')">
+                                    <i class="fa-solid fa-check me-2"></i>Save
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ─── PANE: Notifications ─── -->
+                    <div class="settings-pane" id="pane-notifications">
+                        <div class="settings-card">
+                            <div class="settings-card-title">Email Notifications</div>
+                            <div class="settings-card-subtitle">Choose which emails you'd like to receive from us.</div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Album Delivered</h6>
+                                    <p>Get notified when a new album is ready to view.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Booking Confirmations</h6>
+                                    <p>Receive confirmations and reminders for upcoming sessions.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Promotional Offers</h6>
+                                    <p>Exclusive deals and discounts from top studios.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox"><span class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>New Studio Matches</h6>
+                                    <p>When a new studio matching your saved preferences lists.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Payment Receipts</h6>
+                                    <p>Email receipt for every successful transaction.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Push & SMS Notifications</div>
+                            <div class="settings-card-subtitle">In-app and mobile alerts for real-time updates.</div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Push Notifications</h6>
+                                    <p>Browser/app push for instant updates.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>SMS Alerts</h6>
+                                    <p>Text messages for session reminders and critical alerts.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox"><span class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>WhatsApp Notifications</h6>
+                                    <p>Receive album links and updates via WhatsApp.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button class="btn-save" onclick="showToast('Notification preferences saved!')">
+                                <i class="fa-solid fa-check me-2"></i>Save Preferences
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ─── PANE: Security ─── -->
+                    <div class="settings-pane" id="pane-security">
+                        <div class="settings-card">
+                            <div class="settings-card-title">Change Password</div>
+                            <div class="settings-card-subtitle">Choose a strong password you don't use elsewhere.</div>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="settings-label">Current Password</label>
+                                    <div class="position-relative">
+                                        <input type="password" class="settings-input" id="currentPwd"
+                                            placeholder="Enter current password" style="padding-right:44px;">
+                                        <button type="button" class="position-absolute border-0 bg-transparent"
+                                            style="right:12px;top:50%;transform:translateY(-50%);color:#adb5bd;cursor:pointer;"
+                                            onclick="togglePwd('currentPwd',this)">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label">New Password</label>
+                                    <div class="position-relative">
+                                        <input type="password" class="settings-input" id="newPwd"
+                                            placeholder="Min. 8 characters" style="padding-right:44px;"
+                                            oninput="updateStrength(this.value)">
+                                        <button type="button" class="position-absolute border-0 bg-transparent"
+                                            style="right:12px;top:50%;transform:translateY(-50%);color:#adb5bd;cursor:pointer;"
+                                            onclick="togglePwd('newPwd',this)">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="pwd-strength-bar">
+                                        <div class="pwd-strength-fill" id="strengthFill"
+                                            style="width:0%;background:#e9ecef;"></div>
+                                    </div>
+                                    <span id="strengthLabel" class="d-block mt-1"
+                                        style="font-size:.75rem;font-weight:700;color:#adb5bd;"></span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="settings-label">Confirm New Password</label>
+                                    <div class="position-relative">
+                                        <input type="password" class="settings-input" id="confirmPwd"
+                                            placeholder="Repeat new password" style="padding-right:44px;">
+                                        <button type="button" class="position-absolute border-0 bg-transparent"
+                                            style="right:12px;top:50%;transform:translateY(-50%);color:#adb5bd;cursor:pointer;"
+                                            onclick="togglePwd('confirmPwd',this)">
+                                            <i class="fa-regular fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end mt-4">
+                                <button class="btn-save" onclick="showToast('Password updated successfully!')">
+                                    <i class="fa-solid fa-lock me-2"></i>Update Password
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Two-Factor Authentication</div>
+                            <div class="settings-card-subtitle">Add an extra layer of security to your account.</div>
+                            <div class="d-flex align-items-center justify-content-between p-3 rounded-3 mb-3"
+                                style="background:#f8f9fa;border:1.5px solid #e9ecef;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div
+                                        style="width:42px;height:42px;background:rgba(203,111,9,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#cb6f09;font-size:1.1rem;">
+                                        <i class="fa-solid fa-mobile-screen"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">Authenticator App
+                                        </div>
+                                        <div style="font-size:.78rem;color:#8a94a6;">Use Google or Microsoft
+                                            Authenticator</div>
+                                    </div>
+                                </div>
+                                <button class="btn-outline-sm"
+                                    onclick="showToast('2FA setup coming soon!')">Enable</button>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between p-3 rounded-3"
+                                style="background:#f8f9fa;border:1.5px solid #e9ecef;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div
+                                        style="width:42px;height:42px;background:rgba(99,102,241,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#6366f1;font-size:1.1rem;">
+                                        <i class="fa-solid fa-comment-sms"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">SMS Verification
+                                        </div>
+                                        <div style="font-size:.78rem;color:#8a94a6;">Receive a code on +91 98765 43210
+                                        </div>
+                                    </div>
+                                </div>
+                                <span
+                                    style="font-size:.72rem;font-weight:700;color:#16a34a;background:rgba(34,197,94,.1);padding:4px 12px;border-radius:20px;">
+                                    <i class="fa-solid fa-circle-check me-1"></i>Active
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Active Sessions</div>
+                            <div class="settings-card-subtitle">Devices currently signed into your account.</div>
+                            <div class="session-item">
+                                <div class="session-device-icon"><i class="fa-solid fa-laptop"></i></div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">Windows · Chrome <span
+                                            style="font-size:.72rem;font-weight:700;color:#16a34a;background:rgba(34,197,94,.1);padding:2px 9px;border-radius:20px;margin-left:6px;">Current</span>
+                                    </div>
+                                    <div style="font-size:.78rem;color:#8a94a6;">Mumbai, IN · Last active just now</div>
+                                </div>
+                            </div>
+                            <div class="session-item">
+                                <div class="session-device-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">Android · StudioMitra
+                                        App</div>
+                                    <div style="font-size:.78rem;color:#8a94a6;">Mumbai, IN · Last active 3 hours ago
+                                    </div>
+                                </div>
+                                <button class="btn-danger-outline"
+                                    style="font-size:.78rem;padding:6px 14px;">Revoke</button>
+                            </div>
+                            <div class="session-item">
+                                <div class="session-device-icon"><i class="fa-brands fa-apple"></i></div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">iPhone · Safari</div>
+                                    <div style="font-size:.78rem;color:#8a94a6;">Pune, IN · Last active 2 days ago</div>
+                                </div>
+                                <button class="btn-danger-outline"
+                                    style="font-size:.78rem;padding:6px 14px;">Revoke</button>
+                            </div>
+                            <div class="d-flex justify-content-end mt-3">
+                                <button class="btn-danger-outline" onclick="showToast('All other sessions revoked.')">
+                                    <i class="fa-solid fa-ban me-1"></i>Revoke All Other Sessions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ─── PANE: Privacy ─── -->
+                    <div class="settings-pane" id="pane-privacy">
+                        <div class="settings-card">
+                            <div class="settings-card-title">Profile Visibility</div>
+                            <div class="settings-card-subtitle">Control what studios and others can see about you.</div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Show Profile to Studios</h6>
+                                    <p>Allow studios to view your basic profile when you send a request.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Show Booking History to Studios</h6>
+                                    <p>Studios can see your past session history to tailor their offers.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox"><span class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Public Album Showcase</h6>
+                                    <p>Allow studios to feature your album (anonymised) in their portfolio.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox"><span class="sm-slider"></span></label>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Data & Analytics</div>
+                            <div class="settings-card-subtitle">How we use your data to improve your experience.</div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Usage Analytics</h6>
+                                    <p>Help us improve by sharing anonymous usage data.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Personalised Recommendations</h6>
+                                    <p>Use your activity to suggest relevant studios and services.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox" checked><span
+                                        class="sm-slider"></span></label>
+                            </div>
+                            <div class="toggle-row">
+                                <div class="toggle-info">
+                                    <h6>Cookie Preferences</h6>
+                                    <p>Allow third-party cookies for enhanced experience.</p>
+                                </div>
+                                <label class="sm-toggle"><input type="checkbox"><span class="sm-slider"></span></label>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Data Export & Deletion</div>
+                            <div class="settings-card-subtitle">Access or remove the data we hold about you.</div>
+                            <div class="d-flex flex-wrap gap-3">
+                                <button class="btn-outline-sm"
+                                    onclick="showToast('Your data export has been requested. You will receive an email shortly.')">
+                                    <i class="fa-solid fa-download me-2"></i>Download My Data
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button class="btn-save" onclick="showToast('Privacy settings saved!')">
+                                <i class="fa-solid fa-check me-2"></i>Save Privacy Settings
+                            </button>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div class="danger-card mt-4">
+                            <div class="d-flex align-items-start gap-3">
+                                <div
+                                    style="width:42px;height:42px;background:rgba(220,38,38,.08);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#dc2626;font-size:1.1rem;flex-shrink:0;">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold mb-1" style="color:#dc2626;font-size:1rem;">Danger Zone</h5>
+                                    <p class="text-muted small mb-3">These actions are irreversible. Please proceed with
+                                        caution.</p>
+                                    <div class="d-flex flex-wrap gap-3">
+                                        <button class="btn-danger-outline"
+                                            onclick="showToast('Account deactivation request sent. We\'ll email you confirmation.')">
+                                            <i class="fa-solid fa-user-slash me-2"></i>Deactivate Account
+                                        </button>
+                                        <button class="btn-danger-outline"
+                                            onclick="if(confirm('Are you sure? This action cannot be undone.')) showToast('Account deletion request submitted.')">
+                                            <i class="fa-solid fa-trash me-2"></i>Delete Account Permanently
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ─── PANE: Connected Accounts ─── -->
+                    <div class="settings-pane" id="pane-connected">
+                        <div class="settings-card">
+                            <div class="settings-card-title">Social Logins</div>
+                            <div class="settings-card-subtitle">Link social accounts to sign in faster.</div>
+                            <div class="connected-row">
+                                <div class="d-flex align-items-center">
+                                    <div class="connected-icon" style="background:#fff3e8;">
+                                        <img src="images/ai_app_logo.png" alt="Google" style="height:22px;">
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">Google</div>
+                                        <div style="font-size:.78rem;color:#8a94a6;">kavya.nair@gmail.com</div>
+                                    </div>
+                                </div>
+                                <span
+                                    style="font-size:.72rem;font-weight:700;color:#16a34a;background:rgba(34,197,94,.1);padding:4px 12px;border-radius:20px;">
+                                    <i class="fa-solid fa-circle-check me-1"></i>Connected
+                                </span>
+                            </div>
+                            <div class="connected-row">
+                                <div class="d-flex align-items-center">
+                                    <div class="connected-icon" style="background:#e8f0fe;">
+                                        <i class="fa-brands fa-facebook" style="color:#1877f2;font-size:1.3rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">Facebook</div>
+                                        <div style="font-size:.78rem;color:#8a94a6;">Not connected</div>
+                                    </div>
+                                </div>
+                                <button class="btn-outline-sm"
+                                    onclick="showToast('Facebook connection coming soon!')">Connect</button>
+                            </div>
+                            <div class="connected-row">
+                                <div class="d-flex align-items-center">
+                                    <div class="connected-icon" style="background:#f3e8ff;">
+                                        <i class="fa-brands fa-instagram" style="color:#e1306c;font-size:1.3rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">Instagram</div>
+                                        <div style="font-size:.78rem;color:#8a94a6;">Not connected</div>
+                                    </div>
+                                </div>
+                                <button class="btn-outline-sm"
+                                    onclick="showToast('Instagram connection coming soon!')">Connect</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-card">
+                            <div class="settings-card-title">Storage & Integrations</div>
+                            <div class="settings-card-subtitle">Connect cloud storage to backup or sync your albums.
+                            </div>
+                            <div class="connected-row">
+                                <div class="d-flex align-items-center">
+                                    <div class="connected-icon" style="background:#e8f4fd;">
+                                        <i class="fa-brands fa-google-drive"
+                                            style="color:#fbbc04;font-size:1.3rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">Google Drive</div>
+                                        <div style="font-size:.78rem;color:#8a94a6;">Auto-backup albums to your Drive
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn-outline-sm"
+                                    onclick="showToast('Google Drive sync coming soon!')">Connect</button>
+                            </div>
+                            <div class="connected-row">
+                                <div class="d-flex align-items-center">
+                                    <div class="connected-icon" style="background:#e8f0fe;">
+                                        <i class="fa-solid fa-cloud" style="color:#0078d4;font-size:1.2rem;"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold" style="font-size:.9rem;color:#1e2a3b;">OneDrive</div>
+                                        <div style="font-size:.78rem;color:#8a94a6;">Sync albums with Microsoft OneDrive
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn-outline-sm"
+                                    onclick="showToast('OneDrive sync coming soon!')">Connect</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer pt-4 pb-3">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-3 col-md-6">
+                    <a class="footer-brand d-block mb-4" href="#">
+                        <img src="assets/logo1.png" alt="StudioMitra"
+                            style="height:135px;filter:brightness(0) invert(1);">
+                    </a>
+                    <div class="social-icons d-flex align-items-center mt-3">
+                        <a href="#" class="social-icon facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon x-twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="social-icon instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="social-icon youtube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Quick Links</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About StudioMitra</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Policy</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms &amp; Conditions</a></li>
+                        <li><a href="#">AI Services Agreement</a></li>
+                        <li><a href="#">Acceptable Use Policy</a></li>
+                        <li><a href="#">Cookies Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading mb-4">Download Our Apps</h5>
+                    <div class="d-flex flex-column gap-3">
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width:68%;">
+                            <i class="fa-brands fa-apple fs-3 me-2"></i>
+                            <div class="lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size:9px;">Download on the</span>
+                                <span class="fw-bold d-block" style="font-size:14px;">App Store</span>
+                            </div>
+                        </a>
+                        <a href="#"
+                            class="app-btn-custom bg-white text-dark text-decoration-none d-flex align-items-center px-3 py-2 rounded"
+                            style="width:68%;">
+                            <img src="images/ai_app_logo.png" alt="Play" style="height:20px;" class="me-2">
+                            <div class="lh-1">
+                                <span class="d-block text-muted mb-1" style="font-size:9px;">Get it on</span>
+                                <span class="fw-bold d-block" style="font-size:14px;">Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+            </div>
+        </div>
+        <a href="#" class="floating-btn fb-right"><i class="fa-solid fa-chevron-up"></i></a>
+    </footer>
+
+    <!-- Toast -->
+    <div class="sm-toast" id="smToast">
+        <i class="fa-solid fa-circle-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/fix.js"></script>
+    <script>
+        /* ── Tab Switcher ── */
+        function switchTab(name, btn) {
+            document.querySelectorAll('.settings-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.s-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('pane-' + name).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        /* ── Toast ── */
+        function showToast(msg) {
+            const t = document.getElementById('smToast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        /* ── Password toggle ── */
+        function togglePwd(id, btn) {
+            const inp = document.getElementById(id);
+            const isText = inp.type === 'text';
+            inp.type = isText ? 'password' : 'text';
+            btn.querySelector('i').className = isText ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+        }
+
+        /* ── Password strength ── */
+        function updateStrength(val) {
+            const bar = document.getElementById('strengthFill');
+            const lbl = document.getElementById('strengthLabel');
+            let score = 0;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+            const map = [
+                { w: '0%', bg: '#e9ecef', txt: '' },
+                { w: '25%', bg: '#ef4444', txt: 'Weak' },
+                { w: '50%', bg: '#f97316', txt: 'Fair' },
+                { w: '75%', bg: '#eab308', txt: 'Good' },
+                { w: '100%', bg: '#22c55e', txt: 'Strong' }
+            ];
+            bar.style.width = map[score].w;
+            bar.style.background = map[score].bg;
+            lbl.textContent = map[score].txt;
+            lbl.style.color = map[score].bg;
+        }
+
+        /* ── Avatar preview ── */
+        function previewAvatar(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    document.getElementById('avatarPreview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        /* ── Navbar scroll ── */
+        window.addEventListener('scroll', () => {
+            document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+    </script>
+</body>
+
+</html>

@@ -191,14 +191,20 @@
                         </div>
 
                         <div class="nav flex-column mt-4">
-                            <a href="#" class="sidebar-link active"><i class="fa-solid fa-layer-group"></i> Dashboard</a>
-                            <a href="#" class="sidebar-link"><i class="fa-solid fa-calendar-alt"></i> Appointments <span
+                            <a href="studio-dashboard.html" class="sidebar-link active"><i
+                                    class="fa-solid fa-layer-group"></i> Dashboard</a>
+                            <a href="studio-appointments.html" class="sidebar-link"><i
+                                    class="fa-solid fa-calendar-alt"></i> Appointments <span
                                     class="badge bg-warning text-dark ms-auto rounded-pill">3</span></a>
-                            <a href="#" class="sidebar-link"><i class="fa-solid fa-camera"></i> Photoshoots</a>
-                            <a href="#" class="sidebar-link"><i class="fa-solid fa-images"></i> Manage Albums</a>
-                            <a href="#" class="sidebar-link"><i class="fa-solid fa-users"></i> Clients</a>
+                            <a href="studio-photoshoots.html" class="sidebar-link"><i class="fa-solid fa-camera"></i>
+                                Photoshoots</a>
+                            <a href="studio-manage-albums.html" class="sidebar-link"><i class="fa-solid fa-images"></i>
+                                Manage Albums</a>
+                            <a href="studio-clients.html" class="sidebar-link"><i class="fa-solid fa-users"></i>
+                                Clients</a>
                             <a href="#" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
-                            <a href="#" class="sidebar-link"><i class="fa-solid fa-money-bill-wave"></i> Billing & Earnings</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-money-bill-wave"></i> Billing &
+                                Earnings</a>
                             <a href="#" class="sidebar-link"><i class="fa-solid fa-store"></i> Studio Profile</a>
                             <a href="index.html" class="sidebar-link mt-4 text-danger hover-bg-light"><i
                                     class="fa-solid fa-power-off"></i> Logout</a>
@@ -232,7 +238,9 @@
                                     <i class="fa-solid fa-indian-rupee-sign"></i>
                                 </div>
                                 <h2 class="fw-bold mb-1 display-6">₹42.5K</h2>
-                                <p class="text-muted fw-medium mb-0">Monthly Earnings <span class="text-success small"><i class="fa-solid fa-arrow-trend-up ms-1"></i> 12%</span></p>
+                                <p class="text-muted fw-medium mb-0">Monthly Earnings <span
+                                        class="text-success small"><i class="fa-solid fa-arrow-trend-up ms-1"></i>
+                                        12%</span></p>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -887,23 +895,23 @@
                     </script>
 
 
-    <script>
-        // Tab switching logic for styling correctly on the tabs
-        document.querySelectorAll('#bookingTabs button').forEach(button => {
-            button.addEventListener('show.bs.tab', event => {
-                document.querySelectorAll('#bookingTabs button').forEach(btn => {
-                    btn.style.borderBottom = 'none';
-                    btn.style.color = '';
-                    btn.classList.remove('text-dark', 'active-tab-style');
-                    btn.classList.add('text-muted');
-                });
-                event.target.style.borderBottom = '2px solid #cb6f09';
-                event.target.style.color = '#cb6f09';
-                event.target.classList.remove('text-muted');
-                event.target.classList.add('text-dark', 'active-tab-style');
-            });
-        });
-    </script>
+                    <script>
+                        // Tab switching logic for styling correctly on the tabs
+                        document.querySelectorAll('#bookingTabs button').forEach(button => {
+                            button.addEventListener('show.bs.tab', event => {
+                                document.querySelectorAll('#bookingTabs button').forEach(btn => {
+                                    btn.style.borderBottom = 'none';
+                                    btn.style.color = '';
+                                    btn.classList.remove('text-dark', 'active-tab-style');
+                                    btn.classList.add('text-muted');
+                                });
+                                event.target.style.borderBottom = '2px solid #cb6f09';
+                                event.target.style.color = '#cb6f09';
+                                event.target.classList.remove('text-muted');
+                                event.target.classList.add('text-dark', 'active-tab-style');
+                            });
+                        });
+                    </script>
 </body>
 
 </html>
