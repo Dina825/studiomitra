@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Album Template | StudioMitra</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Top Bar Styles */
+        .top-designer-bar {
+            background: #fff;
+            border-radius: 20px;
+            padding: 15px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Stepper UI */
+        .step-container {
+            background: #fff;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step-header {
+            margin-bottom: 30px;
+        }
+
+        .step-indicator {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .step-dot {
+            height: 4px;
+            flex-grow: 1;
+            background: #e2e8f0;
+            border-radius: 10px;
+            transition: all 0.4s ease;
+        }
+
+        .step-dot.active {
+            background: #cb6f09;
+        }
+
+        .step-dot.completed {
+            background: #1e2a3b;
+        }
+
+        .step-panel {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .step-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Controls */
+        .form-label {
+            font-weight: 700;
+            color: #1e2a3b;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .option-card {
+            border: 2px solid #f1f5f9;
+            border-radius: 16px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            height: 100%;
+        }
+
+        .option-card:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+
+        .option-card.selected {
+            border-color: #cb6f09;
+            background: rgba(203, 111, 9, 0.05);
+        }
+
+        .option-card i {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: #64748b;
+        }
+
+        .color-selector {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .color-box {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .color-box.active {
+            border-color: #1e2a3b;
+            transform: scale(1.1);
+        }
+
+        /* Preview Area */
+        .preview-sticky {
+            position: sticky;
+            top: 100px;
+        }
+
+        .preview-container {
+            background: #1e2a3b;
+            border-radius: 24px;
+            padding: 40px;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .virtual-album {
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 4/3;
+            background: #fff;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .virtual-album.portrait {
+            max-width: 350px;
+            aspect-ratio: 3/4;
+        }
+
+        .virtual-album::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .album-pattern-overlay {
+            position: absolute;
+            inset: 0;
+            opacity: 0.1;
+            pointer-events: none;
+            background-size: 120px;
+        }
+
+        .album-photo-placeholder {
+            width: 70%;
+            height: 50%;
+            background: #f1f5f9;
+            margin: 40px auto 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #cbd5e1;
+            overflow: hidden;
+        }
+
+        .album-photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .album-text-preview {
+            text-align: center;
+            padding: 0 30px;
+        }
+
+        .album-title-preview {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .btn-step-nav {
+            padding: 12px 28px;
+            border-radius: 14px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn-next {
+            background: #cb6f09;
+            color: white;
+            border: none;
+        }
+
+        .btn-next:hover {
+            background: #aa4502;
+            color: white;
+        }
+
+        .btn-prev {
+            background: #f8fafc;
+            color: #64748b;
+            border: 1.5px solid #e2e8f0;
+        }
+
+        .border-preview-item {
+            border: 4px solid transparent;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .border-preview-item.active {
+            border-color: #cb6f09;
+            background: #fff;
+        }
+
+        .ai-input-wrap textarea {
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            min-height: 150px;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header / Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="studio-dashboard.html">
+                <img src="assets/logo.png" style="width:200px" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-signin-outline me-2" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="login">Sign In</a>
+                    <a href="#" class="btn btn-register" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="register">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="pt-5 mt-5 pb-5">
+        <div class="container-fluid px-lg-5">
+
+            <!-- Top Designer Bar -->
+            <div class="top-designer-bar mb-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-md-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="studio-manage-album-templates.html"
+                                class="btn btn-outline-secondary rounded-circle border-0 d-flex align-items-center justify-content-center"
+                                style="width: 40px; height: 40px;">
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </a>
+                            <div>
+                                <h5 class="fw-bold mb-0" style="font-family: 'Playfair Display', serif;">New Template
+                                    Creator</h5>
+                                <small class="text-muted fw-medium">Template Designer v2.0</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 text-center">
+                        <div class="d-inline-flex align-items-center gap-4 bg-light px-4 py-2 rounded-pill">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="stat-dot bg-success"></div>
+                                <span class="extra-small fw-bold text-dark">Cloud Sync Active</span>
+                            </div>
+                            <div class="vr h-25 opacity-25"></div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-clock text-muted small"></i>
+                                <span class="extra-small text-muted fw-bold">Auto-saved just now</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="d-flex align-items-center justify-content-end gap-3">
+                            <span class="small text-muted fw-bold d-none d-xl-block">Changes saved locally</span>
+                            <a href="studio-manage-album-templates.html"
+                                class="btn btn-light rounded-pill px-4 py-2 fw-bold small border shadow-xs">
+                                <i class="fa-solid fa-xmark me-2"></i> Cancel & Exit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Designer Workspace -->
+            <div class="row g-4">
+
+                <!-- Left: Stepper Controls -->
+                <div class="col-lg-5">
+                    <div class="step-container">
+                        <div class="step-header">
+                            <div class="step-indicator" id="stepIndicator">
+                                <div class="step-dot active"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-dot"></div>
+                                <div class="step-dot"></div>
+                            </div>
+                            <h3 class="fw-bold h4 mb-1" id="stepTitle">Basic Configuration</h3>
+                            <p class="text-muted small mb-0" id="stepSub">Define your album dimensions and orientation.
+                            </p>
+                        </div>
+
+                        <div class="step-content">
+                            <!-- Step 1: Size & Orientation -->
+                            <div class="step-panel active" data-step="1">
+                                <div class="mb-4">
+                                    <label class="form-label">Album Orientation</label>
+                                    <div class="row g-3">
+                                        <div class="col-6">
+                                            <div class="option-card selected"
+                                                onclick="updateOrientation('landscape', this)">
+                                                <i class="fa-solid fa-panorama"></i>
+                                                <div class="fw-bold small">Landscape</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="option-card" onclick="updateOrientation('portrait', this)">
+                                                <i class="fa-solid fa-portrait"></i>
+                                                <div class="fw-bold small">Portrait</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Dimensions (Inches)</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text bg-light border-0">Width</span>
+                                        <input type="number" class="form-control border-light" value="12"
+                                            id="inputWidth" onchange="updateDimensions()">
+                                        <span class="input-group-text bg-light border-0">Height</span>
+                                        <input type="number" class="form-control border-light" value="18"
+                                            id="inputHeight" onchange="updateDimensions()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Cover Color -->
+                            <div class="step-panel" data-step="2">
+                                <div class="mb-4">
+                                    <label class="form-label">Front Cover Color</label>
+                                    <div class="color-selector mb-3">
+                                        <div class="color-box active" style="background: #1e2a3b;"
+                                            onclick="updateCoverColor('#1e2a3b', 'front', this)"></div>
+                                        <div class="color-box" style="background: #ffffff;"
+                                            onclick="updateCoverColor('#ffffff', 'front', this)"></div>
+                                        <div class="color-box" style="background: #cb6f09;"
+                                            onclick="updateCoverColor('#cb6f09', 'front', this)"></div>
+                                        <div class="color-box" style="background: #5c3b1e;"
+                                            onclick="updateCoverColor('#5c3b1e', 'front', this)"></div>
+                                        <div class="color-box" style="background: #0d2c20;"
+                                            onclick="updateCoverColor('#0d2c20', 'front', this)"></div>
+                                        <div class="color-box" style="background: #4a5568;"
+                                            onclick="updateCoverColor('#4a5568', 'front', this)"></div>
+                                        <div class="color-box" style="background: #9b2c2c;"
+                                            onclick="updateCoverColor('#9b2c2c', 'front', this)"></div>
+                                        <div class="color-box" style="background: #ecc94b;"
+                                            onclick="updateCoverColor('#ecc94b', 'front', this)"></div>
+                                        <div class="color-box" style="background: #2b6cb0;"
+                                            onclick="updateCoverColor('#2b6cb0', 'front', this)"></div>
+                                        <div class="color-box" style="background: #805ad5;"
+                                            onclick="updateCoverColor('#805ad5', 'front', this)"></div>
+                                    </div>
+                                    <div class="form-check form-switch mb-4">
+                                        <input class="form-check-input" type="checkbox" id="dualColorToggle"
+                                            onchange="toggleDualColor()">
+                                        <label class="form-check-label small fw-bold" for="dualColorToggle">Enable
+                                            Multi-color / Gradient</label>
+                                    </div>
+                                    <div id="secondaryColorPanel" style="display:none;">
+                                        <label class="form-label">Back Cover Color</label>
+                                        <div class="color-selector">
+                                            <div class="color-box" style="background: #2d3748;"
+                                                onclick="updateCoverColor('#2d3748', 'back', this)"></div>
+                                            <div class="color-box" style="background: #edf2f7;"
+                                                onclick="updateCoverColor('#edf2f7', 'back', this)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Pattern Design -->
+                            <div class="step-panel" data-step="3">
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <div class="option-card selected" onclick="updatePattern('none', this)">
+                                            <div class="mb-2 bg-light rounded" style="height: 60px;"></div>
+                                            <div class="fw-bold small">Solid Clean</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="option-card" onclick="updatePattern('floral', this)">
+                                            <div class="mb-2 rounded"
+                                                style="height: 60px; background: url('https://www.transparenttextures.com/patterns/black-orchid.png'); background-color: #eee;">
+                                            </div>
+                                            <div class="fw-bold small">Floral Velvet</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Photo & Text -->
+                            <div class="step-panel" data-step="4">
+                                <div class="mb-4">
+                                    <label class="form-label">Cover Text (Primary)</label>
+                                    <input type="text" class="form-control border-light mb-3"
+                                        placeholder="e.g. Our Wedding Day" value="A Journey of Love" id="inputTitle"
+                                        oninput="updateText()">
+
+                                    <label class="form-label">Sub-text / Date</label>
+                                    <input type="text" class="form-control border-light"
+                                        placeholder="e.g. October 12, 2025" value="October 2025" id="inputSub"
+                                        oninput="updateText()">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Front Cover Photo</label>
+                                    <div class="p-4 border-2 border-dashed rounded-4 text-center bg-light"
+                                        style="cursor: pointer;">
+                                        <i class="fa-solid fa-cloud-arrow-up text-muted mb-2 fs-3"></i>
+                                        <div class="small fw-bold text-muted">Click to upload photo</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Border Style -->
+                            <div class="step-panel" data-step="5">
+                                <div class="row g-3">
+                                    <div class="col-12" onclick="updateBorder('none', this)">
+                                        <div class="border-preview-item active d-flex align-items-center gap-3">
+                                            <div style="width: 40px; height: 40px; border: 1px solid #ddd;"></div>
+                                            <div class="fw-bold small">Borderless (Modern)</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" onclick="updateBorder('classic', this)">
+                                        <div class="border-preview-item d-flex align-items-center gap-3">
+                                            <div
+                                                style="width: 40px; height: 40px; border: 3px solid #cb6f09; padding: 2px;">
+                                                <div style="width:100%; height:100%; border: 1px solid #cb6f09;"></div>
+                                            </div>
+                                            <div class="fw-bold small">Double Classic (Gold)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 6: AI Prompt -->
+                            <div class="step-panel" data-step="6">
+                                <label class="form-label">Tell AI what to refine...</label>
+                                <textarea class="form-control mb-3" id="aiPrompt"
+                                    placeholder="e.g. Make the text more elegant..."></textarea>
+                                <div class="p-3 rounded-4 bg-info-subtle border-0">
+                                    <p class="small text-info-emphasis mb-0"><i
+                                            class="fa-solid fa-circle-info me-2"></i> Our AI will process your design.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-footer mt-5 d-flex justify-content-between">
+                            <button class="btn btn-step-nav btn-prev" id="prevBtn" onclick="prevStep()"
+                                style="display:none;">Back</button>
+                            <button class="btn btn-step-nav btn-next ms-auto" id="nextBtn" onclick="nextStep()">Next
+                                Step <i class="fa-solid fa-arrow-right ms-2 scale-75"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Live Preview -->
+                <div class="col-lg-7">
+                    <div class="preview-sticky">
+                        <div class="preview-container">
+                            <div class="virtual-album landscape shadow-lg" id="albumPreview">
+                                <div class="album-pattern-overlay" id="patternOverlay"></div>
+                                <div class="album-content-wrap h-100 d-flex flex-column" id="albumContent">
+                                    <div class="album-photo-placeholder" id="previewPhotoWrap">
+                                        <img src="images/portfolio1.png" alt="Preview Photo">
+                                    </div>
+                                    <div class="album-text-preview" id="previewTextWrap">
+                                        <div class="album-title-preview" id="titlePreview">A Journey of Love</div>
+                                        <div class="extra-small text-muted opacity-75 fw-bold" id="subPreview"
+                                            style="letter-spacing: 2px; text-transform: uppercase;">October 2025</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-4">
+                                <div class="badge bg-white text-dark rounded-pill px-3 py-2 shadow-sm">
+                                    <i class="fa-solid fa-expand me-2 text-muted"></i> <span id="sizeBadge">12 x 18
+                                        Inches</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p class="small text-muted"><i class="fa-solid fa-eye me-2"></i> Live 3D Render Preview</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer pt-4 pb-3">
+        <div class="container">
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+
+        const stepTitles = ["Basic Configuration", "Cover Color Palette", "Pattern & Texture", "Cover Artwork & Text", "Internal Page Styles", "AI Assistant Refine"];
+        const stepSubs = ["Define dimensions.", "Choose colors.", "Select pattern.", "Personalize text.", "Define borders.", "Let AI optimize."];
+
+        function updateStepUI() {
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.querySelector(`.step-panel[data-step="${currentStep}"]`).classList.add('active');
+            document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+                dot.classList.remove('active', 'completed');
+                if (idx + 1 < currentStep) dot.classList.add('completed');
+                if (idx + 1 === currentStep) dot.classList.add('active');
+            });
+            document.getElementById('stepTitle').innerText = stepTitles[currentStep - 1];
+            document.getElementById('stepSub').innerText = stepSubs[currentStep - 1];
+            document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'block';
+            document.getElementById('nextBtn').innerHTML = currentStep === totalSteps ? 'Finish & Generate <i class="fa-solid fa-wand-magic-sparkles ms-2"></i>' : 'Next Step <i class="fa-solid fa-arrow-right ms-2 scale-75"></i>';
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) { currentStep++; updateStepUI(); }
+            else { window.location.href = 'studio-manage-album-templates.html'; }
+        }
+
+        function prevStep() { if (currentStep > 1) { currentStep--; updateStepUI(); } }
+
+        function updateOrientation(type, el) {
+            document.querySelectorAll('[data-step="1"] .option-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            const album = document.getElementById('albumPreview');
+            album.classList.toggle('portrait', type === 'portrait');
+            album.classList.toggle('landscape', type === 'landscape');
+            updateDimensions();
+        }
+
+        function updateDimensions() {
+            const w = document.getElementById('inputWidth').value;
+            const h = document.getElementById('inputHeight').value;
+            document.getElementById('sizeBadge').innerText = `${w} x ${h} Inches`;
+        }
+
+        function updateCoverColor(color, side, el) {
+            const album = document.getElementById('albumPreview');
+            if (side === 'front') {
+                document.querySelectorAll('[data-step="2"] .color-selector:first-of-type .color-box').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+                if (document.getElementById('dualColorToggle').checked) {
+                    const backColor = document.querySelector('[data-step="2"] #secondaryColorPanel .color-box.active')?.style.backgroundColor || '#2d3748';
+                    album.style.background = `linear-gradient(90deg, ${color} 50%, ${backColor} 50%)`;
+                } else { album.style.background = color; }
+            } else {
+                document.querySelectorAll('[data-step="2"] #secondaryColorPanel .color-box').forEach(b => b.classList.remove('active'));
+                el.classList.add('active');
+                const frontColor = document.querySelector('[data-step="2"] .color-selector:first-of-type .color-box.active').style.backgroundColor;
+                album.style.background = `linear-gradient(90deg, ${frontColor} 50%, ${color} 50%)`;
+            }
+        }
+
+        function toggleDualColor() {
+            document.getElementById('secondaryColorPanel').style.display = document.getElementById('dualColorToggle').checked ? 'block' : 'none';
+            const frontColor = document.querySelector('[data-step="2"] .color-selector:first-of-type .color-box.active').style.backgroundColor;
+            updateCoverColor(frontColor, 'front', document.querySelector('[data-step="2"] .color-selector:first-of-type .color-box.active'));
+        }
+
+        function updatePattern(type, el) {
+            document.querySelectorAll('[data-step="3"] .option-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            const overlay = document.getElementById('patternOverlay');
+            overlay.style.backgroundImage = type === 'floral' ? 'url("https://www.transparenttextures.com/patterns/black-orchid.png")' : 'none';
+            overlay.style.opacity = type === 'floral' ? '0.15' : '0.1';
+        }
+
+        function updateText() {
+            document.getElementById('titlePreview').innerText = document.getElementById('inputTitle').value;
+            document.getElementById('subPreview').innerText = document.getElementById('inputSub').value;
+        }
+
+        function updateBorder(type, el) {
+            document.querySelectorAll('[data-step="5"] .border-preview-item').forEach(c => c.classList.remove('active'));
+            el.querySelector('.border-preview-item').classList.add('active');
+            const content = document.getElementById('albumContent');
+            content.style.border = type === 'classic' ? '15px solid rgba(212, 175, 55, 0.3)' : 'none';
+            content.style.margin = type === 'classic' ? '10px' : '0';
+        }
+
+        updateCoverColor('#1e2a3b', 'front', document.querySelector('.color-box'));
+    </script>
+</body>
+
+</html>

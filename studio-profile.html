@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studio Profile | StudioMitra</title>
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            background: #f4f6f9;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Sidebar */
+        .sidebar-menu {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .04);
+            height: 100%;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: #6c757d;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all .3s;
+            margin-bottom: 6px;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: rgba(203, 111, 9, .09);
+            color: #cb6f09;
+        }
+
+        .sidebar-link i {
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 12px;
+        }
+
+        /* Cover */
+        .cover-wrap {
+            position: relative;
+            height: 260px;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .cover-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cover-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, .05) 0%, rgba(30, 42, 59, .6) 100%);
+        }
+
+        .cover-edit-btn {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(8px);
+            border: none;
+            border-radius: 12px;
+            padding: 8px 18px;
+            font-size: .85rem;
+            font-weight: 700;
+            color: #1e2a3b;
+            transition: .2s;
+        }
+
+        .cover-edit-btn:hover {
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .12);
+        }
+
+        /* Profile Header Card */
+        .profile-header-card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 30px 36px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .05);
+            margin-top: -70px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .studio-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(22, 163, 74, .1);
+            color: #16a34a;
+            border-radius: 30px;
+            padding: 4px 12px;
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .studio-rating-stars {
+            color: #f59e0b;
+            font-size: .9rem;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+
+        .status-pill.active {
+            background: rgba(22, 163, 74, .1);
+            color: #16a34a;
+        }
+
+        /* Stat Chips */
+        .stat-chip {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 16px 22px;
+            text-align: center;
+            border: 1px solid #f1f5f9;
+        }
+
+        .stat-chip .val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1e2a3b;
+            line-height: 1;
+        }
+
+        .stat-chip .lbl {
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        /* Tabs */
+        .profile-tabs .nav-link {
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            padding: 14px 22px;
+            border-radius: 0;
+            border-bottom: 3px solid transparent;
+            font-size: .95rem;
+            background: none;
+        }
+
+        .profile-tabs .nav-link.active {
+            color: #cb6f09;
+            border-bottom-color: #cb6f09;
+            background: none;
+        }
+
+        .profile-tabs {
+            border-bottom: 2px solid #f1f5f9;
+            margin-bottom: 30px;
+        }
+
+        /* Section Cards */
+        .section-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .04);
+            border: 1px solid rgba(226, 232, 240, .8);
+            margin-bottom: 24px;
+        }
+
+        .section-card h5 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #1e2a3b;
+            font-weight: 700;
+        }
+
+        .edit-label {
+            font-size: .85rem;
+            font-weight: 700;
+            color: #1e2a3b;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .profile-form-control {
+            border: 1.5px solid #f1f5f9;
+            border-radius: 12px;
+            font-size: .9rem;
+            padding: 11px 16px;
+            background: #f8fafc;
+            color: #1e2a3b;
+            transition: .2s;
+        }
+
+        .profile-form-control:focus {
+            outline: none;
+            border-color: #cb6f09;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(203, 111, 9, .07);
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .portfolio-item {
+            border-radius: 14px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .portfolio-item .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(30, 42, 59, .5);
+            opacity: 0;
+            transition: .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.4rem;
+        }
+
+        .portfolio-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .add-photo-box {
+            border-radius: 14px;
+            aspect-ratio: 1;
+            border: 2px dashed #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #94a3b8;
+            transition: .2s;
+        }
+
+        .add-photo-box:hover {
+            border-color: #cb6f09;
+            color: #cb6f09;
+            background: rgba(203, 111, 9, .03);
+        }
+
+        /* Services */
+        .service-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            color: #475569;
+            border-radius: 30px;
+            padding: 7px 16px;
+            font-size: .85rem;
+            font-weight: 600;
+            margin: 4px;
+        }
+
+        .service-tag i {
+            color: #cb6f09;
+        }
+
+        /* Reviews */
+        .review-card {
+            border: 1.5px solid #f1f5f9;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 14px;
+            transition: .2s;
+        }
+
+        .review-card:hover {
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
+        }
+
+        .reviewer-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        /* Save Button */
+        .btn-save-profile {
+            background: linear-gradient(135deg, #cb6f09, #ff9a3c);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            padding: 12px 30px;
+            font-weight: 700;
+            transition: .3s;
+        }
+
+        .btn-save-profile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(203, 111, 9, .3);
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top transition-navbar" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="studio-dashboard.html">
+                <img src="assets/logo.png" style="width:200px" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link px-3" href="index.html">Home</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="about.html">About Us</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="features.html">Features</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="pricing.html">Pricing</a></li>
+                    <li class="nav-item d-flex align-items-center"><span class="nav-divider">|</span></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <a href="#" class="btn btn-signin-outline me-2" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="login">Sign In</a>
+                    <a href="#" class="btn btn-register" data-bs-toggle="modal" data-bs-target="#authModal"
+                        data-auth-tab="register">Register</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="pt-5 mt-5 pb-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Sidebar -->
+                <div class="col-lg-3">
+                    <div class="sidebar-menu position-sticky" style="top: 100px;">
+                        <div class="text-center mb-4 pt-4">
+                            <div class="position-relative d-inline-block">
+                                <img src="images/portfolio1.png" alt="Rohan Sharma" class="rounded-circle mb-3 shadow"
+                                    style="width:100px;height:100px;object-fit:cover;border:4px solid #fff;">
+                                <span
+                                    class="position-absolute bottom-0 end-0 bg-success border border-2 border-white rounded-circle"
+                                    style="width:20px;height:20px;transform:translate(-10px,-15px);"></span>
+                            </div>
+                            <h5 class="fw-bold mb-1" style="font-family:'Playfair Display',serif;">Rohan Sharma</h5>
+                            <p class="text-muted small fw-medium">Studio Partner since 2025</p>
+                        </div>
+                        <div class="nav flex-column mt-4">
+                            <a href="studio-dashboard.html" class="sidebar-link"><i class="fa-solid fa-layer-group"></i>
+                                Dashboard</a>
+                            <a href="studio-appointments.html" class="sidebar-link"><i
+                                    class="fa-solid fa-calendar-alt"></i> Appointments <span
+                                    class="badge bg-warning text-dark ms-auto rounded-pill">3</span></a>
+                            <a href="studio-photoshoots.html" class="sidebar-link"><i class="fa-solid fa-camera"></i>
+                                Photoshoots</a>
+                            <a href="studio-manage-albums.html" class="sidebar-link"><i class="fa-solid fa-images"></i>
+                                Manage Albums</a>
+                            <a href="studio-manage-album-templates.html" class="sidebar-link"><i
+                                    class="fa-solid fa-palette"></i> Album Templates</a>
+                            <a href="studio-clients.html" class="sidebar-link"><i class="fa-solid fa-users"></i>
+                                Clients</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
+                            <a href="#" class="sidebar-link"><i class="fa-solid fa-money-bill-wave"></i> Billing &
+                                Earnings</a>
+                            <a href="studio-profile.html" class="sidebar-link active"><i class="fa-solid fa-store"></i>
+                                Studio Profile</a>
+                            <a href="index.html" class="sidebar-link mt-4 text-danger"><i
+                                    class="fa-solid fa-power-off"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="col-lg-9">
+
+                    <!-- Cover Photo -->
+                    <div class="cover-wrap mb-2">
+                        <img src="images/portfolio3.png" alt="Studio Cover" id="coverImg">
+                        <div class="cover-overlay"></div>
+                        <button class="cover-edit-btn"><i class="fa-solid fa-camera me-2"></i> Change Cover</button>
+                    </div>
+
+                    <!-- Profile Header -->
+                    <div class="profile-header-card">
+                        <div class="d-flex flex-wrap align-items-start gap-4">
+                            <div class="position-relative">
+                                <img src="images/portfolio1.png" alt="Studio Logo" class="studio-avatar"
+                                    id="studioAvatar">
+                                <button
+                                    class="btn btn-sm position-absolute bottom-0 end-0 bg-white border rounded-circle shadow-sm p-1"
+                                    title="Change Avatar" style="width:30px;height:30px;">
+                                    <i class="fa-solid fa-camera text-muted" style="font-size:.7rem;"></i>
+                                </button>
+                            </div>
+                            <div class="flex-grow-1">
+                                <div class="d-flex flex-wrap align-items-center gap-3 mb-2">
+                                    <h2 class="fw-bold mb-0"
+                                        style="font-family:'Playfair Display',serif;color:#1e2a3b;font-size:1.6rem;">
+                                        Sharma Photography Studio</h2>
+                                    <span class="verified-badge"><i class="fa-solid fa-circle-check"></i>
+                                        Verified</span>
+                                    <span class="status-pill active"><span
+                                            style="width:8px;height:8px;border-radius:50%;background:#16a34a;display:inline-block;"></span>
+                                        Active</span>
+                                </div>
+                                <p class="text-muted small mb-2"><i class="fa-solid fa-location-dot me-2"
+                                        style="color:#cb6f09;"></i> Koramangala, Bengaluru, Karnataka</p>
+                                <div class="d-flex align-items-center gap-3 flex-wrap">
+                                    <div class="studio-rating-stars"><i class="fa-solid fa-star"></i><i
+                                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                            class="fa-solid fa-star"></i><i class="fa-regular fa-star-half-stroke"></i>
+                                        <span class="fw-bold text-dark small ms-1">4.8</span>
+                                    </div>
+                                    <span class="text-muted small">(128 reviews)</span>
+                                    <span class="text-muted small">|</span>
+                                    <span class="small fw-bold text-muted"><i class="fa-solid fa-camera me-1"></i>
+                                        Wedding & Portraits</span>
+                                </div>
+                            </div>
+                            <div class="ms-auto d-flex gap-2">
+                                <a href="#" class="btn btn-outline-secondary rounded-pill px-3 py-2 small fw-bold"><i
+                                        class="fa-regular fa-eye me-2"></i>Preview</a>
+                                <button class="btn-save-profile" onclick="saveProfile()"><i
+                                        class="fa-solid fa-floppy-disk me-2"></i> Save Changes</button>
+                            </div>
+                        </div>
+
+                        <!-- Stats Row -->
+                        <div class="row g-3 mt-4">
+                            <div class="col-6 col-md-3">
+                                <div class="stat-chip">
+                                    <div class="val">324</div>
+                                    <div class="lbl">Shoots Done</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-chip">
+                                    <div class="val">128</div>
+                                    <div class="lbl">Reviews</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-chip">
+                                    <div class="val">4.8</div>
+                                    <div class="lbl">Rating</div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="stat-chip">
+                                    <div class="val">6 yrs</div>
+                                    <div class="lbl">Experience</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <ul class="nav profile-tabs mt-4" id="profileTabs">
+                        <li class="nav-item"><button class="nav-link active" data-tab="about">About Studio</button></li>
+                        <li class="nav-item"><button class="nav-link" data-tab="portfolio">Portfolio</button></li>
+                        <li class="nav-item"><button class="nav-link" data-tab="services">Services & Pricing</button>
+                        </li>
+                        <li class="nav-item"><button class="nav-link" data-tab="reviews">Reviews</button></li>
+                    </ul>
+
+                    <!-- About Tab -->
+                    <div class="tab-pane-custom" id="tab-about">
+                        <div class="section-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="mb-0">Studio Information</h5>
+                                <span class="badge bg-warning text-dark rounded-pill px-3 py-2 small fw-bold"><i
+                                        class="fa-solid fa-circle-info me-1"></i> Public Profile</span>
+                            </div>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="edit-label">Studio Name</label>
+                                    <input type="text" class="form-control profile-form-control"
+                                        value="Sharma Photography Studio">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="edit-label">Display Tagline</label>
+                                    <input type="text" class="form-control profile-form-control"
+                                        value="Capturing Moments, Creating Memories">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="edit-label">Specialization</label>
+                                    <select class="form-control profile-form-control">
+                                        <option>Wedding Photography</option>
+                                        <option>Portrait Photography</option>
+                                        <option>Product Photography</option>
+                                        <option>Commercial Photography</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="edit-label">Years of Experience</label>
+                                    <input type="number" class="form-control profile-form-control" value="6">
+                                </div>
+                                <div class="col-12">
+                                    <label class="edit-label">About the Studio</label>
+                                    <textarea class="form-control profile-form-control" rows="4"
+                                        style="resize: none;">We are a premium photography studio based in Bengaluru, specializing in wedding, portrait, and lifestyle photography. With over 6 years of experience, our team of professional photographers deliver breathtaking images that tell your unique story.</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <h5 class="mb-4">Contact & Location</h5>
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="edit-label">Studio Phone</label>
+                                    <input type="tel" class="form-control profile-form-control" value="+91 98765 43210">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="edit-label">Email Address</label>
+                                    <input type="email" class="form-control profile-form-control"
+                                        value="rohan@sharmastudio.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="edit-label">Website URL</label>
+                                    <input type="url" class="form-control profile-form-control"
+                                        value="www.sharmastudio.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="edit-label">Instagram Handle</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-0 fw-bold"
+                                            style="border-radius:12px 0 0 12px;">@</span>
+                                        <input type="text" class="form-control profile-form-control"
+                                            value="sharmaphotostudio" style="border-radius:0 12px 12px 0;">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="edit-label">Full Address</label>
+                                    <input type="text" class="form-control profile-form-control"
+                                        value="Studio 4B, Creative Hub, 80 Feet Road, Koramangala, Bengaluru - 560095">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card">
+                            <h5 class="mb-4">Working Hours</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="edit-label">Weekdays (Mon–Fri)</label>
+                                    <div class="d-flex gap-3">
+                                        <input type="time" class="form-control profile-form-control" value="09:00">
+                                        <span class="d-flex align-items-center text-muted fw-bold small">to</span>
+                                        <input type="time" class="form-control profile-form-control" value="18:00">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="edit-label">Weekend (Sat–Sun)</label>
+                                    <div class="d-flex gap-3">
+                                        <input type="time" class="form-control profile-form-control" value="10:00">
+                                        <span class="d-flex align-items-center text-muted fw-bold small">to</span>
+                                        <input type="time" class="form-control profile-form-control" value="20:00">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Tab -->
+                    <div class="tab-pane-custom d-none" id="tab-portfolio">
+                        <div class="section-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="mb-0">Portfolio Gallery</h5>
+                                <button class="btn btn-sm fw-bold rounded-pill px-3 py-2"
+                                    style="background:#1e2a3b;color:#fff;font-size:.85rem;"><i
+                                        class="fa-solid fa-plus me-2"></i>Add Photos</button>
+                            </div>
+                            <div class="portfolio-grid">
+                                <div class="portfolio-item"><img src="images/portfolio1.png" alt="">
+                                    <div class="overlay"><i class="fa-solid fa-expand"></i></div>
+                                </div>
+                                <div class="portfolio-item"><img src="images/portfolio2.png" alt="">
+                                    <div class="overlay"><i class="fa-solid fa-expand"></i></div>
+                                </div>
+                                <div class="portfolio-item"><img src="images/album_wedding.png" alt="">
+                                    <div class="overlay"><i class="fa-solid fa-expand"></i></div>
+                                </div>
+                                <div class="portfolio-item"><img src="images/album_engagement.png" alt="">
+                                    <div class="overlay"><i class="fa-solid fa-expand"></i></div>
+                                </div>
+                                <div class="portfolio-item"><img src="images/album_family.png" alt="">
+                                    <div class="overlay"><i class="fa-solid fa-expand"></i></div>
+                                </div>
+                                <div class="add-photo-box"><i class="fa-solid fa-plus fs-3 mb-2"></i>
+                                    <div class="small fw-bold">Add More</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Tab -->
+                    <div class="tab-pane-custom d-none" id="tab-services">
+                        <div class="section-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="mb-0">Services Offered</h5>
+                                <button class="btn btn-sm fw-bold rounded-pill px-3 py-2"
+                                    style="background:#1e2a3b;color:#fff;font-size:.85rem;"><i
+                                        class="fa-solid fa-plus me-2"></i>Add Service</button>
+                            </div>
+                            <div class="mb-3">
+                                <span class="service-tag"><i class="fa-solid fa-heart"></i> Wedding Photography</span>
+                                <span class="service-tag"><i class="fa-solid fa-star"></i> Pre-Wedding Shoot</span>
+                                <span class="service-tag"><i class="fa-solid fa-user"></i> Portrait Sessions</span>
+                                <span class="service-tag"><i class="fa-solid fa-baby"></i> Maternity Shoots</span>
+                                <span class="service-tag"><i class="fa-solid fa-cake-candles"></i> Birthday
+                                    Events</span>
+                                <span class="service-tag"><i class="fa-solid fa-video"></i> Cinematic Reels</span>
+                            </div>
+                        </div>
+                        <div class="section-card">
+                            <h5 class="mb-4">Pricing Packages</h5>
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="p-4 rounded-20 text-center"
+                                        style="background:#f8fafc;border:2px solid #e2e8f0;border-radius:20px;">
+                                        <div class="fw-bold text-muted mb-2 small text-uppercase">Starter</div>
+                                        <div style="font-size:2rem;font-weight:800;color:#1e2a3b;">₹15,000</div>
+                                        <div class="text-muted small mb-3">/ Package</div>
+                                        <ul class="list-unstyled text-start small text-muted">
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>4 Hours
+                                                of Shooting</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>100
+                                                Edited Photos</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Online
+                                                Gallery Access</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-4 rounded-20 text-center"
+                                        style="border:2px solid #cb6f09;border-radius:20px;background:rgba(203,111,9,.04);">
+                                        <div class="fw-bold mb-2 small text-uppercase" style="color:#cb6f09;">Popular ⭐
+                                        </div>
+                                        <div style="font-size:2rem;font-weight:800;color:#1e2a3b;">₹35,000</div>
+                                        <div class="text-muted small mb-3">/ Package</div>
+                                        <ul class="list-unstyled text-start small text-muted">
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Full Day
+                                                Coverage</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>300
+                                                Edited Photos</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>1
+                                                Premium Album</li>
+                                            <li class="mb-2"><i
+                                                    class="fa-solid fa-check text-success me-2"></i>Cinematic Reel</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="p-4 rounded-20 text-center"
+                                        style="background:#1e2a3b;border-radius:20px;">
+                                        <div class="fw-bold mb-2 small text-uppercase" style="color:#cb6f09;">Premium
+                                        </div>
+                                        <div style="font-size:2rem;font-weight:800;color:#fff;">₹75,000</div>
+                                        <div class="text-muted small mb-3">/ Package</div>
+                                        <ul class="list-unstyled text-start small" style="color:rgba(255,255,255,.7);">
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>2-Day
+                                                Coverage</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>500+
+                                                Edited Photos</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>2
+                                                Premium Albums</li>
+                                            <li class="mb-2"><i class="fa-solid fa-check text-success me-2"></i>Drone
+                                                Shots</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Tab -->
+                    <div class="tab-pane-custom d-none" id="tab-reviews">
+                        <div class="section-card">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="mb-0">Client Reviews</h5>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="studio-rating-stars"><i class="fa-solid fa-star"></i> 4.8</div>
+                                    <span class="text-muted small">(128 total)</span>
+                                </div>
+                            </div>
+                            <!-- Review Cards -->
+                            <div class="review-card">
+                                <div class="d-flex align-items-start gap-3">
+                                    <img src="images/ai_portrait.png" class="reviewer-avatar" alt="Reviewer">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                            <div>
+                                                <div class="fw-bold text-dark">Priya Mehta</div>
+                                                <div class="text-muted small">Wedding Client • March 2025</div>
+                                            </div>
+                                            <div class="studio-rating-stars small"><i class="fa-solid fa-star"></i><i
+                                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                        </div>
+                                        <p class="text-muted small mt-3 mb-2">Absolutely stunning work! Rohan and his
+                                            team captured every precious moment of our wedding day beautifully. The
+                                            photos were delivered on time, and the album quality is just exceptional.
+                                        </p>
+                                        <span class="service-tag" style="font-size:.75rem;padding:4px 10px;"><i
+                                                class="fa-solid fa-heart"></i> Wedding</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="review-card">
+                                <div class="d-flex align-items-start gap-3">
+                                    <img src="images/portfolio2.png" class="reviewer-avatar" alt="Reviewer">
+                                    <div class="flex-grow-1">
+                                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                            <div>
+                                                <div class="fw-bold text-dark">Arjun Singh</div>
+                                                <div class="text-muted small">Pre-Wedding Client • Feb 2025</div>
+                                            </div>
+                                            <div class="studio-rating-stars small"><i class="fa-solid fa-star"></i><i
+                                                    class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                                                    class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p class="text-muted small mt-3 mb-2">Very professional team. The pre-wedding
+                                            shoot at sunrise was magical. Great eye for composition and lighting. Would
+                                            highly recommend for any photography needs.</p>
+                                        <span class="service-tag" style="font-size:.75rem;padding:4px 10px;"><i
+                                                class="fa-solid fa-star"></i> Pre-Wedding</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer pt-5 pb-4">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <img src="assets/logo-light.png" alt="Logo" style="width:200px;" class="mb-3">
+                    <p class="text-white-50 small">StudioMitra is your ultimate partner for managing your photography
+                        studio. Streamline bookings, manage clients, and showcase your portfolio with ease.</p>
+                    <div class="social-links mt-4">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white-50 text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-white-50 text-decoration-none">About Us</a>
+                        </li>
+                        <li class="mb-2"><a href="features.html" class="text-white-50 text-decoration-none">Features</a>
+                        </li>
+                        <li class="mb-2"><a href="pricing.html" class="text-white-50 text-decoration-none">Pricing</a>
+                        </li>
+                        <li class="mb-2"><a href="contact.html" class="text-white-50 text-decoration-none">Contact
+                                Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Help Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">FAQ</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Privacy Policy</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Terms of Service</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h6 class="text-white fw-bold mb-3">Newsletter</h6>
+                    <p class="text-white-50 small">Subscribe to our newsletter for the latest updates and offers.</p>
+                    <form class="d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Your email"
+                            style="border-radius: 10px;">
+                        <button class="btn btn-primary" type="submit"
+                            style="background-color: #cb6f09; border-color: #cb6f09; border-radius: 10px;"><i
+                                class="fa-solid fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div
+                class="footer-bottom pt-3 mt-4 border-top border-secondary d-flex justify-content-between align-items-center flex-wrap">
+                <p class="copyright mb-0 text-white-50 small">Copyrights &copy; 2025. All Rights Reserved</p>
+                <p class="mb-0 text-white-50 small">Developed by StudioMitra.in</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Tab switching
+        document.querySelectorAll('#profileTabs .nav-link').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#profileTabs .nav-link').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-pane-custom').forEach(p => p.classList.add('d-none'));
+                btn.classList.add('active');
+                document.getElementById('tab-' + btn.dataset.tab).classList.remove('d-none');
+            });
+        });
+
+        function saveProfile() {
+            const btn = document.querySelector('.btn-save-profile');
+            btn.innerHTML = '<i class="fa-solid fa-circle-check me-2"></i> Saved!';
+            btn.style.background = 'linear-gradient(135deg, #16a34a, #22c55e)';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-2"></i> Save Changes';
+                btn.style.background = 'linear-gradient(135deg, #cb6f09, #ff9a3c)';
+            }, 2500);
+        }
+    </script>
+</body>
+
+</html>
