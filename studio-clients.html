@@ -54,38 +54,15 @@
             margin-right: 12px;
         }
 
-        /* Client Card Styles */
-        .client-card {
-            background: #fff;
-            border-radius: 20px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(30, 42, 59, 0.04);
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .client-card:hover {
-            box-shadow: 0 10px 30px rgba(30, 42, 59, 0.08);
-            transform: translateY(-5px);
-        }
-
-        .client-avatar-lg {
-            width: 64px;
-            height: 64px;
-            border-radius: 16px;
-            object-fit: cover;
-            border: 2px solid #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
+        /* Status Badge Styles */
         .status-pill {
-            padding: 5px 12px;
+            padding: 4px 11px;
             border-radius: 30px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
+            white-space: nowrap;
         }
 
         .status-regular {
@@ -103,38 +80,168 @@
             color: #cb6f09;
         }
 
-        .client-stat-box {
+        /* Client Table Styles */
+        .client-table-wrap {
+            background: #fff;
+            border-radius: 20px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 24px rgba(30, 42, 59, 0.05);
+            overflow: hidden;
+        }
+
+        .client-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+        }
+
+        .client-table thead th {
             background: #f8fafc;
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-            min-width: 90px;
-        }
-
-        .client-stat-val {
-            font-weight: 800;
-            color: #1e2a3b;
-            font-size: 1rem;
-            line-height: 1;
-        }
-
-        .client-stat-label {
-            font-size: 0.65rem;
             color: #718096;
+            font-size: 0.68rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 4px;
+            letter-spacing: 0.8px;
+            padding: 14px 18px;
+            border-bottom: 1.5px solid #edf2f7;
+            white-space: nowrap;
         }
 
-        .action-btn-group .btn {
-            width: 38px;
-            height: 38px;
+        .client-table thead th:first-child {
+            padding-left: 28px;
+        }
+
+        .client-table thead th:last-child {
+            padding-right: 28px;
+            text-align: right;
+        }
+
+        .client-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        .client-table tbody tr:not(:last-child) td {
+            border-bottom: 1px solid #f0f4f8;
+        }
+
+        .client-table tbody tr:hover {
+            background: rgba(203, 111, 9, 0.035);
+        }
+
+        .client-table tbody td {
+            padding: 18px 18px;
+            vertical-align: middle;
+            color: #2d3748;
+            font-size: 0.9rem;
+        }
+
+        .client-table tbody td:first-child {
+            padding-left: 28px;
+        }
+
+        .client-table tbody td:last-child {
+            padding-right: 28px;
+            text-align: right;
+        }
+
+        /* Avatar */
+        .client-avatar-sm {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            object-fit: cover;
+            border: 2px solid #edf2f7;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            flex-shrink: 0;
+        }
+
+        .client-name {
+            font-weight: 700;
+            color: #1e2a3b;
+            font-size: 0.93rem;
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+
+        /* Stacked sub-info (contact / shoots) */
+        .cell-primary {
+            font-weight: 600;
+            color: #2d3748;
+            font-size: 0.87rem;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+
+        .cell-secondary {
+            font-size: 0.78rem;
+            color: #94a3b8;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .cell-secondary i {
+            font-size: 0.72rem;
+            margin-right: 3px;
+        }
+
+        /* Shoot count badge */
+        .shoot-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(203, 111, 9, 0.08);
+            color: #cb6f09;
+            font-weight: 800;
+            font-size: 1rem;
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .tbl-action-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 0;
-            margin-left: 5px;
+            margin: 0 2px;
+            border: 1.5px solid;
+            background: transparent;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .tbl-action-btn.btn-view {
+            border-color: #1e2a3b;
+            color: #1e2a3b;
+        }
+        .tbl-action-btn.btn-view:hover {
+            background: #1e2a3b;
+            color: #fff;
+        }
+
+        .tbl-action-btn.btn-msg {
+            border-color: #0ea5e9;
+            color: #0ea5e9;
+        }
+        .tbl-action-btn.btn-msg:hover {
+            background: #0ea5e9;
+            color: #fff;
+        }
+
+        .tbl-action-btn.btn-del {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .tbl-action-btn.btn-del:hover {
+            background: #ef4444;
+            color: #fff;
         }
 
         /* Stats bar */
@@ -371,150 +478,269 @@
                         </div>
                     </div>
 
-                    <!-- Client List -->
-                    <div class="client-list">
+                    <!-- Client Table -->
+                    <div class="client-table-wrap">
+                        <table class="client-table">
+                            <thead>
+                                <tr>
+                                    <th>Client</th>
+                                    <th>Contact</th>
+                                    <th>Shoots</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                        <!-- Client 1 -->
-                        <div class="client-card">
-                            <div class="row align-items-center g-4">
-                                <div class="col-md-5">
-                                    <div class="d-flex align-items-center">
-                                        <img src="images/portfolio1.png" class="client-avatar-lg me-3" alt="Client">
-                                        <div>
-                                            <div class="d-flex align-items-center gap-2 mb-1">
-                                                <h5 class="fw-bold mb-0" style="color:#1e2a3b;">Kavya Nair</h5>
+                                <!-- Row 1: Kavya Nair -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio1.png" class="client-avatar-sm" alt="Kavya Nair">
+                                            <div>
+                                                <div class="client-name">Kavya Nair</div>
                                                 <span class="status-pill status-vip">VIP</span>
                                             </div>
-                                            <p class="text-muted small mb-0"><i class="fa-regular fa-envelope me-1"></i>
-                                                kavya.nair@example.com</p>
-                                            <p class="text-muted small mb-0"><i class="fa-solid fa-phone-flip me-1"></i>
-                                                +91 98765 43210</p>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex justify-content-center gap-3">
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">08</div>
-                                            <div class="client-stat-label">Total Shoots</div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> kavya.nair@example.com</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 98765 43210</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">08</span>
+                                            <div>
+                                                <div class="cell-primary">8 Sessions</div>
+                                                <div class="cell-secondary">Last: Oct 12, 2024</div>
+                                            </div>
                                         </div>
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">03</div>
-                                            <div class="client-stat-label">Active</div>
-                                        </div>
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">Oct 12</div>
-                                            <div class="client-stat-label">Last Shoot</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 text-md-end">
-                                    <div class="action-btn-group">
-                                        <a href="studio-client-profile.html" class="btn btn-dark"
-                                            title="View Profile"><i class="fa-solid fa-chevron-right"></i></a>
-                                        <button class="btn btn-outline-primary" title="Message"><i
-                                                class="fa-regular fa-comment"></i></button>
-                                        <button class="btn btn-outline-danger" title="Delete"><i
-                                                class="fa-regular fa-trash-can"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
 
-                        <!-- Client 2 -->
-                        <div class="client-card">
-                            <div class="row align-items-center g-4">
-                                <div class="col-md-5">
-                                    <div class="d-flex align-items-center">
-                                        <img src="images/portfolio2.png" class="client-avatar-lg me-3" alt="Client">
-                                        <div>
-                                            <div class="d-flex align-items-center gap-2 mb-1">
-                                                <h5 class="fw-bold mb-0" style="color:#1e2a3b;">Priya Sharma</h5>
+                                <!-- Row 2: Priya Sharma -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio2.png" class="client-avatar-sm" alt="Priya Sharma">
+                                            <div>
+                                                <div class="client-name">Priya Sharma</div>
                                                 <span class="status-pill status-regular">Regular</span>
                                             </div>
-                                            <p class="text-muted small mb-0"><i class="fa-regular fa-envelope me-1"></i>
-                                                priya.s@example.com</p>
-                                            <p class="text-muted small mb-0"><i class="fa-solid fa-phone-flip me-1"></i>
-                                                +91 91234 56789</p>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex justify-content-center gap-3">
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">03</div>
-                                            <div class="client-stat-label">Total Shoots</div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> priya.s@example.com</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 91234 56789</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">03</span>
+                                            <div>
+                                                <div class="cell-primary">3 Sessions</div>
+                                                <div class="cell-secondary">Last: Sep 24, 2024</div>
+                                            </div>
                                         </div>
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">01</div>
-                                            <div class="client-stat-label">Active</div>
-                                        </div>
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">Sep 24</div>
-                                            <div class="client-stat-label">Last Shoot</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 text-md-end">
-                                    <div class="action-btn-group">
-                                        <a href="studio-client-profile.html" class="btn btn-dark"
-                                            title="View Profile"><i class="fa-solid fa-chevron-right"></i></a>
-                                        <button class="btn btn-outline-primary" title="Message"><i
-                                                class="fa-regular fa-comment"></i></button>
-                                        <button class="btn btn-outline-danger" title="Delete"><i
-                                                class="fa-regular fa-trash-can"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
 
-                        <!-- Client 3 -->
-                        <div class="client-card">
-                            <div class="row align-items-center g-4">
-                                <div class="col-md-5">
-                                    <div class="d-flex align-items-center">
-                                        <img src="images/portfolio1.png" class="client-avatar-lg me-3" alt="Client">
-                                        <div>
-                                            <div class="d-flex align-items-center gap-2 mb-1">
-                                                <h5 class="fw-bold mb-0" style="color:#1e2a3b;">Arjun Kapoor</h5>
+                                <!-- Row 3: Arjun Kapoor -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio1.png" class="client-avatar-sm" alt="Arjun Kapoor">
+                                            <div>
+                                                <div class="client-name">Arjun Kapoor</div>
                                                 <span class="status-pill status-new">Lead</span>
                                             </div>
-                                            <p class="text-muted small mb-0"><i class="fa-regular fa-envelope me-1"></i>
-                                                arjun.k@modafashion.in</p>
-                                            <p class="text-muted small mb-0"><i class="fa-solid fa-phone-flip me-1"></i>
-                                                +91 99887 76655</p>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="d-flex justify-content-center gap-3">
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">01</div>
-                                            <div class="client-stat-label">Total Shoots</div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> arjun.k@modafashion.in</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 99887 76655</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">01</span>
+                                            <div>
+                                                <div class="cell-primary">1 Session</div>
+                                                <div class="cell-secondary">Last: Pending</div>
+                                            </div>
                                         </div>
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">01</div>
-                                            <div class="client-stat-label">Active</div>
-                                        </div>
-                                        <div class="client-stat-box">
-                                            <div class="client-stat-val">Pending</div>
-                                            <div class="client-stat-label">Last Shoot</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 text-md-end">
-                                    <div class="action-btn-group">
-                                        <a href="studio-client-profile.html" class="btn btn-dark"
-                                            title="View Profile"><i class="fa-solid fa-chevron-right"></i></a>
-                                        <button class="btn btn-outline-primary" title="Message"><i
-                                                class="fa-regular fa-comment"></i></button>
-                                        <button class="btn btn-outline-danger" title="Delete"><i
-                                                class="fa-regular fa-trash-can"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
 
+                                <!-- Row 4: Meera Pillai -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio2.png" class="client-avatar-sm" alt="Meera Pillai">
+                                            <div>
+                                                <div class="client-name">Meera Pillai</div>
+                                                <span class="status-pill status-vip">VIP</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> meera.p@example.com</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 97654 32101</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">12</span>
+                                            <div>
+                                                <div class="cell-primary">12 Sessions</div>
+                                                <div class="cell-secondary">Last: Nov 03, 2024</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 5: Rahul Verma -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio1.png" class="client-avatar-sm" alt="Rahul Verma">
+                                            <div>
+                                                <div class="client-name">Rahul Verma</div>
+                                                <span class="status-pill status-regular">Regular</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> rahul.v@pixelcraft.in</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 88765 43219</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">05</span>
+                                            <div>
+                                                <div class="cell-primary">5 Sessions</div>
+                                                <div class="cell-secondary">Last: Aug 18, 2024</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 6: Ananya Singh -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio2.png" class="client-avatar-sm" alt="Ananya Singh">
+                                            <div>
+                                                <div class="client-name">Ananya Singh</div>
+                                                <span class="status-pill status-new">Lead</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> ananya.s@gmail.com</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 93344 55678</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">01</span>
+                                            <div>
+                                                <div class="cell-primary">1 Session</div>
+                                                <div class="cell-secondary">Last: Pending</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 7: Vikram Nair -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio1.png" class="client-avatar-sm" alt="Vikram Nair">
+                                            <div>
+                                                <div class="client-name">Vikram Nair</div>
+                                                <span class="status-pill status-vip">VIP</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> vikram.nair@luxebrand.com</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 90011 22334</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">09</span>
+                                            <div>
+                                                <div class="cell-primary">9 Sessions</div>
+                                                <div class="cell-secondary">Last: Dec 01, 2024</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 8: Sneha Rao -->
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="images/portfolio2.png" class="client-avatar-sm" alt="Sneha Rao">
+                                            <div>
+                                                <div class="client-name">Sneha Rao</div>
+                                                <span class="status-pill status-regular">Regular</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="cell-primary"><i class="fa-regular fa-envelope"></i> sneha.rao@cloudstudio.io</div>
+                                        <div class="cell-secondary"><i class="fa-solid fa-phone-flip"></i> +91 87654 32100</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <span class="shoot-count">04</span>
+                                            <div>
+                                                <div class="cell-primary">4 Sessions</div>
+                                                <div class="cell-secondary">Last: Jul 29, 2024</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="studio-client-profile.html" class="tbl-action-btn btn-view" title="View Profile"><i class="fa-solid fa-eye"></i></a>
+                                        <button class="tbl-action-btn btn-msg" title="Message"><i class="fa-regular fa-comment"></i></button>
+                                        <button class="tbl-action-btn btn-del" title="Delete"><i class="fa-regular fa-trash-can"></i></button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </div>
 
                     <!-- Pagination -->
