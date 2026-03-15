@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superadmin Dashboard | StudioMitra</title>
+    <!-- Bootstrap CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling */
+        .admin-sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #1e2a3b 0%, #2d3f58 100%);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            color: #fff;
+            padding-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-sidebar-header {
+            padding: 0 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .admin-sidebar-header img {
+            width: 100px;
+            filter: brightness(0) invert(1);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .admin-nav {
+            padding: 0 16px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .admin-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .admin-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .admin-nav-item {
+            margin-bottom: 6px;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: rgba(255, 255, 255, 0.75);
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .admin-nav-link i {
+            width: 26px;
+            font-size: 1.15rem;
+            margin-right: 12px;
+            text-align: center;
+        }
+
+        .admin-nav-link.active {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(203, 111, 9, 0.3);
+        }
+
+        /* Main Content Styling */
+        .admin-main {
+            margin-left: 280px;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .admin-topbar {
+            height: 76px;
+            background: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .admin-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-box input {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 50rem;
+            padding: 10px 18px 10px 45px;
+            width: 100%;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            background: #fff;
+            border-color: #cb6f09;
+            box-shadow: 0 0 0 0.2rem rgba(203, 111, 9, 0.15);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .notification-btn:hover {
+            background: #e9ecef;
+            color: #1e2a3b;
+            border-color: #dee2e6;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: #dc3545;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-sizing: content-box;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 50rem;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .admin-profile:hover {
+            background: #f8f9fa;
+            border-color: #e9ecef;
+        }
+
+        .admin-profile img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-right: 12px;
+        }
+
+        .admin-content {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #1e2a3b;
+            margin-bottom: 5px;
+            font-size: 2rem;
+        }
+
+        .page-subtitle {
+            color: #6c757d;
+            margin-bottom: 0;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.03) 0%, transparent 70%);
+            border-radius: 0 20px 0 100%;
+        }
+
+        .stat-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 18px;
+        }
+
+        .stat-info h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1e2a3b;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .stat-info p {
+            color: #6c757d;
+            font-weight: 600;
+            margin-bottom: 0;
+            font-size: 0.95rem;
+        }
+
+        .stat-trend {
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        .trend-up {
+            background: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+
+        .trend-down {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .bg-primary-soft {
+            background: rgba(13, 110, 253, 0.1);
+            color: #0d6efd;
+        }
+
+        .bg-success-soft {
+            background: rgba(25, 135, 84, 0.1);
+            color: #198754;
+        }
+
+        .bg-warning-soft {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .bg-custom-soft {
+            background: rgba(203, 111, 9, 0.1);
+            color: #cb6f09;
+        }
+
+        /* Card panels */
+        .admin-panel {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            height: calc(100% - 30px);
+        }
+
+        .admin-panel-header {
+            padding: 22px 26px;
+            border-bottom: 1px solid #f0f4f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .admin-panel-header h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            margin: 0;
+            color: #1e2a3b;
+            font-size: 1.3rem;
+        }
+
+        .admin-panel-body {
+            padding: 26px;
+        }
+
+        /* Tables Formatting */
+        .table> :not(caption)>*>* {
+            padding: 18px 26px;
+            border-bottom-color: #f0f4f8;
+            vertical-align: middle;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #8793a1;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            background: #f8f9fa;
+            border-bottom: none;
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 50rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            letter-spacing: 0.3px;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            color: #6c757d;
+            background: #f8f9fa;
+            transition: all 0.2s;
+            margin: 0 2px;
+            text-decoration: none;
+        }
+
+        .btn-action:hover {
+            background: #fff;
+            color: #cb6f09;
+            border-color: #cb6f09;
+            box-shadow: 0 4px 8px rgba(203, 111, 9, 0.15);
+        }
+
+        .studio-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Form select styling */
+        .form-select-sm {
+            border-radius: 8px;
+            padding: 6px 30px 6px 12px;
+            font-weight: 600;
+            color: #495057;
+            cursor: pointer;
+        }
+
+        .form-select-sm:focus {
+            box-shadow: none;
+            border-color: #cb6f09;
+        }
+
+        /* Responsive Mobile menu */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #1e2a3b;
+        }
+
+        @media (max-width: 991.98px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            /* Sidebar open state */
+            .sidebar-open .admin-sidebar {
+                transform: translateX(0);
+            }
+
+            .search-box {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar" id="sidebar">
+        <div class="admin-sidebar-header">
+            <a href="index.html">
+                <img src="assets/logo1.png" alt="StudioMitra Logo">
+            </a>
+            <div class="mt-3 text-center">
+                <span class="badge bg-white bg-opacity-10 text-white px-3 py-2 rounded-pill fw-bold"
+                    style="font-size: 0.7rem; letter-spacing: 1.5px;"><i
+                        class="fa-solid fa-shield-halved me-1 text-warning"></i> SUPERADMIN</span>
+            </div>
+        </div>
+
+        <ul class="admin-nav list-unstyled">
+            <li class="admin-nav-item">
+                <a href="superadmin-dashboard.html" class="admin-nav-link active">
+                    <i class="fa-solid fa-gauge-high"></i> Dashboard
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="superadmin-studios.html" class="admin-nav-link">
+                    <i class="fa-solid fa-camera"></i> Studios
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="superadmin-clients.html" class="admin-nav-link"><i class="fa-solid fa-users"></i> Clients</a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-book-open"></i> Albums
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Subscriptions
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-chart-pie"></i> Reports & Analytics
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-headset"></i> Support Tickets
+                    <span class="badge bg-danger rounded-pill ms-auto px-2 py-1" style="font-size: 0.65rem;">4</span>
+                </a>
+            </li>
+            <li class="admin-nav-item mt-4 pt-3 border-top border-white border-opacity-10">
+                <div class="px-3 mb-2 text-uppercase fw-bold text-white-50"
+                    style="font-size: 0.7rem; letter-spacing: 1.2px;">System</div>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="superadmin-login.html" class="admin-nav-link text-danger mt-3 bg-white bg-opacity-10">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main" id="main-content">
+        <!-- Topbar -->
+        <header class="admin-topbar">
+            <div class="d-flex align-items-center">
+                <button class="mobile-toggle me-3" id="sidebarToggle">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search studios, clients or albums...">
+                </div>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button class="notification-btn">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+
+                <div class="dropdown">
+                    <div class="admin-profile" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="images/ai_portrait.png" alt="Admin">
+                        <div class="d-none d-lg-block">
+                            <h6 class="mb-0 fw-bold" style="color: #1e2a3b; font-size: 0.95rem;">System Admin</h6>
+                            <span class="text-muted"
+                                style="font-size: 0.75rem; font-weight: 500;">superadmin@studio.com</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-3 text-muted" style="font-size: 0.75rem;"></i>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 py-2"
+                        style="min-width: 200px; border-radius: 12px;">
+                        <li class="px-3 py-2 border-bottom mb-1">
+                            <strong class="d-block text-dark">System Admin</strong>
+                            <small class="text-muted">Master Access</small>
+                        </li>
+                        <li><a class="dropdown-item py-2 fw-medium text-secondary" href="#"><i
+                                    class="fa-regular fa-user me-2"></i> My Profile</a></li>
+                        <li><a class="dropdown-item py-2 fw-medium text-secondary" href="#"><i
+                                    class="fa-solid fa-shield-halved me-2"></i> Security</a></li>
+                        <li>
+                            <hr class="dropdown-divider my-2">
+                        </li>
+                        <li><a class="dropdown-item py-2 text-danger fw-bold" href="superadmin-login.html"><i
+                                    class="fa-solid fa-arrow-right-from-bracket me-2"></i> Sign Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <!-- Stats Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-custom-soft">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>542</h3>
+                            <p>Total Studios</p>
+                        </div>
+                        <div class="stat-trend trend-up">
+                            <i class="fa-solid fa-arrow-trend-up me-1"></i> +12% from last month
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-primary-soft">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>12.4K</h3>
+                            <p>Total Clients</p>
+                        </div>
+                        <div class="stat-trend trend-up">
+                            <i class="fa-solid fa-arrow-trend-up me-1"></i> +8.5% from last month
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-success-soft">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>8,900</h3>
+                            <p>Albums Created</p>
+                        </div>
+                        <div class="stat-trend trend-up">
+                            <i class="fa-solid fa-arrow-trend-up me-1"></i> +24% from last month
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-warning-soft">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>₹4.2L</h3>
+                            <p>Monthly MRR</p>
+                        </div>
+                        <div class="stat-trend trend-up">
+                            <i class="fa-solid fa-arrow-trend-up me-1"></i> +15% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-8">
+                    <div class="admin-panel">
+                        <div class="admin-panel-header">
+                            <h5>Platform Growth <span
+                                    class="badge bg-success bg-opacity-10 text-success fw-bold ms-2 rounded-pill fs-6 px-2 py-1"><i
+                                        class="fa-solid fa-arrow-up"></i> 15%</span></h5>
+                            <select class="form-select w-auto form-select-sm border bg-light text-dark shadow-sm">
+                                <option>Current Year</option>
+                                <option>Previous Year</option>
+                            </select>
+                        </div>
+                        <div class="admin-panel-body">
+                            <canvas id="growthChart" height="280"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="admin-panel">
+                        <div class="admin-panel-header">
+                            <h5>Studio Subscriptions</h5>
+                            <button class="btn btn-sm btn-light border p-1 rounded"><i
+                                    class="fa-solid fa-ellipsis-vertical px-2"></i></button>
+                        </div>
+                        <div class="admin-panel-body d-flex flex-column justify-content-center align-items-center h-100"
+                            style="padding-bottom: 40px;">
+                            <div style="height: 220px; width: 100%; position: relative;">
+                                <canvas id="planChart"></canvas>
+                            </div>
+                            <!-- Custom Legend Below Chart -->
+                            <div class="mt-4 w-100 px-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center"><span
+                                            class="d-inline-block rounded-circle me-2"
+                                            style="width:10px;height:10px;background:#cb6f09;"></span> <span
+                                            class="fw-medium text-dark">Pro Plan</span></div>
+                                    <span class="fw-bold text-dark">45%</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <div class="d-flex align-items-center"><span
+                                            class="d-inline-block rounded-circle me-2"
+                                            style="width:10px;height:10px;background:#6c757d;"></span> <span
+                                            class="fw-medium text-dark">Free Plan</span></div>
+                                    <span class="fw-bold text-dark">35%</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center"><span
+                                            class="d-inline-block rounded-circle me-2"
+                                            style="width:10px;height:10px;background:#1e2a3b;"></span> <span
+                                            class="fw-medium text-dark">Business Plan</span></div>
+                                    <span class="fw-bold text-dark">20%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secondary Charts Row -->
+            <div class="row g-4 mb-4">
+                <div class="col-lg-6">
+                    <div class="admin-panel">
+                        <div class="admin-panel-header">
+                            <h5>Revenue Analytics</h5>
+                            <button class="btn btn-sm btn-light border p-1 rounded"><i
+                                    class="fa-solid fa-download px-2"></i></button>
+                        </div>
+                        <div class="admin-panel-body">
+                            <canvas id="revenueChart" height="280"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="admin-panel">
+                        <div class="admin-panel-header">
+                            <h5>Top Studio Locations</h5>
+                            <button class="btn btn-sm btn-light border p-1 rounded"><i
+                                    class="fa-solid fa-ellipsis-vertical px-2"></i></button>
+                        </div>
+                        <div class="admin-panel-body">
+                            <canvas id="locationsChart" height="280"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Studios Table -->
+            <div class="admin-panel mb-0">
+                <div class="admin-panel-header">
+                    <h5>Recent Studio Onboardings</h5>
+                    <a href="#"
+                        class="btn btn-sm text-primary fw-bold text-decoration-none px-3 border border-primary rounded-pill bg-primary bg-opacity-10">View
+                        All Directory</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 border-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Studio Details</th>
+                                <th>Primary Owner</th>
+                                <th>City / State</th>
+                                <th>Subscription</th>
+                                <th>Status</th>
+                                <th class="text-end pe-4">Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="images/portfolio1.png" alt="Candid Creators" class="studio-avatar">
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark fs-6"
+                                                style="font-family: 'Playfair Display', serif;">Candid Creators</h6>
+                                            <span class="text-muted small fw-medium">ID: #ST-8492</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold text-dark d-block">Arjun Mehra</span>
+                                    <span class="text-muted small">arjun@candid.com</span>
+                                </td>
+                                <td><span class="fw-medium text-secondary">Mumbai, MH</span></td>
+                                <td><span class="badge bg-dark px-3 py-2 fw-normal rounded-pill">Business Plan</span>
+                                </td>
+                                <td><span class="status-badge status-active"><i
+                                            class="fa-solid fa-circle-check text-success me-1"></i> Active</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="#" class="btn-action" title="View"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="#" class="btn-action" title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn-action shadow-sm" title="Action"><i
+                                            class="fa-solid fa-ellipsis-vertical"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="images/portfolio2.png" alt="Lens & Light" class="studio-avatar">
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark fs-6"
+                                                style="font-family: 'Playfair Display', serif;">Lens & Light</h6>
+                                            <span class="text-muted small fw-medium">ID: #ST-8491</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold text-dark d-block">Priya Sharma</span>
+                                    <span class="text-muted small">info@lenslight.com</span>
+                                </td>
+                                <td><span class="fw-medium text-secondary">Delhi, DL</span></td>
+                                <td><span class="badge px-3 py-2 fw-normal rounded-pill"
+                                        style="background: linear-gradient(135deg, #cb6f09, #aa4502); color:white;">Pro
+                                        Plan</span></td>
+                                <td><span class="status-badge status-active"><i
+                                            class="fa-solid fa-circle-check text-success me-1"></i> Active</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="#" class="btn-action" title="View"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="#" class="btn-action" title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn-action shadow-sm" title="Action"><i
+                                            class="fa-solid fa-ellipsis-vertical"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="studio-avatar bg-light d-flex align-items-center justify-content-center fw-bold fs-4 border"
+                                            style="color: #6c757d;">
+                                            PP
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark fs-6"
+                                                style="font-family: 'Playfair Display', serif;">Pixel Perfect</h6>
+                                            <span class="text-muted small fw-medium">ID: #ST-8490</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold text-dark d-block">Rahul Verma</span>
+                                    <span class="text-muted small">hello@pixel.in</span>
+                                </td>
+                                <td><span class="fw-medium text-secondary">Bangalore, KA</span></td>
+                                <td><span
+                                        class="badge bg-secondary bg-opacity-10 text-secondary px-3 py-2 fw-semibold rounded-pill border">Free
+                                        Plan</span></td>
+                                <td><span class="status-badge status-pending"><i
+                                            class="fa-regular fa-clock text-warning me-1"></i> Under Review</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="#"
+                                        class="btn-action bg-success bg-opacity-10 border-success border-opacity-25"
+                                        title="Approve"><i class="fa-solid fa-check text-success"></i></a>
+                                    <a href="#" class="btn-action" title="View"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="#" class="btn-action shadow-sm" title="Action"><i
+                                            class="fa-solid fa-ellipsis-vertical"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <img src="images/portfolio4.png" alt="Aperture Arts" class="studio-avatar">
+                                        <div>
+                                            <h6 class="mb-0 fw-bold text-dark fs-6"
+                                                style="font-family: 'Playfair Display', serif;">Aperture Arts</h6>
+                                            <span class="text-muted small fw-medium">ID: #ST-8489</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="fw-semibold text-dark d-block">Neha Kapoor</span>
+                                    <span class="text-muted small">contact@aperture.com</span>
+                                </td>
+                                <td><span class="fw-medium text-secondary">Pune, MH</span></td>
+                                <td><span class="badge px-3 py-2 fw-normal rounded-pill"
+                                        style="background: linear-gradient(135deg, #cb6f09, #aa4502); color:white;">Pro
+                                        Plan</span></td>
+                                <td><span class="status-badge status-inactive"><i
+                                            class="fa-solid fa-circle-xmark text-danger me-1"></i> Suspended</span></td>
+                                <td class="text-end pe-4">
+                                    <a href="#" class="btn-action" title="View"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="#" class="btn-action" title="Edit"><i class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="btn-action shadow-sm" title="Action"><i
+                                            class="fa-solid fa-ellipsis-vertical"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="mt-5 text-center text-muted small pb-4 border-top pt-4 border-opacity-10">
+                <p class="mb-0">&copy; 2025 StudioMitra Administration Dashboard. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sidebar Mobile Toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const body = document.body;
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    body.classList.toggle('sidebar-open');
+                });
+            }
+
+            // Growth Chart
+            const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+
+            // Create gradient
+            let gradient = ctxGrowth.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(203, 111, 9, 0.4)');
+            gradient.addColorStop(1, 'rgba(203, 111, 9, 0.0)');
+
+            let gradientPrev = ctxGrowth.createLinearGradient(0, 0, 0, 400);
+            gradientPrev.addColorStop(0, 'rgba(108, 117, 125, 0.2)');
+            gradientPrev.addColorStop(1, 'rgba(108, 117, 125, 0.0)');
+
+            new Chart(ctxGrowth, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    datasets: [
+                        {
+                            label: 'Current Year Studios',
+                            data: [45, 52, 38, 65, 80, 75, 95, 110, 105, 130, 145, 138],
+                            borderColor: '#cb6f09',
+                            backgroundColor: gradient,
+                            borderWidth: 3,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#cb6f09',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Previous Year',
+                            data: [30, 35, 25, 45, 55, 60, 70, 75, 80, 85, 95, 100],
+                            borderColor: '#adb5bd',
+                            backgroundColor: gradientPrev,
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            align: 'end',
+                            labels: {
+                                usePointStyle: true,
+                                boxWidth: 8,
+                                font: {
+                                    family: "'Outfit', sans-serif",
+                                    weight: '500'
+                                }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e2a3b',
+                            titleFont: { family: "'Outfit', sans-serif", size: 13 },
+                            bodyFont: { family: "'Outfit', sans-serif", size: 14 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: true
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { borderDash: [4, 4], color: '#f0f4f8' },
+                            border: { display: false },
+                            ticks: {
+                                color: '#aab2b9',
+                                font: { family: "'Outfit', sans-serif" }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: {
+                                color: '#aab2b9',
+                                font: { family: "'Outfit', sans-serif" }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                }
+            });
+
+            // Plan Chart
+            const ctxPlan = document.getElementById('planChart').getContext('2d');
+            new Chart(ctxPlan, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pro Plan', 'Free Plan', 'Business'],
+                    datasets: [{
+                        data: [45, 35, 20],
+                        backgroundColor: ['#cb6f09', '#6c757d', '#1e2a3b'],
+                        borderWidth: 0,
+                        hoverOffset: 8,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: {
+                            display: false // We use our custom HTML legend
+                        },
+                        tooltip: {
+                            backgroundColor: '#1e2a3b',
+                            bodyFont: { family: "'Outfit', sans-serif", size: 14 },
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function (context) {
+                                    return ' ' + context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Revenue Chart
+            const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+            new Chart(ctxRevenue, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue (₹)',
+                        data: [150000, 180000, 210000, 190000, 250000, 320000],
+                        backgroundColor: '#1e2a3b',
+                        borderRadius: 6,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e2a3b',
+                            titleFont: { family: "'Outfit', sans-serif", size: 13 },
+                            bodyFont: { family: "'Outfit', sans-serif", size: 14 },
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { borderDash: [4, 4], color: '#f0f4f8' },
+                            border: { display: false },
+                            ticks: {
+                                color: '#aab2b9',
+                                font: { family: "'Outfit', sans-serif" }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: {
+                                color: '#aab2b9',
+                                font: { family: "'Outfit', sans-serif" }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Locations Chart
+            const ctxLoc = document.getElementById('locationsChart').getContext('2d');
+            new Chart(ctxLoc, {
+                type: 'bar',
+                data: {
+                    labels: ['Mumbai', 'Delhi', 'Bangalore', 'Pune', 'Hyderabad'],
+                    datasets: [{
+                        label: 'Studios',
+                        data: [120, 95, 80, 65, 50],
+                        backgroundColor: '#cb6f09',
+                        borderRadius: 6,
+                        barPercentage: 0.5
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e2a3b',
+                            titleFont: { family: "'Outfit', sans-serif", size: 13 },
+                            bodyFont: { family: "'Outfit', sans-serif", size: 14 },
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: { borderDash: [4, 4], color: '#f0f4f8' },
+                            border: { display: false },
+                            ticks: {
+                                color: '#aab2b9',
+                                font: { family: "'Outfit', sans-serif" }
+                            }
+                        },
+                        y: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: {
+                                color: '#aab2b9',
+                                font: { family: "'Outfit', sans-serif" }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Client | Superadmin | StudioMitra</title>
+    <!-- Bootstrap CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling */
+        .admin-sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #1e2a3b 0%, #2d3f58 100%);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            color: #fff;
+            padding-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-sidebar-header {
+            padding: 0 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .admin-sidebar-header img {
+            width: 100px;
+            filter: brightness(0) invert(1);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .admin-nav {
+            padding: 0 16px;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .admin-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .admin-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        .admin-nav-item {
+            margin-bottom: 6px;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 18px;
+            color: rgba(255, 255, 255, 0.75);
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .admin-nav-link i {
+            width: 26px;
+            font-size: 1.15rem;
+            margin-right: 12px;
+            text-align: center;
+        }
+
+        .admin-nav-link.active {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(203, 111, 9, 0.3);
+        }
+
+        /* Main Content Styling */
+        .admin-main {
+            margin-left: 280px;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .admin-topbar {
+            height: 76px;
+            background: #fff;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .admin-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .search-box {
+            position: relative;
+            width: 320px;
+        }
+
+        .search-box input {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 50rem;
+            padding: 10px 18px 10px 45px;
+            width: 100%;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            background: #fff;
+            border-color: #cb6f09;
+            box-shadow: 0 0 0 0.2rem rgba(203, 111, 9, 0.15);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .notification-btn:hover {
+            background: #e9ecef;
+            color: #1e2a3b;
+            border-color: #dee2e6;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            width: 8px;
+            height: 8px;
+            background: #dc3545;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-sizing: content-box;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 50rem;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .admin-profile:hover {
+            background: #f8f9fa;
+            border-color: #e9ecef;
+        }
+
+        .admin-profile img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-right: 12px;
+        }
+
+        .admin-content {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 28px;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #1e2a3b;
+            margin-bottom: 5px;
+            font-size: 2rem;
+        }
+
+        .page-subtitle {
+            color: #6c757d;
+            margin-bottom: 0;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Stats Sub-cards */
+        .stat-subcard {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-subcard:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-subcard::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
+            border-radius: 0 16px 0 100%;
+        }
+
+        .stat-subcard-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-right: 18px;
+        }
+
+        .stat-subcard-info h4 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: #1e2a3b;
+            line-height: 1.1;
+        }
+
+        .stat-subcard-info p {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-weight: 600;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .admin-panel-header {
+            padding: 22px 26px;
+            border-bottom: 1px solid #f0f4f8;
+            background: #fff;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .admin-panel-body {
+            padding: 0;
+            /* Padding handled by table */
+        }
+
+        /* Tables Formatting */
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table> :not(caption)>*>* {
+            padding: 18px 26px;
+            border-bottom-color: #f0f4f8;
+            vertical-align: middle;
+        }
+
+        .table th {
+            font-weight: 600;
+            color: #8793a1;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            background: #f8f9fa;
+            border-bottom: none;
+            position: sticky;
+            top: 76px;
+            z-index: 10;
+        }
+
+        .table th:first-child {
+            border-top-left-radius: 20px;
+        }
+
+        .table th:last-child {
+            border-top-right-radius: 20px;
+        }
+
+        /* Allow sticky headers to escape overflow restrictions on desktop */
+        @media (min-width: 992px) {
+            .table-responsive {
+                overflow: visible !important;
+            }
+        }
+
+        /* Status badges */
+        .status-badge {
+            padding: 6px 14px;
+            border-radius: 50rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+            letter-spacing: 0.3px;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            color: #6c757d;
+            background: #f8f9fa;
+            transition: all 0.2s;
+            margin: 0 2px;
+            text-decoration: none;
+        }
+
+        .btn-action:hover {
+            background: #fff;
+            color: #cb6f09;
+            border-color: #cb6f09;
+            box-shadow: 0 4px 8px rgba(203, 111, 9, 0.15);
+        }
+
+        .btn-filter-hover {
+            transition: all 0.2s;
+        }
+
+        .btn-filter-hover:hover {
+            background-color: #e9ecef !important;
+            color: #1e2a3b !important;
+        }
+
+        .studio-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 14px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Pagination */
+        .pagination {
+            margin-bottom: 0;
+        }
+
+        .page-link {
+            border: none;
+            color: #6c757d;
+            font-weight: 500;
+            border-radius: 8px;
+            margin: 0 3px;
+            padding: 8px 14px;
+        }
+
+        .page-link:hover {
+            background-color: #f8f9fa;
+            color: #cb6f09;
+        }
+
+        .page-item.active .page-link {
+            background-color: #cb6f09;
+            color: #fff;
+        }
+
+        /* Form elements */
+        .form-select,
+        .form-control {
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 10px 15px;
+            border-color: #e9ecef;
+            box-shadow: none !important;
+        }
+
+        .form-select:focus,
+        .form-control:focus {
+            border-color: #cb6f09;
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #cb6f09, #aa4502);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-custom:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(203, 111, 9, 0.2);
+        }
+
+        /* Responsive */
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #1e2a3b;
+        }
+
+        @media (max-width: 991.98px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .sidebar-open .admin-sidebar {
+                transform: translateX(0);
+            }
+
+            .search-box {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar" id="sidebar">
+        <div class="admin-sidebar-header">
+            <a href="index.html">
+                <img src="assets/logo1.png" alt="StudioMitra Logo">
+            </a>
+            <div class="mt-3 text-center">
+                <span class="badge bg-white bg-opacity-10 text-white px-3 py-2 rounded-pill fw-bold"
+                    style="font-size: 0.7rem; letter-spacing: 1.5px;"><i
+                        class="fa-solid fa-shield-halved me-1 text-warning"></i> SUPERADMIN</span>
+            </div>
+        </div>
+
+        <ul class="admin-nav list-unstyled">
+            <li class="admin-nav-item">
+                <a href="superadmin-dashboard.html" class="admin-nav-link">
+                    <i class="fa-solid fa-gauge-high"></i> Dashboard
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="superadmin-clients.html" class="admin-nav-link">
+                    <i class="fa-solid fa-camera"></i> Studios
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="superadmin-clients.html" class="admin-nav-link active">\n                    <i class="fa-solid fa-users"></i> Clients
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-book-open"></i> Albums
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Subscriptions
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-chart-pie"></i> Reports & Analytics
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-headset"></i> Support Tickets
+                    <span class="badge bg-danger rounded-pill ms-auto px-2 py-1" style="font-size: 0.65rem;">4</span>
+                </a>
+            </li>
+            <li class="admin-nav-item mt-4 pt-3 border-top border-white border-opacity-10">
+                <div class="px-3 mb-2 text-uppercase fw-bold text-white-50"
+                    style="font-size: 0.7rem; letter-spacing: 1.2px;">System</div>
+            </li>
+            <li class="admin-nav-item">
+                <a href="#" class="admin-nav-link">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </li>
+            <li class="admin-nav-item">
+                <a href="superadmin-login.html" class="admin-nav-link text-danger mt-3 bg-white bg-opacity-10">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main" id="main-content">
+        <!-- Topbar -->
+        <header class="admin-topbar">
+            <div class="d-flex align-items-center">
+                <button class="mobile-toggle me-3" id="sidebarToggle">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search studios, clients or albums...">
+                </div>
+            </div>
+
+            <div class="admin-topbar-right">
+                <button class="notification-btn">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge"></span>
+                </button>
+
+                <div class="dropdown">
+                    <div class="admin-profile" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="images/ai_portrait.png" alt="Admin">
+                        <div class="d-none d-lg-block">
+                            <h6 class="mb-0 fw-bold" style="color: #1e2a3b; font-size: 0.95rem;">System Admin</h6>
+                            <span class="text-muted"
+                                style="font-size: 0.75rem; font-weight: 500;">superadmin@studio.com</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down ms-3 text-muted" style="font-size: 0.75rem;"></i>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 py-2"
+                        style="min-width: 200px; border-radius: 12px;">
+                        <li class="px-3 py-2 border-bottom mb-1">
+                            <strong class="d-block text-dark">System Admin</strong>
+                            <small class="text-muted">Master Access</small>
+                        </li>
+                        <li><a class="dropdown-item py-2 fw-medium text-secondary" href="#"><i
+                                    class="fa-regular fa-user me-2"></i> My Profile</a></li>
+                        <li><a class="dropdown-item py-2 fw-medium text-secondary" href="#"><i
+                                    class="fa-solid fa-shield-halved me-2"></i> Security</a></li>
+                        <li>
+                            <hr class="dropdown-divider my-2">
+                        </li>
+                        <li><a class="dropdown-item py-2 text-danger fw-bold" href="superadmin-login.html"><i
+                                    class="fa-solid fa-arrow-right-from-bracket me-2"></i> Sign Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="admin-content">
+            <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-light">
+               <div>
+                   <a href="superadmin-clients.html" class="text-muted text-decoration-none mb-2 d-inline-block fw-medium"><i class="fa-solid fa-arrow-left me-2"></i>Back to Clients</a>
+                   <h2 class="page-title mb-1" style="font-size: 2.2rem; letter-spacing: -0.5px;">Client Profile</h2>
+                   <p class="page-subtitle fs-6">View detailed information about the client.</p>
+               </div>
+               <div class="d-flex gap-3 align-items-center">
+                   <a href="superadmin-edit-client.html" class="btn btn-custom rounded-pill px-4">
+                       <i class="fa-solid fa-pen me-2"></i> Edit Profile
+                   </a>
+               </div>
+            </div>
+
+            <div class="bg-white rounded-4 shadow-sm border border-light p-4 mb-4">
+                <div class="d-flex align-items-center gap-4">
+                    <img src="images/ai_portrait.png" alt="Studio" class="rounded-4 object-fit-cover shadow-sm border border-white border-4" style="width: 120px; height: 120px;">
+                    <div>
+                        <h3 class="mb-1 fw-bold text-dark" style="font-family: 'Playfair Display', serif;">Rohan Sharma</h3>
+                        <div class="d-flex align-items-center gap-3 mb-2">
+                            <span class="badge bg-dark px-3 py-1 fw-normal rounded-pill">Premium Access</span>
+                            <span class="status-badge status-active px-3 py-1"><i class="fa-solid fa-circle-check text-success me-1"></i> Active</span>
+                        </div>
+                        <p class="text-muted small mb-0 fw-medium">Client ID: #CL-8492 &nbsp;|&nbsp; Joined: 15 Oct, 2025</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <div class="bg-white rounded-4 shadow-sm border border-light p-4 h-100">
+                        <h5 class="fw-bold mb-4 text-dark" style="font-family: 'Playfair Display', serif;">Contact Information</h5>
+                        <div class="mb-4">
+                            <label class="small text-secondary fw-semibold d-block mb-1 text-uppercase" style="letter-spacing: 0.5px;">Full Name</label>
+                            <div class="fw-medium text-dark fs-5">Rohan Sharma</div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="small text-secondary fw-semibold d-block mb-1 text-uppercase" style="letter-spacing: 0.5px;">Email Address</label>
+                            <div class="fw-medium text-dark fs-5">rohan@example.com <i class="fa-solid fa-circle-check text-success ms-1 small"></i></div>
+                        </div>
+                        <div class="mb-0">
+                            <label class="small text-secondary fw-semibold d-block mb-1 text-uppercase" style="letter-spacing: 0.5px;">Phone Number</label>
+                            <div class="fw-medium text-dark fs-5">+91 98765 43210</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-white rounded-4 shadow-sm border border-light p-4 h-100">
+                        <h5 class="fw-bold mb-4 text-dark" style="font-family: 'Playfair Display', serif;">Location & Activity</h5>
+                        <div class="mb-4">
+                            <label class="small text-secondary fw-semibold d-block mb-1 text-uppercase" style="letter-spacing: 0.5px;">City / State</label>
+                            <div class="fw-medium text-dark fs-5">Mumbai, Maharashtra</div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="small text-secondary fw-semibold d-block mb-1 text-uppercase" style="letter-spacing: 0.5px;">Associated Studio</label>
+                            <div class="fw-medium text-dark fs-5">Candid Creators</div>
+                        </div>
+                        <div class="mb-0">
+                            <label class="small text-secondary fw-semibold d-block mb-1 text-uppercase" style="letter-spacing: 0.5px;">Total Albums Accessed</label>
+                            <div class="fw-medium text-dark fs-5">12 <span class="text-muted fs-6">Albums</span></div>
+                            <div class="progress mt-2" style="height: 8px; border-radius: 50rem;">
+                                <div class="progress-bar" role="progressbar" style="width: 60%; background: linear-gradient(135deg, #cb6f09, #aa4502);" aria-valuenow="29" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <footer class="mt-5 text-center text-muted small pb-4 border-top pt-4 border-opacity-10">
+                <p class="mb-0">&copy; 2025 StudioMitra Administration Dashboard. All Rights Reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sidebar Mobile Toggle
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const body = document.body;
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', () => {
+                    body.classList.toggle('sidebar-open');
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
