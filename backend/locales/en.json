@@ -1,0 +1,23 @@
+{
+	"admin": {
+		"error_unexpected_error": "An unexpected error occurred. Please try again later.",
+		"error_unauthorized_access": "Unauthorized access. Please provide a valid token.",
+		"error_token_expired": "Access token has expired. Please login again.",
+		"error_invalid_credentials": "Invalid email or password.",
+		"error_user_not_found": "User not found (StudioMitra check failed).",
+		"success_login": "Login successful.",
+		"success_logout": "Logout successful.",
+		"success_register": "Registration successful.",
+		"success_booking": "Booking confirmed.",
+		"success_update": "Resource updated successfully."
+	},
+	"studio": {
+		"error_not_found": "Studio record not found.",
+		"error_already_exists": "Studio name or slug already exists.",
+		"success_create": "Studio created successfully."
+	},
+	"booking": {
+		"error_unavailable": "Studio is not available for requested timeSlot.",
+		"success_cancel": "Booking cancelled successfully."
+	}
+}

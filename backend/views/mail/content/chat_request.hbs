@@ -1,0 +1,31 @@
+<div>
+    <table style="box-shadow: 5px 10px #D52B1E;">
+        <tr>
+            <td>
+                <table width="100%" cellpadding="0" cellspacing="0"
+                    style="background-repeat: no-repeat; background-size: contain;">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 10px; font-size: 18px;">
+                                <p>Dear {{ username }},</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px; padding: 10px;">
+                                <p>You are receiving this email because you have a chat request from {{ request_user }}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table style="margin-top: 3%;">
+                    <tr style="font-size: 16px;">
+                        <td style="text-align: left;">
+                            <p>Regards,</p>
+                            <p>{{ app_name }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,26 @@
+<div>
+    <table style='box-shadow:box-shadow: 5px 10px #D52B1E;'>
+        <tr>
+            <td>
+                <p>
+                    <h3>Hello {{authUser.username}},</h3>
+                    To ensure the security of your account, we require you to verify your email address using the verification code provided below.
+
+                    <h3> Code is: <b>{{otp}}</b> </h3>
+
+                    Please enter this code on our website or app to complete the verification process. Please note that this code is valid for
+                    {{otpExpiryTime}}
+                    minutes from the time of this email. If you don't use it within this time frame, you will need to request a new verification code.
+                </p>
+                <table style='margin-top:3%;'>
+                    <tr>
+                        <td style='text-align:left;'>
+                            <p>Regards,</p>
+                            <p>{{ app_name }}</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
