@@ -1,4 +1,4 @@
-# NNN - API
+# StudioMitra - API
 
 ## Installation instructions
     1) Run `npm install`
