@@ -14,8 +14,13 @@ const bookingSchema = new mongoose.Schema(
 		end_time: { type: String, required: true },   // Format "HH:mm"
 		total_hours: { type: Number },
 		total_amount: { type: Number, required: true },
+		service_type: { type: String, required: true }, // e.g., "Wedding", "Portrait"
 		payment_status: { type: String, enum: ["pending", "paid", "refunded"], default: "pending" },
-		booking_status: { type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending" },
+		booking_status: {
+			type: String,
+			enum: ["pending", "confirmed", "cancelled", "completed"],
+			default: "pending",
+		},
 		notes: { type: String },
 	},
 	{

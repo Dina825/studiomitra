@@ -16,6 +16,7 @@ const AuthController = require("../../controllers/auth");
 const auth = new AuthController();
 
 router.post("/register", auth.register.bind(auth));
+router.post("/verify-mfa", auth.verifyMfa.bind(auth));
 router.post("/login", auth.login.bind(auth));
 router.post("/logout", auth.logout.bind(auth));
 router.post("/forgot-password", auth.forgotPassword.bind(auth));

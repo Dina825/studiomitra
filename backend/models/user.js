@@ -19,8 +19,11 @@ const userSchema = new mongoose.Schema(
 			default: "customer",
 		},
 		avatar: { type: String },
-		status: { type: String, enum: ["active", "inactive", "pending"], default: "active" },
+		status: { type: String, enum: ["active", "inactive", "pending"], default: "pending" },
 		is_verified: { type: Boolean, default: false },
+		mfa_otp: { type: String, select: false },
+		mfa_expiry: { type: Date, select: false },
+		is_mfa_enabled: { type: Boolean, default: false },
 	},
 	{
 		timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
